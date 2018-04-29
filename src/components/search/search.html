@@ -1,0 +1,94 @@
+<!-- Generated template for the SearchComponent component -->
+<ion-list>
+  <ion-row>
+    <ion-col col-auto>
+      <ion-label>
+        <ion-icon name="pin"></ion-icon>
+      </ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-input placeholder="Start" [(ngModel)]="connection.start"></ion-input>
+    </ion-col>
+  </ion-row>
+
+
+  <ion-row>
+    <ion-col col-auto>
+      <ion-label [style.display]="stopover ? 'none' : 'flex'">
+        <ion-icon id="stopover" name="git-commit"></ion-icon>
+      </ion-label>
+      <button ion-button icon-only round outline [color]="stopover ? 'secondary' : 'danger'" (click)="toggleStopover()"
+              [style.display]="stopover ? 'flex' : 'none'">
+        <ion-icon [name]="stopover ? 'add':'remove'"></ion-icon>
+      </button>
+    </ion-col>
+    <ion-col>
+      <ion-input placeholder="Zwischenhalt Hinzufügen" [disabled]="stopover" [(ngModel)]="connection.stopover"></ion-input>
+      <!--[style.border-color]="stopover ? 'primary':'grey'"-->
+    </ion-col>
+    <ion-col col-auto [style.display]="stopover ? 'none' : 'flex'">
+      <button ion-button icon-only round outline [color]="stopover ? 'secondary' : 'danger'" (click)="toggleStopover()">
+        <ion-icon [name]="stopover ? 'add':'remove'"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col col-auto>
+      <ion-label>
+        <ion-icon name="flag"></ion-icon>
+      </ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-input placeholder="Ziel" [(ngModel)]="connection.end"></ion-input>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col col-auto>
+      <ion-label>
+        <ion-icon name="time"></ion-icon>
+      </ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-select [(ngModel)]="connection.departureSelection" interface="popover" col-12>
+        <ion-option value="departure">Abfahrt um</ion-option>
+        <ion-option value="departure-in">Abfahrt in</ion-option>
+        <ion-option value="arrival">Ankunft bis</ion-option>
+      </ion-select>
+    </ion-col>
+    <ion-col *ngIf="connection.departureSelection != 'departure-in'">
+      <ion-item>
+        <ion-datetime displayFormat="HH:mm" [(ngModel)]="connection.myTime"
+                      (ionChange)="logSelectedTime($event)"></ion-datetime>
+      </ion-item>
+    </ion-col>
+    <ion-col *ngIf="connection.departureSelection == 'departure-in'">
+      <ion-item>
+        <ion-label>{{ connection.minute_slider }} Minuten</ion-label>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-item *ngIf="connection.departureSelection == 'departure-in'" col-12>
+    <ion-range min="15" max="180" step="15" [snaps]="true" pin="true" [(ngModel)]="connection.minute_slider"
+               (ionChange)="setDeparture($event)"></ion-range>
+  </ion-item>
+  <ion-row>
+    <ion-col col-auto>
+      <ion-label>
+        <ion-icon name="ios-funnel"></ion-icon>
+      </ion-label>
+    </ion-col>
+    <ion-col col-5>
+      <ion-select [(ngModel)]="connection.filter" [selectOptions]="vehicleFilter" multiple="true" placeholder="Filter" col-12 >
+        <ion-option *ngFor="let vehicle of vehicleSelection" [value]="vehicle" aria-checked="true"> {{ vehicle.name }}</ion-option>
+      </ion-select>
+    </ion-col>
+    <ion-col col-auto align-self-end>
+      <button ion-button round outline icon-end (click)="searchConnection()">
+        Suchen
+        <ion-icon name="paper-plane"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-list>

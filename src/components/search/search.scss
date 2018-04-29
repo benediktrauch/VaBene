@@ -1,0 +1,22 @@
+$primary: #0b5d90;
+
+search {
+  .list-md .item-block .item-inner {
+    border-radius: 1rem;
+  }
+
+  .input, .input-md {
+    border: solid 0.5px;
+    border-color: $primary;
+    border-radius: 3rem;
+    padding-left: 1rem;
+  }
+
+  #stopover {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+}

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 
 /**
  * Generated class for the LocationSearchPage page.
@@ -15,11 +15,32 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LocationSearchPage {
 
+
+  myLocation = {
+    long: 13.377704,
+    lat: 52.516275
+  };
+
+  myMap = {
+    zoom: 5
+  };
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LocationSearchPage');
+    this.getPosition();
+  };
+
+  public getPosition() {
+    console.log("getPosition");
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position);
+      this.myLocation.long = position.coords.longitude;
+      this.myLocation.lat = position.coords.latitude;
+      this.myMap.zoom = 15;
+    })
   }
 
 }
