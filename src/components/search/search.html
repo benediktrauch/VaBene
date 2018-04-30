@@ -81,7 +81,7 @@
     </ion-col>
     <ion-col col-5>
       <ion-select [(ngModel)]="connection.filter" [selectOptions]="vehicleFilter" multiple="true" placeholder="Filter" col-12 >
-        <ion-option *ngFor="let vehicle of vehicleSelection" [value]="vehicle" aria-checked="true"> {{ vehicle.name }}</ion-option>
+        <ion-option *ngFor="let vehicle of vehicleSelection" [value]="vehicle" [selected]="true"> {{ vehicle.name }}</ion-option>
       </ion-select>
     </ion-col>
     <ion-col col-auto align-self-end>
