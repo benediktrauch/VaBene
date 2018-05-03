@@ -1,0 +1,14 @@
+camera {
+  text-align: center;
+
+  #videoElement {
+    width: 75%;
+  }
+
+  #swapButton {
+    bottom: 0;
+    left: 45%;
+    position: absolute;
+    z-index: 1;
+  }
+}

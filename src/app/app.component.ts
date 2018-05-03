@@ -20,6 +20,7 @@ export class MyApp {
     this.pages = [
       { title: 'Manual Search', component: 'ManualSearchPage' },
       { title: 'Location based Search', component: 'LocationSearchPage' },
+      { title: 'Trip', component: 'CurrentTripPage' },
     ];
 
   }

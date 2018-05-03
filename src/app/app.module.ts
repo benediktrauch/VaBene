@@ -6,6 +6,9 @@ import { MyApp } from './app.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { ToastServiceProvider } from '../providers/toast-service/toast-service';
+import { LocationProvider } from '../providers/location/location';
+import { ConnectionFinderProvider } from '../providers/connection-finder/connection-finder';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    ToastServiceProvider,
+    LocationProvider,
+    ConnectionFinderProvider
   ]
 })
 export class AppModule {}
