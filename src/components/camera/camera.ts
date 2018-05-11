@@ -39,7 +39,7 @@ export class CameraComponent implements OnInit {
         console.log(this.deviceList.length);
         if (this.deviceList.length === 1) {
           console.log("this.deviceList.length === 1");
-          this.onChoseDevice(this.deviceList[0]);
+          this.onChoseDevice("environment");
         }
       });
   }
@@ -48,9 +48,7 @@ export class CameraComponent implements OnInit {
     let constraints = {
       audio: false,
       video: {
-        width: 182,
-        height: 320,
-        deviceId: {exact: selectedValue.deviceId}
+        facingMode: selectedValue
       }
     };
     this.initCamera(constraints);

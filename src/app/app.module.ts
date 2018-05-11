@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { HttpClientModule } from "@angular/common/http";
 
 import { MyApp } from './app.component';
 
@@ -9,6 +10,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { ToastServiceProvider } from '../providers/toast-service/toast-service';
 import { LocationProvider } from '../providers/location/location';
 import { ConnectionFinderProvider } from '../providers/connection-finder/connection-finder';
+import { ComponentsModule } from "../components/components.module";
+import { StationFinderProvider } from '../providers/station-finder/station-finder';
 
 @NgModule({
   declarations: [
@@ -16,6 +19,8 @@ import { ConnectionFinderProvider } from '../providers/connection-finder/connect
   ],
   imports: [
     BrowserModule,
+    ComponentsModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
@@ -28,7 +33,8 @@ import { ConnectionFinderProvider } from '../providers/connection-finder/connect
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ToastServiceProvider,
     LocationProvider,
-    ConnectionFinderProvider
+    ConnectionFinderProvider,
+    StationFinderProvider
   ]
 })
 export class AppModule {}

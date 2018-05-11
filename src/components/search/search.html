@@ -70,7 +70,7 @@
     </ion-col>
   </ion-row>
   <ion-item *ngIf="connection.departureSelection == 'departure-in'" col-12>
-    <ion-range min="15" max="180" step="15" [snaps]="true" pin="true" [(ngModel)]="connection.minute_slider"
+    <ion-range min="15" max="180" step="15" [snaps]="true" [(ngModel)]="connection.minute_slider"
                (ionChange)="setDeparture($event)"></ion-range>
   </ion-item>
   <ion-row>

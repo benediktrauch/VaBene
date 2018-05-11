@@ -2,17 +2,19 @@
 <div>
   <!--*ngIf="deviceList > 0"-->
 
-  <button ion-button round icon-only id="swapButton" (click)="swapCamera()">
-    <ion-icon name="swap"></ion-icon>
-  </button>
   <video #videoElement id="videoElement"></video>
 
+  <ion-item>
+    <button ion-button round icon-only id="swapButton" (click)="swapCamera()">
+      <ion-icon name="swap"></ion-icon>
+    </button>
+  </ion-item>
+
   <ion-item *ngIf="changeDevice">
-    <ion-label>Select Device: </ion-label>
+    <ion-label>Select Device:</ion-label>
     <ion-select [(ngModel)]="selectedDevice" (ionChange)="onChoseDevice($event)">
       <ion-option *ngFor="let dev of deviceList" [value]="dev">{{dev.label}}</ion-option>
     </ion-select>
   </ion-item>
-
 
 </div>

@@ -1,4 +1,81 @@
 <!-- Generated template for the ConnectionComponent component -->
 <div>
-  {{text}}
+  <ion-card color="">
+    <img src=""/>
+    <ion-card-content>
+      Abfahrt: {{ connection.routes[0].legs[0].departure_time.text }} Uhr,
+      <ion-card-title>
+        {{ connection.routes[0].legs[0].start_address }}
+      </ion-card-title>
+      Ankunft:
+      {{ connection.routes[0].legs[0].arrival_time.text }} Uhr,
+      <ion-card-title>
+        {{ connection.routes[0].legs[0].end_address }}
+      </ion-card-title>
+    </ion-card-content>
+  </ion-card>
+  <div *ngFor="let step of connection.routes[0].legs[0].steps">
+    <ion-card color="light" *ngIf="step.travel_mode === 'WALKING'">
+      <img src=""/>
+      <ion-card-content>
+        <h2>
+          {{ step.html_instructions }}
+        </h2>
+        <!--
+          <ol>
+            <li *ngFor="let microStep of step.steps">{{ microStep.html_instructions }}</li>
+          </ol>
+          -->
+      </ion-card-content>
+    </ion-card>
+    <ion-card color="primary" *ngIf="step.travel_mode === 'TRANSIT'">
+      <img src=""/>
+      <ion-card-content>
+        <h2>
+          <ion-row>
+            <ion-col col-3>
+              {{ step.transit_details.departure_time.text }}
+            </ion-col>
+            <ion-col col-9>
+              {{ step.transit_details.departure_stop.name }}
+            </ion-col>
+          </ion-row>
+        </h2>
+        <ion-row>
+          <ion-col col-3>
+            {{ step.transit_details.line.short_name }}
+          </ion-col>
+          <ion-col col-9>
+            {{ step.transit_details.headsign }}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <i>Dauer {{ step.duration.text }}, {{ step.transit_details.num_stops }} Stop(s)</i>
+          </ion-col>
+        </ion-row>
+        <!--
+                <ion-row>
+                  <ion-col col-3>
+                    {{ step.transit_details.line.short_name }}
+                  </ion-col>
+                  <ion-col col-9>
+                    {{ step.transit_details.headsign }}
+                  </ion-col>
+                </ion-row>
+        -->
+        <h2>
+          <ion-row>
+            <ion-col col-3>
+              {{ step.transit_details.arrival_time.text }}
+            </ion-col>
+            <ion-col col-9>
+              {{ step.transit_details.arrival_stop.name }}
+            </ion-col>
+          </ion-row>
+        </h2>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
 </div>

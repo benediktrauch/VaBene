@@ -23,6 +23,7 @@
     "@angular/http": "^5.2.10",
     "@angular/platform-browser": "^5.2.10",
     "@angular/platform-browser-dynamic": "^5.2.10",
+    "@google/maps": "^0.4.6",
     "@ionic-native/core": "^4.7.0",
     "@ionic-native/geolocation": "^4.7.0",
     "@ionic-native/splash-screen": "^4.7.0",
@@ -41,6 +42,5 @@
     "typescript": "~2.6.2"
   },
   "description": "An App for public transport",
-  "cordova": {
-  }
+  "cordova": {}
 }

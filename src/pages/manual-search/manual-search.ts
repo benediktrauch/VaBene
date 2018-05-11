@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { StationFinderProvider } from "../../providers/station-finder/station-finder";
 
 /**
  * Generated class for the ManualSearchPage page.
@@ -22,11 +23,13 @@ export class ManualSearchPage {
   vehicleSelection: any[];
   vehicleFilter: {};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public StationFinderProvider: StationFinderProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ManualSearchPage');
+    this.StationFinderProvider.getStations();
+
     this.departureSelection = 'departure';
     this.minute_slider = 45;
     this.vehicleFilter = {

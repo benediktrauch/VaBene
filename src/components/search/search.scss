@@ -3,8 +3,12 @@ $primary: #0b5d90;
 search {
   .list-md .item-block .item-inner {
     border-radius: 1rem;
+    border-color: #ffffff;
   }
 
+  .range-md, .range-md.range-has-pin {
+    padding: 0;
+  }
   .input, .input-md {
     border: solid 0.5px;
     border-color: $primary;

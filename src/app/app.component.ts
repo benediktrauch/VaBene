@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   templateUrl: 'app.html'
@@ -13,7 +14,11 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(
+    public platform: Platform,
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
+    private httpClient: HttpClient) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -21,8 +26,9 @@ export class MyApp {
       { title: 'Manual Search', component: 'ManualSearchPage' },
       { title: 'Location based Search', component: 'LocationSearchPage' },
       { title: 'Trip', component: 'CurrentTripPage' },
+      { title: 'Results', component: 'SearchResultsPage' },
+      { title: 'Settings', component: 'SettingsPage' },
     ];
-
   }
 
   initializeApp() {

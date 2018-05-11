@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 /*
@@ -10,8 +10,10 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class LocationProvider {
 
+
   constructor(public http: HttpClient) {
     console.log('Hello LocationProvider Provider');
+
   }
 
 }

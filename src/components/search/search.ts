@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {ConnectionFinderProvider} from "../../providers/connection-finder/connection-finder";
+import {StationFinderProvider} from "../../providers/station-finder/station-finder";
 
 let now = new Date();
 
@@ -17,7 +19,7 @@ export class SearchComponent {
 
   h24: Date = now;
 
-  constructor() {
+  constructor(public StationFinderProvider: StationFinderProvider, public ConnectionFinderProvider: ConnectionFinderProvider) {
     this.connection.departureSelection = 'departure';
     this.connection.minute_slider = 45;
     this.vehicleFilter = {
@@ -60,8 +62,14 @@ export class SearchComponent {
   toggleStopover() {
     this.stopover = !this.stopover;
   }
+
   searchConnection() {
     console.log("Search");
     console.log(this.connection);
+    this.ConnectionFinderProvider.getConnection().then((evt) => {
+        console.log(evt);
+      }
+    );
+
   }
 }

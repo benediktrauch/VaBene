@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { SearchResultsPage } from './search-results';
+import { SettingsPage } from './settings';
 import {ComponentsModule} from "../../components/components.module";
 
 @NgModule({
   declarations: [
-    SearchResultsPage,
+    SettingsPage,
   ],
   imports: [
     ComponentsModule,
-    IonicPageModule.forChild(SearchResultsPage),
+    IonicPageModule.forChild(SettingsPage),
   ],
 })
-export class SearchResultsPageModule {}
+export class SettingsPageModule {}
