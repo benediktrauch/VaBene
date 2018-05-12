@@ -13,6 +13,9 @@ import { LocationProvider } from '../providers/location/location';
 import { ConnectionFinderProvider } from '../providers/connection-finder/connection-finder';
 import { ComponentsModule } from "../components/components.module";
 import { StationFinderProvider } from '../providers/station-finder/station-finder';
+import {ApolloModule, Apollo } from "apollo-angular";
+import {HttpLinkModule, HttpLink } from "apollo-angular-link-http";
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,8 @@ import { StationFinderProvider } from '../providers/station-finder/station-finde
     BrowserModule,
     ComponentsModule,
     HttpClientModule,
+    ApolloModule,
+    HttpLinkModule,
     IonicModule.forRoot(MyApp),AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAPsYY2uFqrzfmHrJAvjrSFqhDoOBRruiU'
     }),
@@ -40,4 +45,16 @@ import { StationFinderProvider } from '../providers/station-finder/station-finde
     StationFinderProvider
   ]
 })
-export class AppModule {}
+export class AppModule {
+  constructor(
+    apollo: Apollo,
+    httpLink: HttpLink
+  ) {
+    apollo.create({
+      // By default, this client will send queries to the
+      // `/graphql` endpoint on the same host
+      link: httpLink.create({ uri: 'https://api.deutschebahn.com/free1bahnql/v1/graphql' }),
+      cache: new InMemoryCache()
+    });
+  }
+}

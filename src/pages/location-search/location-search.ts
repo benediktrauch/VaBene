@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {StationFinderProvider} from "../../providers/station-finder/station-finder";
 
 /**
  * Generated class for the LocationSearchPage page.
@@ -25,7 +26,7 @@ export class LocationSearchPage {
     zoom: 5
   };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public StationFinderProvider: StationFinderProvider) {
   }
 
   ionViewDidLoad() {
@@ -40,6 +41,8 @@ export class LocationSearchPage {
       this.myLocation.long = position.coords.longitude;
       this.myLocation.lat = position.coords.latitude;
       this.myMap.zoom = 15;
+      console.log("this.StationFinderProvider.test(this.myLocation)");
+      this.StationFinderProvider.test(this.myLocation);
     })
   }
 
