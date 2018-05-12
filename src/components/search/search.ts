@@ -66,10 +66,12 @@ export class SearchComponent {
   searchConnection() {
     console.log("Search");
     console.log(this.connection);
-    this.ConnectionFinderProvider.getConnection().then((evt) => {
+    this.ConnectionFinderProvider.test();
+
+/*    this.ConnectionFinderProvider.getConnection().then((evt) => {
         console.log(evt);
       }
-    );
+    );*/
 
   }
 }

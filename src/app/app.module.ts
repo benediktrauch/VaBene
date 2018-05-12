@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpClientModule } from "@angular/common/http";
+import { AgmCoreModule } from '@agm/core';
 
 import { MyApp } from './app.component';
 
@@ -21,7 +22,9 @@ import { StationFinderProvider } from '../providers/station-finder/station-finde
     BrowserModule,
     ComponentsModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp),AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAPsYY2uFqrzfmHrJAvjrSFqhDoOBRruiU'
+    }),
   ],
   bootstrap: [IonicApp],
   entryComponents: [

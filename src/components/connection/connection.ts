@@ -21,6 +21,37 @@ export class ConnectionComponent {
     this.text = 'Hello World';
   }
 
+  getMyTime(number: number){
+    let timeStamp = new Date();
+    timeStamp.setTime(number * 1000);
+    let myTime = timeStamp.toLocaleTimeString();
+    return myTime;
+  }
+  getTravelTime(number: number){
+    let timeStamp = new Date();
+    let myTime: string;
+    timeStamp.setTime((number - 3600) * 1000);
+    // let myTime = timeStamp.toLocaleTimeString();
+    if(timeStamp.getHours() > 0){
+      myTime = timeStamp.getHours().toString() + " Stunden";
+    }
+    if(timeStamp.getMinutes() > 0){
+      if(timeStamp.getHours() > 0) {
+        myTime += " und " + timeStamp.getMinutes().toString() + " Minuten";
+      } else {
+        myTime = timeStamp.getMinutes().toString() + " Minuten";
+      }
+    }
+    return myTime;
+  }
+
+  getMyDate(number: number){
+    let timeStamp = new Date();
+    timeStamp.setTime(number * 1000);
+    let myTime = timeStamp.toLocaleString();
+    return myTime;
+  }
+
   ngOnInit(): void {
     this.connection = {
       "geocoded_waypoints": [

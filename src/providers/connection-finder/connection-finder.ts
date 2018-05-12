@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { GoogleMaps } from '@google/maps'
+import * as googleMapsClient from '@google/maps';
 
 /*
   Generated class for the ConnectionFinderProvider provider.
@@ -9,8 +9,14 @@ import { GoogleMaps } from '@google/maps'
   and Angular DI.
 */
 
+
 @Injectable()
 export class ConnectionFinderProvider {
+
+  gmClient = googleMapsClient.createClient({
+    key: 'AIzaSyAPsYY2uFqrzfmHrJAvjrSFqhDoOBRruiU',
+    Promise: Promise
+  });
 
   apiUrl: string;
   authHeader: any;
@@ -34,6 +40,82 @@ export class ConnectionFinderProvider {
     this.origin = "origin=51.5276949%2C6.9267585";
     this.destination = "destination=50.1109220%2C8.6821270";
     //latitude: 51.5276949, longitude: 6.9267585
+
+  }
+
+    /*origin: LatLng | String | google.maps.Place,
+      destination: LatLng | String | google.maps.Place,
+      travelMode: TravelMode,
+      transitOptions: TransitOptions,
+      drivingOptions: DrivingOptions,
+      unitSystem: UnitSystem,
+      waypoints[]: DirectionsWaypoint,
+      optimizeWaypoints: Boolean,
+      provideRouteAlternatives: Boolean,
+      avoidHighways: Boolean,
+      avoidTolls: Boolean,
+      region: String*/
+
+    /*{
+      origin: 'Chicago, IL',
+        destination: 'Los Angeles, CA',
+      waypoints: [
+      {
+        location: 'Joplin, MO',
+        stopover: false
+      },{
+        location: 'Oklahoma City, OK',
+        stopover: true
+      }],
+      provideRouteAlternatives: false,
+      travelMode: 'DRIVING',
+      drivingOptions: {
+      departureTime: new Date(/!* now, or future date *!/),
+        trafficModel: 'pessimistic'
+    },
+      unitSystem: google.maps.UnitSystem.IMPERIAL
+    }*/
+
+      //origin: '51.5276949, 6.9267585',
+      //destination: '50.1109220, 8.6821270',
+      //travelMode: 'TRANSIT'
+
+  test() {
+    this.gmClient.geocode({
+      address: '1600 Amphitheatre Parkway, Mountain View, CA'
+    })
+      .asPromise()
+      .then((response) => {
+        console.log(response.json.results);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    this.gmClient.placesNearby({
+      location: '51.5276949, 6.9267585'
+    }, function(err, response) {
+      console.log("nearby");
+      if (!err) {
+        console.log(response.json.results);
+      }
+    });
+
+    this.gmClient.directions({
+      origin: 'Town Hall, Sydney, NSW',
+      destination: 'Parramatta, NSW',
+      mode: 'transit',
+      alternatives: true,
+      transit_mode: ['bus', 'rail'],
+      transit_routing_preference: 'fewer_transfers',
+    })
+      .asPromise()
+      .then((response) => {
+        console.log(response.json.results);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   getConnection(origin?: string, stops?: string, destination?: string, time?: string) {
@@ -50,20 +132,21 @@ export class ConnectionFinderProvider {
 
     //console.log(this.apiUrl);
 
-    const headerDict = {
+/*    const headerDict = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Access-Control-Allow-Headers': 'Content-Type',
       'Access-Control-Allow-Origin': '*'
-    };
+    };*/
 
     const requestOptions = {
-      headers: new HttpHeaders(headerDict),
+      headers: new HttpHeaders({'Access-Control-Allow-Origin': '*'}),
     };
 
     return new Promise(resolve => {
       console.log(requestOptions);
-      this.http.get(this.apiUrl, requestOptions).subscribe(data => {
+      this.http.get(this.apiUrl, requestOptions)
+        .subscribe(data => {
         resolve(data);
       }, err => {
         console.log(err);
