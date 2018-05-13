@@ -66,7 +66,7 @@ export class SearchComponent {
   searchConnection() {
     console.log("Search");
     console.log(this.connection);
-    this.ConnectionFinderProvider.test();
+    this.ConnectionFinderProvider.getVBBConnection().then(value => console.log(value));
 
 /*    this.ConnectionFinderProvider.getConnection().then((evt) => {
         console.log(evt);

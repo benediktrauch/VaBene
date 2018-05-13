@@ -11,23 +11,18 @@
 
 <ion-content padding>
   <div class="connectionOverview">
-    <connection></connection>
+      <div class="connectionDetail">
+        <button ion-button [navPush]="ConnectionDetailPage" [navParams]="params"></button>
+        <connection [details]="details"></connection>
+      </div>
+
+      <div class="connectionDetail">
+        <connection [details]="details"></connection>
+      </div>
+
+      <div class="connectionDetail">
+        <connection [details]="details"></connection>
+      </div>
   </div>
-<!--<div  *ngFor="let number of [0,1,2]" >
-  <ion-card color="primary">
-    <img src=""/>
-    <ion-card-content>
-      <ion-card-title>
-        Bus {{ number + 1 }}
-      </ion-card-title>
-      <p>
-        Details
-      </p>
-    </ion-card-content>
-  </ion-card>
-    <div *ngIf="number < 2">
-      <p>.</p>
-      <p>.</p>
-    </div>
-  </div>-->
 </ion-content>
+

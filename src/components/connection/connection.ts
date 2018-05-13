@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 /**
  * Generated class for the ConnectionComponent component.
@@ -11,6 +11,8 @@ import { Component } from '@angular/core';
   templateUrl: 'connection.html'
 })
 export class ConnectionComponent {
+
+  @Input() details: boolean;
 
   text: string;
 
@@ -51,6 +53,7 @@ export class ConnectionComponent {
     let myTime = timeStamp.toLocaleString();
     return myTime;
   }
+
 
   ngOnInit(): void {
     this.connection = {

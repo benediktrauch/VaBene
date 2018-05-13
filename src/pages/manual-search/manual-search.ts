@@ -28,7 +28,7 @@ export class ManualSearchPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ManualSearchPage');
-    this.StationFinderProvider.getStations();
+    //this.StationFinderProvider.getStations();
 
     this.departureSelection = 'departure';
     this.minute_slider = 45;

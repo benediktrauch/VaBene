@@ -1,3 +1,11 @@
 page-search-results {
-
+  .connectionOverview {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: auto;
+  }
+  .connectionDetail {
+    flex-basis: 100%;
+    width: auto;
+  }
 }

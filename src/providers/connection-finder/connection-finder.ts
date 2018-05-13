@@ -118,6 +118,23 @@ export class ConnectionFinderProvider {
       });
   }
 
+  getVBBConnection() {
+    console.log("VBB Connection");
+    //this.apiUrl = this.apiUrl +this.origin + "&" + this.destination + "&" + this.mode + "&" + this.API_KEY;
+
+    this.apiUrl = "https://2.vbb.transport.rest/journeys?from=900000017104&to=900000017101";
+
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl)
+        .subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, err => {
+          console.log(err);
+        })
+    });
+  }
+
   getConnection(origin?: string, stops?: string, destination?: string, time?: string) {
 
     console.log("Getting Connection");

@@ -14,6 +14,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'connection-detail.html',
 })
 export class ConnectionDetailPage {
+  details: boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }

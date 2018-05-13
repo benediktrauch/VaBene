@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {ConnectionDetailPage} from "../connection-detail/connection-detail";
 
 /**
  * Generated class for the SearchResultsPage page.
@@ -15,8 +16,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SearchResultsPage {
 
+  details: boolean = false;
+  params: Object;
+  ConnectionDetailPage: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.ConnectionDetailPage = "ConnectionDetailPage";
+    this.params = { id: 42 };
   }
 
   ionViewDidLoad() {

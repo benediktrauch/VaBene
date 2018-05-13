@@ -30,7 +30,7 @@ export class StationFinderProvider {
     console.log("ionViewDidLoad: this.currentLocation");
   };
 
-  test(location: any) {
+  /*test(location: any) {
     console.log("Apollo GrapQL");
     console.log(location.long);
     console.log(location.lat);
@@ -62,6 +62,6 @@ export class StationFinderProvider {
         console.log(err);
       })
     })
-  }
+  }*/
 
 }

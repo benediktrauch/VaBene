@@ -41,8 +41,8 @@ export class LocationSearchPage {
       this.myLocation.long = position.coords.longitude;
       this.myLocation.lat = position.coords.latitude;
       this.myMap.zoom = 15;
-      console.log("this.StationFinderProvider.test(this.myLocation)");
-      this.StationFinderProvider.test(this.myLocation);
+      //console.log("this.StationFinderProvider.test(this.myLocation)");
+      //this.StationFinderProvider.test(this.myLocation);
     })
   }
 
