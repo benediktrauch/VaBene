@@ -13,10 +13,11 @@ import {Component, Input} from '@angular/core';
 export class ConnectionComponent {
 
   @Input() details: boolean;
+  @Input() connection: Object;
 
   text: string;
 
-  connection: any;
+  old_connection: any;
 
   constructor() {
     console.log('Hello ConnectionComponent Component');
@@ -54,9 +55,31 @@ export class ConnectionComponent {
     return myTime;
   }
 
+  getVBBTime(date: string){
+    let timeStamp = new Date();
+    timeStamp.setTime(Date.parse(date));
+    return timeStamp.toLocaleTimeString().substr(0, 5);
+  }
+
+  getVBBDate(date: string){
+    let timeStamp = new Date();
+    timeStamp.setTime(Date.parse(date));
+    return timeStamp.toLocaleDateString() + ', ' + timeStamp.toLocaleTimeString().substr(0, 5);
+  }
+
+  getVBBTravelTime(depart: string, arrival: string){
+    let depTime = new Date();
+    depTime.setTime(Date.parse(depart));
+    let arrTime = new Date();
+    arrTime.setTime(Date.parse(arrival));
+
+    let returnTime = (new Date((arrTime.valueOf() - depTime.valueOf()))).toLocaleTimeString();
+
+    return returnTime.substr(0, (returnTime.length - 3));
+  }
 
   ngOnInit(): void {
-    this.connection = {
+    this.old_connection = {
       "geocoded_waypoints": [
         {
           "geocoder_status": "OK",

@@ -10,18 +10,14 @@
 
 
 <ion-content padding>
-  <div class="connectionOverview">
-      <div class="connectionDetail">
-        <button ion-button [navPush]="ConnectionDetailPage" [navParams]="params"></button>
-        <connection [details]="details"></connection>
-      </div>
-
-      <div class="connectionDetail">
-        <connection [details]="details"></connection>
-      </div>
-
-      <div class="connectionDetail">
-        <connection [details]="details"></connection>
+  <div class="connectionOverviewPage">
+      <div class="connectionDetailPage" *ngFor="let connection of searchResults">
+<!--
+        <button ion-button [navPush]="ConnectionDetailPage" [navParams]="connection" outline block>Details</button>
+-->
+        <a [navPush]="ConnectionDetailPage" [navParams]="connection">
+        <connection [details]="details" [connection]="connection"></connection>
+        </a>
       </div>
   </div>
 </ion-content>

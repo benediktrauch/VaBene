@@ -1,11 +1,19 @@
 page-search-results {
-  .connectionOverview {
+  .connectionOverviewPage {
     display: flex;
     flex-wrap: nowrap;
     overflow: auto;
   }
-  .connectionDetail {
+  .connectionDetailPage {
     flex-basis: 100%;
     width: auto;
+
+    button {
+      margin: 10px;
+    }
+
+    a {
+      text-decoration: none;
+    }
   }
 }
