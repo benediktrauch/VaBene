@@ -1,8 +1,29 @@
 page-search-results {
+  .scroll-content {
+    padding: 0;
+  }
   .connectionOverviewPage {
     display: flex;
     flex-wrap: nowrap;
     overflow: auto;
+    height: 100%;
+
+    .ion-card-header, .card-header-md, .card-header-ios {
+      padding: 16px 0 16px 0;
+    }
+
+    .ion-card-title, .card-title-md, .card-title-ios {
+      text-align: center;
+      border-bottom: transparent solid 5px;
+      padding: 8px 0 2px 0;
+    }
+
+    .card-md-express .card-header-md, .card-md-ICE .card-title-md, .card-md-express .card-content-md, .card-md-express h1, .card-md-express h2, .card-md-express h3, .card-md-express h4, .card-md-express h5, .card-md-express h6, .card-md-express p {
+      .ion-card-title, .card-title-md, .card-title-ios {
+        text-align: center;
+        border-bottom: #f00 solid 5px;
+      }
+    }
   }
   .connectionDetailPage {
     flex-basis: 100%;

@@ -16,8 +16,8 @@ export class ConnectionComponent {
   @Input() connection: Object;
 
   text: string;
-
   old_connection: any;
+  expandedDetails: boolean = false;
 
   constructor() {
     console.log('Hello ConnectionComponent Component');
@@ -47,7 +47,6 @@ export class ConnectionComponent {
     }
     return myTime;
   }
-
   getMyDate(number: number){
     let timeStamp = new Date();
     timeStamp.setTime(number * 1000);
@@ -73,11 +72,11 @@ export class ConnectionComponent {
     let arrTime = new Date();
     arrTime.setTime(Date.parse(arrival));
 
-    let returnTime = (new Date((arrTime.valueOf() - depTime.valueOf()))).toLocaleTimeString();
-
-    return returnTime.substr(0, (returnTime.length - 3));
+    let returnTime = (new Date((arrTime.valueOf() - depTime.valueOf()) - 60*60*1000)).toLocaleTimeString();
+//.substr(0, (returnTime.length - 3));
+    return returnTime.substr(0, (returnTime.length - 3))+" h";
   }
-
+  
   ngOnInit(): void {
     this.old_connection = {
       "geocoded_waypoints": [
@@ -1124,6 +1123,10 @@ export class ConnectionComponent {
       ],
       "status": "OK"
     };
+  }
+
+  toggleDetails(){
+    this.expandedDetails = !this.expandedDetails;
   }
 
 }

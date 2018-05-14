@@ -28,7 +28,6 @@ export class ManualSearchPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ManualSearchPage');
-
     this.departureSelection = 'departure';
     this.minute_slider = 45;
     this.vehicleFilter = {
@@ -44,14 +43,6 @@ export class ManualSearchPage {
       type: "RE",
       name: "Regionalexpress"
     }]
-
-/*    let my_hour = this.current_time.getHours();
-    let my_minute = this.current_time.getMinutes();
-    this.myDate = {
-      hour: my_hour,
-      minute: my_minute
-    };
-    console.log(this.myDate);*/
   }
 
   setDeparture(event) {

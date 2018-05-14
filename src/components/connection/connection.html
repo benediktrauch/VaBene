@@ -1,116 +1,287 @@
 <!-- Generated template for the ConnectionComponent component -->
 <div class="connectionDetail" *ngIf="details">
-  <ion-card color="">
-    <img src=""/>
-    <ion-card-content>
-      <ion-card-title>Deine Reise</ion-card-title>
-      <button ion-button item-end icon-left clear>
-        <ion-icon name="pin"></ion-icon>
-        {{ getMyDate(old_connection.routes[0].legs[0].departure_time.value) }}
-      </button>
-
-      <h2>
-        {{ old_connection.routes[0].legs[0].start_address }}
-      </h2>
-      <br/>
+  <ion-card color="primary">
+    <ion-card-content *ngIf="!expandedDetails">
+      <ion-row>
+        <ion-col col-11>
+          <ion-card-title>Deine Reise</ion-card-title>
+        </ion-col>
+        <ion-col col-1>
+          <button ion-button round icon-only clear color="light" (click)="toggleDetails()">
+            <ion-icon name="{{expandedDetails? 'ios-arrow-down' : 'ios-arrow-up' }}"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <ion-row>
+            <ion-col col-1>
+              <ion-icon name="pin"></ion-icon>
+            </ion-col>
+            <ion-col col-11>
+              {{ getVBBDate(connection.departure) }}
+            </ion-col>
+          </ion-row>
+        </ion-col>
+        <ion-col col-12>
+          <div class="stationName">
+            {{ connection.origin.name }}
+          </div>
+        </ion-col>
+      </ion-row>
       <hr/>
-      <h3> Reisezeit: {{ getTravelTime(old_connection.routes[0].legs[0].duration.value) }}</h3>
+      <ion-row>
+        <ion-col col-12>
+          <h3> Reisezeit: {{ getVBBTravelTime(connection.departure, connection.arrival) }}</h3>
+        </ion-col>
+      </ion-row>
       <hr/>
-      <button ion-button item-end icon-left clear>
-        <ion-icon name="flag"></ion-icon>
-        {{ getMyDate(old_connection.routes[0].legs[0].arrival_time.value) }}
-      </button>
-
-      <h2>
-        {{ old_connection.routes[0].legs[0].end_address }}
-      </h2>
-
+      <ion-row>
+        <ion-col col-12>
+          <ion-row>
+            <ion-col col-1>
+              <ion-icon name="flag"></ion-icon>
+            </ion-col>
+            <ion-col col-11>
+              {{ getVBBDate(connection.arrival) }}
+            </ion-col>
+          </ion-row>
+        </ion-col>
+        <ion-col col-12>
+          <div class="stationName">
+            {{ connection.destination.name }}
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+    <ion-card-content class="centeredText" (click)="toggleDetails()" *ngIf="expandedDetails">
+      <ion-row class="centeredText">
+        <ion-col col-5>
+          {{ getVBBDate(connection.departure) }}
+        </ion-col>
+        <ion-col col-2>
+          <ion-icon name="time"></ion-icon>
+        </ion-col>
+        <ion-col col-5>
+          {{ getVBBDate(connection.arrival) }}
+        </ion-col>
+      </ion-row>
+      <ion-row class="centeredText">
+        <ion-col col-5>
+          <div class="stationName">
+            {{ connection.origin.name }}
+          </div>
+        </ion-col>
+        <ion-col col-2>
+          <ion-icon name="arrow-round-forward"></ion-icon>
+        </ion-col>
+        <ion-col col-5>
+          <div class="stationName">
+            {{ connection.destination.name }}
+          </div>
+        </ion-col>
+      </ion-row>
     </ion-card-content>
   </ion-card>
-  <div *ngFor="let step of old_connection.routes[0].legs[0].steps">
-    <ion-card color="light" *ngIf="step.travel_mode === 'WALKING'">
+
+  <div *ngFor="let step of connection.legs; let lst = last; let i = index">
+    <ion-card color="light" *ngIf="step.travel_mode === 'walking'">
       <img src=""/>
       <ion-card-content>
         <h2>
           <ion-icon name="walk"></ion-icon>
-          {{ step.html_instructions }}
-        </h2>
-        <!--
-          <ol>
-            <li *ngFor="let microStep of step.steps">{{ microStep.html_instructions }}</li>
-          </ol>
+          <!--
+                    {{ step.html_instructions }}
           -->
-      </ion-card-content>
-    </ion-card>
-    <ion-card color="primary" *ngIf="step.travel_mode === 'TRANSIT'">
-      <img src=""/>
-      <ion-card-content>
-        <h2>
-          <ion-row>
-            <ion-col col-3>
-              {{ getVBBTime(step.departure) }}
-            </ion-col>
-            <ion-col col-9>
-              {{ step.transit_details.departure_stop.name }}
-            </ion-col>
-          </ion-row>
-        </h2>
-        <ion-row>
-          <ion-col col-3>
-            {{ step.transit_details.line.short_name }}
-          </ion-col>
-          <ion-col col-9>
-            <ion-icon name="arrow-round-forward"></ion-icon>
-            {{ step.transit_details.headsign }}
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <i>Dauer getVBBTravelTime(step.departure, step.arrival)</i>
-          </ion-col>
-        </ion-row>
-        <h2>
-          <ion-row>
-            <ion-col col-3>
-              {{ getVBBTime(step.arrival) }}
-            </ion-col>
-            <ion-col col-9>
-              {{ step.transit_details.arrival_stop.name }}
-            </ion-col>
-          </ion-row>
         </h2>
       </ion-card-content>
     </ion-card>
 
+    <ion-card *ngIf="step.id">
+      <ion-card color='{{step.line.product}}'>
+        <ion-card-header>
+        <ion-row>
+          <ion-col col-2>
+            {{ step.line.name }}
+          </ion-col>
+          <ion-col col-2>
+            <ion-icon name="arrow-round-forward"></ion-icon>
+          </ion-col>
+          <ion-col col-8>
+            {{ step.direction }}
+          </ion-col>
+        </ion-row>
+        </ion-card-header>
+      </ion-card>
+
+      <ion-card-content>
+        <i>
+          <ion-row>
+          <ion-col col-2>
+            Abfahrt
+          </ion-col>
+          <ion-col col-2>
+            Gleis
+          </ion-col>
+          <ion-col col-8>
+            Bahnhof/Haltestelle
+          </ion-col>
+        </ion-row>
+        </i>
+
+        <h2>
+          <ion-row>
+            <ion-col col-2>
+              {{ getVBBTime(step.departure) }}
+            </ion-col>
+            <ion-col col-2>
+              {{ step.departurePlatform? step.departurePlatform : "?" }}
+            </ion-col>
+            <ion-col col-8>
+              {{ step.origin.name }}
+            </ion-col>
+          </ion-row>
+        </h2>
+
+        <hr/>
+        <ion-row>
+          <ion-col col-4>
+            Fahrtzeit:
+          </ion-col>
+          <ion-col col-8>
+            {{getVBBTravelTime(step.departure, step.arrival)}}
+          </ion-col>
+        </ion-row>
+        <hr/>
+
+        <i>
+        <ion-row>
+          <ion-col col-2>
+            Ankunft
+          </ion-col>
+          <ion-col col-2>
+            Gleis
+          </ion-col>
+          <ion-col col-8>
+            Bahnhof/Haltestelle
+          </ion-col>
+        </ion-row>
+        </i>
+
+        <h2>
+          <ion-row>
+            <ion-col col-2>
+              {{ getVBBTime(step.arrival) }}
+            </ion-col>
+            <ion-col col-2>
+              {{ step.arrivalPlatform? step.arrivalPlatform : "?" }}
+            </ion-col>
+            <ion-col col-8>
+              {{ step.destination.name }}
+            </ion-col>
+          </ion-row>
+        </h2>
+      </ion-card-content>
+
+    </ion-card>
+
+    <ion-card *ngIf="!lst && step.mode !== 'walking' && connection.legs[i+1].mode !== 'walking'">
+      <ion-row class="transitTime">
+        <ion-col col-2>
+          <ion-icon name="log-out"></ion-icon>
+        </ion-col>
+        <ion-col col-8>{{getVBBTravelTime(step.arrival, connection.legs[i+1].departure)}}</ion-col>
+        <ion-col col-2>
+          <ion-icon name="log-in"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-card>
   </div>
+
+  <!--
+    <div *ngFor="let step of connection.legs; let lst = last;let i = index">
+      <ion-card color="light" *ngIf="step.mode === 'walking'">
+        <ion-card-content>
+          <h2>
+            <ion-icon name="walk"></ion-icon>
+            <ion-icon name="arrow-round-forward"></ion-icon>
+            {{ step.destination.name }}
+          </h2>
+        </ion-card-content>
+      </ion-card>
+      <ion-card *ngIf="step.id && step.line.mode === 'train'" color='{{step.line.symbol}}'>
+        <ion-card-header>
+          <ion-card-title>
+            {{ step.line.name}}
+          </ion-card-title>
+        </ion-card-header>
+      </ion-card>
+      <ion-card *ngIf="step.id && step.line.mode !== 'train'" color='{{step.line.mode}}'>
+        <ion-card-header>
+          <ion-card-title>
+            {{ step.line.name}}
+          </ion-card-title>
+        </ion-card-header>
+      </ion-card>
+      <ion-card *ngIf="!lst && step.mode !== 'walking' && connection.legs[i+1].mode !== 'walking'">
+        <ion-row class="transitTime">
+          <ion-col col-2>
+            <ion-icon name="log-out"></ion-icon>
+          </ion-col>
+          <ion-col col-8>{{getVBBTravelTime(step.arrival, connection.legs[i+1].departure)}}</ion-col>
+          <ion-col col-2>
+            <ion-icon name="log-in"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </div>
+  -->
+
 </div>
+
 <div class="connectionOverview" *ngIf="!details">
-  <ion-card color="">
-    <img src=""/>
+  <ion-card class="infoCard" color="">
     <ion-card-content>
-      <button ion-button item-end icon-left clear>
-        <ion-icon name="pin"></ion-icon>
-        {{ getVBBDate(connection.departure) }} <!--<i>(+{{connection.departure.delay}})</i>-->
-      </button>
-      <h2>
-        {{ connection.origin.name }}
-      </h2>
-      <br/>
+      <ion-row>
+        <ion-col col-12>
+          <ion-row>
+            <ion-col col-2>
+              <ion-icon name="pin"></ion-icon>
+            </ion-col>
+            <ion-col col-10>
+              {{ getVBBDate(connection.departure) }}
+            </ion-col>
+          </ion-row>
+        </ion-col>
+        <ion-col col-12>
+          <div class="stationName">
+            {{ connection.origin.name }}
+          </div>
+        </ion-col>
+      </ion-row>
       <hr/>
       <h3> Reisezeit: {{ getVBBTravelTime(connection.departure, connection.arrival) }}</h3>
       <hr/>
-      <button ion-button item-end icon-left clear>
-        <ion-icon name="flag"></ion-icon>
-        {{ getVBBDate(connection.arrival) }}
-      </button>
-
-      <h2>
-        {{ connection.destination.name }}
-      </h2>
-
+      <ion-row>
+        <ion-col col-12>
+          <ion-row>
+            <ion-col col-2>
+              <ion-icon name="flag"></ion-icon>
+            </ion-col>
+            <ion-col col-10>
+              {{ getVBBDate(connection.arrival) }}
+            </ion-col>
+          </ion-row>
+        </ion-col>
+        <ion-col col-12>
+          <div class="stationName">
+            {{ connection.destination.name }}
+          </div>
+        </ion-col>
+      </ion-row>
     </ion-card-content>
   </ion-card>
-  <div *ngFor="let step of connection.legs">
+  <div *ngFor="let step of connection.legs; let lst = last;let i = index">
     <ion-card color="light" *ngIf="step.mode === 'walking'">
       <ion-card-content>
         <h2>
@@ -120,12 +291,23 @@
         </h2>
       </ion-card-content>
     </ion-card>
-    <ion-card color="primary" *ngIf="step.id">
+    <ion-card *ngIf="step.id" color='{{step.line.product}}'>
       <ion-card-header>
         <ion-card-title>
           {{ step.line.name}}
         </ion-card-title>
       </ion-card-header>
+    </ion-card>
+    <ion-card *ngIf="!lst && step.mode !== 'walking' && connection.legs[i+1].mode !== 'walking'">
+      <ion-row class="transitTime">
+        <ion-col col-2>
+          <ion-icon name="log-out"></ion-icon>
+        </ion-col>
+        <ion-col col-8>{{getVBBTravelTime(step.arrival, connection.legs[i+1].departure)}}</ion-col>
+        <ion-col col-2>
+          <ion-icon name="log-in"></ion-icon>
+        </ion-col>
+      </ion-row>
     </ion-card>
   </div>
 </div>

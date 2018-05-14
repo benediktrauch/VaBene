@@ -1,5 +1,23 @@
 connection {
+  .stationName {
+    font-size: 1.8rem;
+  }
+  .transitTime {
+    text-align: center;
+  }
+  .connectionDetail {
+    transition: 0.5s;
+
+    .stationName{
+      font-size: 2.2rem;
+    }
+    .centeredText {
+      text-align: center;
+    }
+  }
   .connectionOverview {
-    //width: 35rem;
+    .infoCard {
+      width: 20rem;
+    }
   }
 }

@@ -33,13 +33,27 @@ $app-direction: ltr;
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
 
+
+
 $colors: (
   primary:    #0b5d90,
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
   grey:       #343434,
-  dark:       #222
+  dark:       #222,
+  express:        ( base: #fff, contrast: #f00 ),
+  regional:         ( base: #f06902, contrast: #fff),
+  suburban:          ( base: #006F35, contrast: #fff),
+  subway:          ( base: #156ab8, contrast: #fff),
+  tram:       ( base: #cc0000, contrast: #fff),
+  bus:        ( base: #993399, contrast: #fff),
+  express-inverse:        ( base: #f00 , contrast: #fff),
+  regional-inverse:         ( base: #fff, contrast: #f06902),
+  suburban-inverse:          ( base: #fff, contrast: #006F35),
+  subway-inverse:          ( base: #fff, contrast: #156ab8),
+  tram-inverse:       ( base: #fff, contrast: #cc0000),
+  bus-inverse:        ( base: #fff, contrast: #993399),
 );
 
 

@@ -756,14 +756,14 @@ export class SearchResultsPage {
         "line": {
           "type": "line",
           "id": "re7",
-          "name": "RE7",
+          "name": "ICE 1032",
           "public": true,
           "class": 64,
           "productCode": 6,
           "operator": {"type": "operator", "id": "db-regio-ag", "name": "DB Regio AG"},
-          "product": "regional",
+          "product": "express",
           "mode": "train",
-          "symbol": "RE",
+          "symbol": "ICE",
           "nr": 7,
           "metro": false,
           "express": true,
@@ -1700,5 +1700,4 @@ export class SearchResultsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchResultsPage');
   }
-
 }
