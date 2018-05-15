@@ -29,9 +29,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
     HttpClientModule,
     ApolloModule,
     HttpLinkModule,
-    IonicModule.forRoot(MyApp),AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAPsYY2uFqrzfmHrJAvjrSFqhDoOBRruiU'
-    }),
+    IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
   entryComponents: [

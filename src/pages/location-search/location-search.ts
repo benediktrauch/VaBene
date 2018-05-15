@@ -16,7 +16,6 @@ import {StationFinderProvider} from "../../providers/station-finder/station-find
 })
 export class LocationSearchPage {
 
-
   myLocation = {
     long: 13.377704,
     lat: 52.516275
@@ -45,5 +44,4 @@ export class LocationSearchPage {
       //this.StationFinderProvider.test(this.myLocation);
     })
   }
-
 }

@@ -1,7 +1,9 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { ConnectionDetailPage } from './connection-detail';
 import {ComponentsModule} from "../../components/components.module";
+import {AgmCoreModule} from "@agm/core";
+import { IonicModule } from 'ionic-angular';
 
 @NgModule({
   declarations: [
@@ -9,6 +11,7 @@ import {ComponentsModule} from "../../components/components.module";
   ],
   imports: [
     ComponentsModule,
+    IonicModule,
     IonicPageModule.forChild(ConnectionDetailPage),
   ],
 })

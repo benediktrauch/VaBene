@@ -3,12 +3,15 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpClient } from "@angular/common/http";
+import { AgmMap } from '@agm/core';
+
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
+  @ViewChild(AgmMap) public agmMap: AgmMap;
 
   rootPage: any = 'ManualSearchPage';
 

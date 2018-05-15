@@ -3,10 +3,10 @@
   <ion-card color="primary">
     <ion-card-content *ngIf="!expandedDetails">
       <ion-row>
-        <ion-col col-11>
+        <ion-col col-10>
           <ion-card-title>Deine Reise</ion-card-title>
         </ion-col>
-        <ion-col col-1>
+        <ion-col col-2 align-self-end>
           <button ion-button round icon-only clear color="light" (click)="toggleDetails()">
             <ion-icon name="{{expandedDetails? 'ios-arrow-down' : 'ios-arrow-up' }}"></ion-icon>
           </button>
@@ -60,7 +60,7 @@
           {{ getVBBDate(connection.departure) }}
         </ion-col>
         <ion-col col-2>
-          <ion-icon name="time"></ion-icon>
+          <ion-icon class="medium-ion-icon" name="time"></ion-icon>
         </ion-col>
         <ion-col col-5>
           {{ getVBBDate(connection.arrival) }}
@@ -73,7 +73,7 @@
           </div>
         </ion-col>
         <ion-col col-2>
-          <ion-icon name="arrow-round-forward"></ion-icon>
+          <ion-icon class="medium-ion-icon" name="arrow-round-forward"></ion-icon>
         </ion-col>
         <ion-col col-5>
           <div class="stationName">
@@ -100,48 +100,59 @@
     <ion-card *ngIf="step.id">
       <ion-card color='{{step.line.product}}'>
         <ion-card-header>
-        <ion-row>
-          <ion-col col-2>
-            {{ step.line.name }}
-          </ion-col>
-          <ion-col col-2>
-            <ion-icon name="arrow-round-forward"></ion-icon>
-          </ion-col>
-          <ion-col col-8>
-            {{ step.direction }}
-          </ion-col>
-        </ion-row>
+          <ion-row>
+            <ion-col col-2>
+              {{ step.line.name }}
+            </ion-col>
+            <ion-col col-2>
+              <ion-icon name="arrow-round-forward"></ion-icon>
+            </ion-col>
+            <ion-col col-8>
+              {{ step.direction }}
+            </ion-col>
+          </ion-row>
         </ion-card-header>
       </ion-card>
 
       <ion-card-content>
         <i>
           <ion-row>
-          <ion-col col-2>
-            Abfahrt
-          </ion-col>
-          <ion-col col-2>
-            Gleis
-          </ion-col>
-          <ion-col col-8>
-            Bahnhof/Haltestelle
-          </ion-col>
-        </ion-row>
+            <ion-col col-2>
+              Abfahrt
+            </ion-col>
+            <ion-col col-2>
+              Gleis
+            </ion-col>
+            <ion-col col-8>
+              Bahnhof/Haltestelle
+            </ion-col>
+          </ion-row>
         </i>
 
         <h2>
-          <ion-row>
+          <ion-row (click)="toggleStationDetails(step.id, step.origin.id)">
             <ion-col col-2>
               {{ getVBBTime(step.departure) }}
             </ion-col>
             <ion-col col-2>
               {{ step.departurePlatform? step.departurePlatform : "?" }}
             </ion-col>
-            <ion-col col-8>
+            <ion-col col-7>
               {{ step.origin.name }}
+            </ion-col>
+            <ion-col col-1 align-self-end>
+              <ion-icon *ngIf="visibleElement === (step.id+step.origin.id)" name="close"></ion-icon>
+              <ion-icon *ngIf="visibleElement !== (step.id+step.origin.id)" name="add"></ion-icon>
             </ion-col>
           </ion-row>
         </h2>
+
+        <div class="mapContainer" [hidden]="visibleElement !== (step.id+step.origin.id)">
+          <agm-map [latitude]="step.origin.location.latitude" [longitude]="step.origin.location.longitude" [zoom]="16">
+            <agm-marker [latitude]="step.origin.location.latitude" [longitude]="step.origin.location.longitude">
+            </agm-marker>
+          </agm-map>
+        </div>
 
         <hr/>
         <ion-row>
@@ -155,32 +166,44 @@
         <hr/>
 
         <i>
-        <ion-row>
-          <ion-col col-2>
-            Ankunft
-          </ion-col>
-          <ion-col col-2>
-            Gleis
-          </ion-col>
-          <ion-col col-8>
-            Bahnhof/Haltestelle
-          </ion-col>
-        </ion-row>
+          <ion-row>
+            <ion-col col-2>
+              Ankunft
+            </ion-col>
+            <ion-col col-2>
+              Gleis
+            </ion-col>
+            <ion-col col-8>
+              Bahnhof/Haltestelle
+            </ion-col>
+          </ion-row>
         </i>
 
         <h2>
-          <ion-row>
+          <ion-row (click)="toggleStationDetails(step.id, step.destination.id)">
             <ion-col col-2>
               {{ getVBBTime(step.arrival) }}
             </ion-col>
             <ion-col col-2>
               {{ step.arrivalPlatform? step.arrivalPlatform : "?" }}
             </ion-col>
-            <ion-col col-8>
+            <ion-col col-7>
               {{ step.destination.name }}
+            </ion-col>
+            <ion-col col-1 align-self-end>
+              <ion-icon *ngIf="visibleElement === (step.id+step.destination.id)" name="close"></ion-icon>
+              <ion-icon *ngIf="visibleElement !== (step.id+step.destination.id)" name="add"></ion-icon>
             </ion-col>
           </ion-row>
         </h2>
+
+        <div class="mapContainer" [hidden]="visibleElement !== (step.id+step.destination.id)">
+          <agm-map [latitude]="step.destination.location.latitude" [longitude]="step.destination.location.longitude" [zoom]="16">
+            <agm-marker [latitude]="step.destination.location.latitude" [longitude]="step.destination.location.longitude">
+              <agm-info-window>Börk</agm-info-window>
+            </agm-marker>
+          </agm-map>
+        </div>
       </ion-card-content>
 
     </ion-card>
@@ -188,11 +211,11 @@
     <ion-card *ngIf="!lst && step.mode !== 'walking' && connection.legs[i+1].mode !== 'walking'">
       <ion-row class="transitTime">
         <ion-col col-2>
-          <ion-icon name="log-out"></ion-icon>
+          <ion-icon class="medium-ion-icon" name="log-out"></ion-icon>
         </ion-col>
-        <ion-col col-8>{{getVBBTravelTime(step.arrival, connection.legs[i+1].departure)}}</ion-col>
+        <ion-col col-8>Zeit zum umsteigen {{getVBBTravelTime(step.arrival, connection.legs[i+1].departure)}}</ion-col>
         <ion-col col-2>
-          <ion-icon name="log-in"></ion-icon>
+          <ion-icon class="medium-ion-icon" name="log-in"></ion-icon>
         </ion-col>
       </ion-row>
     </ion-card>

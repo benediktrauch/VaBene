@@ -14,10 +14,16 @@ connection {
     .centeredText {
       text-align: center;
     }
+/*    .mapContainer{
+      margin: 0 -16px -10px -16px;
+    }*/
   }
   .connectionOverview {
     .infoCard {
       width: 20rem;
     }
+  }
+  agm-map {
+    height: 200px;
   }
 }

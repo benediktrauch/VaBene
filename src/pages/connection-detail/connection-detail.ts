@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 
 /**
@@ -14,9 +14,18 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
   templateUrl: 'connection-detail.html',
 })
 export class ConnectionDetailPage {
-  details: boolean = true;
 
+  details: boolean = true;
   connection: Object;
+
+  myLocation = {
+    long: 13.377704,
+    lat: 52.516275
+  };
+
+  myMap = {
+    zoom: 5
+  };
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     console.log(navParams);
@@ -382,7 +391,11 @@ export class ConnectionDetailPage {
           "type": "station",
           "id": "900000017101",
           "name": "U Mehringdamm",
-          "location": {"type": "location", "latitude": 52.493579, "longitude": 13.388156},
+          "location": {
+            "type": "location",
+            "latitude": 52.493579,
+            "longitude": 13.388156
+          },
           "products": {
             "suburban": true,
             "subway": true,
@@ -455,5 +468,4 @@ export class ConnectionDetailPage {
     console.log('ionViewDidLoad ConnectionDetailPage');
     console.log(this.connection);
   }
-
 }

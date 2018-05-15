@@ -1,16 +1,30 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AgmMap} from "@agm/core";
+import {forEach} from "async";
 
 /**
  * Generated class for the ConnectionComponent component.
  *
  * See https://angular.io/api/core/Component for more info on Angular
  * Components.
+ *
+ * styles: [`
+ agm-map {
+      height: 300px;
+    }
+ `],
+ template: `
+ <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+ <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+ </agm-map>`
  */
+
 @Component({
   selector: 'connection',
-  templateUrl: 'connection.html'
+  templateUrl: 'connection.html',
 })
 export class ConnectionComponent {
+  @ViewChildren(AgmMap) maps: QueryList<AgmMap>;
 
   @Input() details: boolean;
   @Input() connection: Object;
@@ -18,28 +32,50 @@ export class ConnectionComponent {
   text: string;
   old_connection: any;
   expandedDetails: boolean = false;
+  visibleElement: string;
+
+  mylat: number = 51.678418;
+  mylng: number = 7.809007;
+
+  myLocation = {
+    long: 13.377704,
+    lat: 52.516275
+  };
+
+  myMap = {
+    zoom: 5
+  };
 
   constructor() {
     console.log('Hello ConnectionComponent Component');
     this.text = 'Hello World';
   }
 
-  getMyTime(number: number){
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad ConnectionComponent');
+    this.maps.forEach((element, index, array)=> {
+      element.triggerResize();
+    });
+    //this.maps.triggerResize();
+  }
+
+  getMyTime(number: number) {
     let timeStamp = new Date();
     timeStamp.setTime(number * 1000);
     let myTime = timeStamp.toLocaleTimeString();
     return myTime;
   }
-  getTravelTime(number: number){
+
+  getTravelTime(number: number) {
     let timeStamp = new Date();
     let myTime: string;
     timeStamp.setTime((number - 3600) * 1000);
     // let myTime = timeStamp.toLocaleTimeString();
-    if(timeStamp.getHours() > 0){
+    if (timeStamp.getHours() > 0) {
       myTime = timeStamp.getHours().toString() + " Stunden";
     }
-    if(timeStamp.getMinutes() > 0){
-      if(timeStamp.getHours() > 0) {
+    if (timeStamp.getMinutes() > 0) {
+      if (timeStamp.getHours() > 0) {
         myTime += " und " + timeStamp.getMinutes().toString() + " Minuten";
       } else {
         myTime = timeStamp.getMinutes().toString() + " Minuten";
@@ -47,36 +83,37 @@ export class ConnectionComponent {
     }
     return myTime;
   }
-  getMyDate(number: number){
+
+  getMyDate(number: number) {
     let timeStamp = new Date();
     timeStamp.setTime(number * 1000);
     let myTime = timeStamp.toLocaleString();
     return myTime;
   }
 
-  getVBBTime(date: string){
+  getVBBTime(date: string) {
     let timeStamp = new Date();
     timeStamp.setTime(Date.parse(date));
     return timeStamp.toLocaleTimeString().substr(0, 5);
   }
 
-  getVBBDate(date: string){
+  getVBBDate(date: string) {
     let timeStamp = new Date();
     timeStamp.setTime(Date.parse(date));
     return timeStamp.toLocaleDateString() + ', ' + timeStamp.toLocaleTimeString().substr(0, 5);
   }
 
-  getVBBTravelTime(depart: string, arrival: string){
+  getVBBTravelTime(depart: string, arrival: string) {
     let depTime = new Date();
     depTime.setTime(Date.parse(depart));
     let arrTime = new Date();
     arrTime.setTime(Date.parse(arrival));
 
-    let returnTime = (new Date((arrTime.valueOf() - depTime.valueOf()) - 60*60*1000)).toLocaleTimeString();
+    let returnTime = (new Date((arrTime.valueOf() - depTime.valueOf()) - 60 * 60 * 1000)).toLocaleTimeString();
 //.substr(0, (returnTime.length - 3));
-    return returnTime.substr(0, (returnTime.length - 3))+" h";
+    return returnTime.substr(0, (returnTime.length - 3)) + " h";
   }
-  
+
   ngOnInit(): void {
     this.old_connection = {
       "geocoded_waypoints": [
@@ -1125,8 +1162,19 @@ export class ConnectionComponent {
     };
   }
 
-  toggleDetails(){
+  toggleDetails() {
     this.expandedDetails = !this.expandedDetails;
   }
 
+  toggleStationDetails(stepId: string, stationId: string) {
+    if (this.visibleElement === stepId + stationId) {
+      this.visibleElement = '';
+    } else {
+      this.visibleElement = stepId + stationId;
+    }
+    this.maps.forEach((element, index, array)=> {
+      element.triggerResize();
+    });
+    //this.maps.triggerResize();
+  }
 }
