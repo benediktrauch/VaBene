@@ -59,7 +59,7 @@
         <ion-col col-5>
           {{ getVBBDate(connection.departure) }}
         </ion-col>
-        <ion-col col-2 class="rightAlignText">
+        <ion-col col-2 class="centeredText">
           <ion-icon class="medium-ion-icon" name="time"></ion-icon>
         </ion-col>
         <ion-col col-5>
@@ -73,7 +73,7 @@
           </div>
         </ion-col>
         <ion-col col-2>
-          <ion-icon class="medium-ion-icon" name="arrow-round-forward"></ion-icon>
+          <ion-icon class="medium-ion-icon centeredText" name="arrow-round-forward"></ion-icon>
         </ion-col>
         <ion-col col-5>
           <div class="">
@@ -147,6 +147,7 @@
         <div class="mapContainer" [hidden]="visibleElement !== (step.id+step.origin.id)">
           <agm-map [latitude]="step.origin.location.latitude" [longitude]="step.origin.location.longitude" [zoom]="16">
             <agm-marker [latitude]="step.origin.location.latitude" [longitude]="step.origin.location.longitude">
+              <agm-info-window>{{ step.origin.name }}</agm-info-window>
             </agm-marker>
           </agm-map>
         </div>
@@ -197,7 +198,7 @@
         <div class="mapContainer" [hidden]="visibleElement !== (step.id+step.destination.id)">
           <agm-map [latitude]="step.destination.location.latitude" [longitude]="step.destination.location.longitude" [zoom]="16">
             <agm-marker [latitude]="step.destination.location.latitude" [longitude]="step.destination.location.longitude">
-              <agm-info-window>Börk</agm-info-window>
+              <agm-info-window>{{ step.destination.name }}</agm-info-window>
             </agm-marker>
           </agm-map>
         </div>
@@ -216,7 +217,11 @@
       </ion-row>
     </ion-card>
   </div>
-
+  <ion-card>
+    <button ion-button block (click)="startLiveTracking()">
+      Starte Live Updates
+    </button>
+  </ion-card>
 </div>
 
 <div class="connectionOverview" *ngIf="!details">
@@ -291,3 +296,4 @@
     </ion-card>
   </div>
 </div>
+

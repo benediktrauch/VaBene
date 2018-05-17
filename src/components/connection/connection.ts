@@ -33,10 +33,8 @@ export class ConnectionComponent {
   expandedDetails: boolean = false;
   visibleElement: string;
 
+
   constructor(public nav: NavController) {
-    if(!this.connection){
-      this.nav.setRoot('SearchResultsPage');
-    }
   }
 
   ionViewDidLoad() {
@@ -79,9 +77,12 @@ export class ConnectionComponent {
       this.visibleElement = stepId + stationId;
     }
     this.maps.forEach((element, index, array)=> {
-      console.log(element);
       element.triggerResize();
     });
     //this.maps.triggerResize();
+  }
+
+  startLiveTracking() {
+    this.nav.push('CurrentTripPage');
   }
 }

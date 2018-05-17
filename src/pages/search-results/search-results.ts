@@ -1695,7 +1695,16 @@ export class SearchResultsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.ConnectionDetailPage = "ConnectionDetailPage";
-    this.searchResults = this.navParams.data;
+
+    console.log(this.navParams.data);
+    if(this.navParams.data.type === "journey"){
+      console.log("true");
+      this.searchResults = this.navParams.data;
+    } else {
+      console.log("false");
+      this.searchResults = this.testData;
+    }
+    console.log(this.searchResults);
   }
 
   ionViewDidLoad() {
