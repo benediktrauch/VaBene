@@ -118,13 +118,44 @@ export class ConnectionFinderProvider {
       });
   }
 
-  getVBBConnection() {
+  getVBBConnection(connection: any) {
     console.log("VBB Connection");
     //this.apiUrl = this.apiUrl +this.origin + "&" + this.destination + "&" + this.mode + "&" + this.API_KEY;
 
-    this.apiUrl = "https://2.vbb.transport.rest/journeys?from=900000017104&to=900000017101";
+    this.apiUrl = `https://2.vbb.transport.rest/journeys
+    ?from=${connection.start.id}\
+    &to=${connection.end.id}\
+    &via=${connection.stopover.id}\
+    &passedStations=true\n
+    &transfers=5\n
+    &transferTime=0\n
+    &accessibility=none\n
+    &bike=false\n
+    &tickets=false\n
+    &suburban=true\n
+    &subway=true\n
+    &tram=true\n
+    &bus=true\n
+    &ferry=true\n
+    &express=true\n
+    &regional=true`;
 
-    return new Promise(resolve => {
+    /*
+    bike: Return only bike-friendly journeys. Default: false.
+      tickets: Return information about available tickets. Default: false.
+      suburban: Include S-Bahn trains? Default: true.
+      subway: Include U-Bahn trains? Default: true.
+      tram: Include trams? Default: true.
+      bus: Include buses? Default: true.
+      ferry: Include ferries? Default: true.
+      express: Include IC/ICE/EC trains? Default: true.
+      regional: Include RE/RB/ODEG trains? Default: true.
+*/
+
+
+      //accessibility: Possible values: partial, complete. Default: none.
+
+      return new Promise(resolve => {
       this.http.get(this.apiUrl)
         .subscribe(data => {
           console.log(data);

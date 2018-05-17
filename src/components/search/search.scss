@@ -1,19 +1,68 @@
 $primary: #0b5d90;
 
 search {
-  .list-md .item-block .item-inner {
-    border-radius: 1rem;
-    border-color: #ffffff;
+  .list {
+    padding: 1rem;
+  }
+  /*  .list-md .item-block .item-inner {
+      border-radius: 1rem;
+      border-color: #ffffff;
+    }
+
+    .range-md, .range-md.range-has-pin {
+      padding: 0;
+    }
+    .input, .input-md {
+      border: solid 0.5px;
+      border-color: $primary;
+      border-radius: 3rem;
+      padding-left: 1rem;
+    }*/
+
+  .label-ios, .label-md {
+    margin: 13px 0 13px 0;
   }
 
-  .range-md, .range-md.range-has-pin {
+  .item-md {
     padding: 0;
   }
-  .input, .input-md {
-    border: solid 0.5px;
-    border-color: $primary;
-    border-radius: 3rem;
-    padding-left: 1rem;
+
+  .item-md .radio-md[item-left], .item-md {
+
+  }
+
+  .vehicleButton {
+    height: 100%;
+    margin: 0.2em 0.4em;
+  }
+  .button-round-md {
+    padding: 0.4rem 1rem;
+  }
+
+  .noSVG {
+    padding: 0.2rem 0.8rem 0.2rem 0.4rem;
+  }
+
+  .item-md .radio-md[item-left], .item-md .radio-md[item-start] {
+    margin: 11px 4px 10px 4px;
+  }
+
+  .dateTime {
+    .col {
+      padding-top: 0;
+      padding-bottom: 0;
+      padding-left: 2.5px;
+    }
+    .label-md {
+      margin: 4px 8px 4px 4px;
+    }
+    ion-datetime .datetime-md, .datetime {
+      padding: 4px 8px 4px 4px;
+    }
+  }
+
+  .select-md {
+    padding: 13px 8px 13px 0px;
   }
 
   #stopover {
@@ -22,5 +71,10 @@ search {
     -o-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
     transform: rotate(90deg);
+  }
+
+  .button-inner {
+    justify-content: left;
+    text-transform: none;
   }
 }

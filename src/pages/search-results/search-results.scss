@@ -24,6 +24,12 @@ page-search-results {
         border-bottom: #f00 solid 5px;
       }
     }
+    .card-md-regional .card-header-md, .card-md-ICE .card-title-md, .card-md-regional .card-content-md, .card-md-regional h1, .card-md-regional h2, .card-md-regional h3, .card-md-regional h4, .card-md-regional h5, .card-md-regional h6, .card-md-regional p {
+      .ion-card-title, .card-title-md, .card-title-ios {
+        text-align: center;
+        border-bottom: #fff solid 5px;
+      }
+    }
   }
   .connectionDetailPage {
     flex-basis: 100%;

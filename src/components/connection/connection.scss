@@ -8,14 +8,33 @@ connection {
   .connectionDetail {
     transition: 0.5s;
 
-    .stationName{
+    .stationName {
       font-size: 2.2rem;
     }
     .centeredText {
       text-align: center;
     }
-/*    .mapContainer{
+    .rightAlignText {
+      text-align: right;
+    }
+    .mapContainer {
+      /*
       margin: 0 -16px -10px -16px;
+      */
+      -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    }
+/*    .ion-card-header, .card-header-md, .card-header-ios {
+      text-align: center;
+      border-bottom: transparent solid 5px;
+      padding: 8px 0 2px 0;
+    }
+
+    .card-md-express .card-header-md, .card-md-express .card-title-md, .card-md-express .card-content-md, .card-md-express h1, .card-md-express h2, .card-md-express h3, .card-md-express h4, .card-md-express h5, .card-md-express h6, .card-md-express p {
+      .ion-card-header, .card-header-md, .card-header-ios {
+        text-align: center;
+        border-bottom: #f00 solid 5px;
+      }
     }*/
   }
   .connectionOverview {

@@ -19,7 +19,8 @@ export class SearchResultsPage {
   params: Object;
   ConnectionDetailPage: any;
 
-  searchResults: any[] = [
+  searchResults: any[];
+  testData: any = [
     {
       "type": "journey",
       "legs": [{
@@ -1694,7 +1695,7 @@ export class SearchResultsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.ConnectionDetailPage = "ConnectionDetailPage";
-    this.params = {id: 42};
+    this.searchResults = this.navParams.data;
   }
 
   ionViewDidLoad() {

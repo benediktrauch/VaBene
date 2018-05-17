@@ -10,13 +10,13 @@
 
 
 <ion-content>
-  <agm-map [latitude]="myLocation.lat" [longitude]="myLocation.long" [zoom]="myMap.zoom">
-    <agm-marker [latitude]="myLocation.lat" [longitude]="myLocation.long" >
+  <div class="myMap">
+    <agm-map [latitude]="myLocation.lat-0.005" [longitude]="myLocation.long" [zoom]="myMap.zoom">
+      <agm-marker [latitude]="myLocation.lat" [longitude]="myLocation.long">
+      </agm-marker>
+    </agm-map>
+  </div>
 
-    </agm-marker>
-  </agm-map>
-
-
-  <search></search>
+  <search class="searchCard"></search>
 
 </ion-content>

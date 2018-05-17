@@ -9,7 +9,7 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content *ngIf="connection">
   <div class="connectionOverviewPage">
       <div class="connectionDetailPage" *ngFor="let connection of searchResults">
         <a [navPush]="ConnectionDetailPage" [navParams]="connection">

@@ -1,8 +1,12 @@
 import {Component} from '@angular/core';
 import {ConnectionFinderProvider} from "../../providers/connection-finder/connection-finder";
 import {StationFinderProvider} from "../../providers/station-finder/station-finder";
+import {NavController} from "ionic-angular";
+import {SearchResultsPage} from "../../pages/search-results/search-results";
 
 let now = new Date();
+
+// TODO: Aktuellen Standort als Start
 
 @Component({
   selector: 'search',
@@ -12,16 +16,68 @@ export class SearchComponent {
 
   connection: any = {};
 
-  stopover: boolean = true;
+  stopoverBool: boolean = true;
 
   vehicleSelection: any[];
   vehicleFilter: {};
 
+  startResults: boolean = false;
+  stopoverResults: boolean = false;
+  endResults: boolean = false;
+  startSelected: boolean = false;
+  stopoverSelected: boolean = false;
+  endSelected: boolean = false;
+  stations: any;
+
   h24: Date = now;
 
-  constructor(public StationFinderProvider: StationFinderProvider, public ConnectionFinderProvider: ConnectionFinderProvider) {
-    this.connection.departureSelection = 'departure';
-    this.connection.minute_slider = 45;
+
+  constructor(public StationFinderProvider: StationFinderProvider,
+              public ConnectionFinderProvider: ConnectionFinderProvider,
+              public nav: NavController) {
+    this.connection = {
+      start: {
+        id: '',
+        location: {
+          type: "location",
+          latitude: 0,
+          longitude: 0
+        },
+        name: '',
+        relevance: 0,
+        score: 0,
+        type: '',
+        weight: 0
+      },
+      stopover: {
+        id: '',
+        location: {
+          type: "location",
+          latitude: 0,
+          longitude: 0
+        },
+        name: '',
+        relevance: 0,
+        score: 0,
+        type: '',
+        weight: 0
+      },
+      end: {
+        id: '',
+        location: {
+          type: "location",
+          latitude: 0,
+          longitude: 0
+        },
+        name: '',
+        relevance: 0,
+        score: 0,
+        type: '',
+        weight: 0
+      },
+      departureSelection: 'departure',
+      minute_slider: 45,
+    };
     this.vehicleFilter = {
       title: 'Filter',
       subTitle: 'Verkehrsmittel auswählen',
@@ -49,6 +105,86 @@ export class SearchComponent {
     }];
 
     this.connection.myTime = this.h24.toLocaleTimeString('de-DE');
+    console.log(this.connection.start);
+  }
+
+  /***
+   * Start
+   */
+
+  searchStartHighlight() {
+    this.startSelected = false;
+  }
+
+  searchStartInput(event) {
+    console.log(event._value);
+    if (event._value.length > 2 && !this.startSelected) {
+      this.StationFinderProvider.getVBBStation(event._value)
+        .then((value) => {
+          this.stations = value
+          this.startResults = true;
+        });
+    }
+  }
+
+  selectedStartStation(station: any) {
+    this.startResults = false;
+    this.startSelected = true;
+    this.connection.start.name = station.name;
+    this.connection.start = station;
+  }
+
+  /***
+   * Stopover
+   */
+
+  searchStopoverHighlight() {
+    this.stopoverSelected = false;
+  }
+
+  searchStopoverInput(event) {
+    console.log(event._value);
+    if (event._value.length > 2 && !this.stopoverSelected) {
+      this.StationFinderProvider.getVBBStation(event._value)
+        .then((value) => {
+          this.stations = value;
+          this.stopoverResults = true;
+        });
+    }
+  }
+
+  selectedStopoverStation(station: any) {
+    this.stopoverResults = false;
+    this.stopoverSelected = true;
+    this.connection.stopover.name = station.name;
+    this.connection.stopover = station;
+  }
+
+  /***
+   * End
+   */
+
+  searchEndHighlight() {
+    this.endSelected = false;
+  }
+
+  searchEndInput(event) {
+    /*console.log(event);*/
+    console.log(event._value);
+    if (event._value.length > 2 && !this.endSelected) {
+      this.StationFinderProvider.getVBBStation(event._value)
+        .then((value) => {
+          this.stations = value;
+          this.endResults = true;
+        });
+    }
+  }
+
+  selectedEndStation(station: any) {
+    this.endResults = false;
+    this.endSelected = true;
+    this.connection.end.name = station.name;
+    this.connection.end = station;
   }
 
   setDeparture(event) {
@@ -60,18 +196,14 @@ export class SearchComponent {
   }
 
   toggleStopover() {
-    this.stopover = !this.stopover;
+    this.stopoverBool = !this.stopoverBool;
   }
 
   searchConnection() {
-    console.log("Search");
     console.log(this.connection);
-    this.ConnectionFinderProvider.getVBBConnection().then(value => console.log(value));
-
-/*    this.ConnectionFinderProvider.getConnection().then((evt) => {
-        console.log(evt);
-      }
-    );*/
-
+    this.ConnectionFinderProvider.getVBBConnection(this.connection)
+      .then((value) => {
+        this.nav.setRoot('SearchResultsPage', value);
+      });
   }
 }

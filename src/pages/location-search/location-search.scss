@@ -1,6 +1,15 @@
 page-location-search {
   agm-map {
-    height: 300px;
+    height: 100%;
+  }
+  .searchCard {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+  }
+
+  .myMap {
+    height: 100%;
   }
 }
 
