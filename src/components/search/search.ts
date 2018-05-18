@@ -3,10 +3,56 @@ import {ConnectionFinderProvider} from "../../providers/connection-finder/connec
 import {StationFinderProvider} from "../../providers/station-finder/station-finder";
 import {NavController} from "ionic-angular";
 import {SearchResultsPage} from "../../pages/search-results/search-results";
+import {DataExchangeProvider} from "../../providers/data-exchange/data-exchange";
 
 let now = new Date();
 
 // TODO: Aktuellen Standort als Start
+
+interface connection {
+  start: {
+    id: string,
+    location: {
+      type: string,
+      latitude: number,
+      longitude: number
+    },
+    name: string,
+    relevance: number,
+    score: number,
+    type: string,
+    weight: number
+  },
+  stopover: {
+    id: string,
+    location: {
+      type: string,
+      latitude: number,
+      longitude: number
+    },
+    name: string,
+    relevance: number,
+    score: number,
+    type: string,
+    weight: number
+  },
+  end: {
+    id: string,
+    location: {
+      type: string,
+      latitude: number,
+      longitude: number
+    },
+    name: string,
+    relevance: number,
+    score: number,
+    type: string,
+    weight: number
+  },
+  departureSelection: string,
+  minute_slider: number,
+}
+
 
 @Component({
   selector: 'search',
@@ -14,7 +60,7 @@ let now = new Date();
 })
 export class SearchComponent {
 
-  connection: any = {};
+  connection: any;
 
   stopoverBool: boolean = true;
 
@@ -31,23 +77,20 @@ export class SearchComponent {
 
   h24: Date = now;
 
+  searchingConnection: boolean = false;
+
+
 
   constructor(public StationFinderProvider: StationFinderProvider,
               public ConnectionFinderProvider: ConnectionFinderProvider,
-              public nav: NavController) {
+              public nav: NavController,
+              private dataEchangeProvider: DataExchangeProvider) {
+
     this.connection = {
       start: {
-        id: '',
         location: {
           type: "location",
-          latitude: 0,
-          longitude: 0
         },
-        name: '',
-        relevance: 0,
-        score: 0,
-        type: '',
-        weight: 0
       },
       stopover: {
         id: '',
@@ -63,17 +106,9 @@ export class SearchComponent {
         weight: 0
       },
       end: {
-        id: '',
         location: {
           type: "location",
-          latitude: 0,
-          longitude: 0
         },
-        name: '',
-        relevance: 0,
-        score: 0,
-        type: '',
-        weight: 0
       },
       departureSelection: 'departure',
       minute_slider: 45,
@@ -105,7 +140,6 @@ export class SearchComponent {
     }];
 
     this.connection.myTime = this.h24.toLocaleTimeString('de-DE');
-    console.log(this.connection.start);
   }
 
   /***
@@ -169,8 +203,6 @@ export class SearchComponent {
   }
 
   searchEndInput(event) {
-    /*console.log(event);*/
-    console.log(event._value);
     if (event._value.length > 2 && !this.endSelected) {
       this.StationFinderProvider.getVBBStation(event._value)
         .then((value) => {
@@ -200,10 +232,17 @@ export class SearchComponent {
   }
 
   searchConnection() {
+    this.searchingConnection = true;
+
     console.log(this.connection);
-    this.ConnectionFinderProvider.getVBBConnection(this.connection)
-      .then((value) => {
-        this.nav.setRoot('SearchResultsPage', value);
-      });
+
+    if(this.connection.start.name && this.connection.end.name){
+      this.ConnectionFinderProvider.getVBBConnection(this.connection)
+        .subscribe((value) => {
+          this.searchingConnection = false;
+          this.dataEchangeProvider.setConnectionSearchResults(value);
+          this.nav.setRoot('SearchResultsPage');
+        });
+    }
   }
 }

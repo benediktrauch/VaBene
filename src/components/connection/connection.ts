@@ -1,7 +1,7 @@
-import {Component, Input, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {AgmMap} from "@agm/core";
-import {forEach} from "async";
 import {NavController} from "ionic-angular";
+import {DataExchangeProvider} from "../../providers/data-exchange/data-exchange";
 
 /**
  * Generated class for the ConnectionComponent component.
@@ -24,17 +24,31 @@ import {NavController} from "ionic-angular";
   selector: 'connection',
   templateUrl: 'connection.html',
 })
-export class ConnectionComponent {
+export class ConnectionComponent implements OnInit{
   @ViewChildren(AgmMap) maps: QueryList<AgmMap>;
 
   @Input() details: boolean;
-  @Input() connection: Object;
+  @Input() connectionIndex: any;
 
   expandedDetails: boolean = false;
   visibleElement: string;
+  connection: any;
+  allConnections: any;
 
+  myNumber: number;
 
-  constructor(public nav: NavController) {
+  constructor(public nav: NavController,
+              private dataExchangeProvider: DataExchangeProvider) {
+  }
+
+  ngOnInit(){
+    this.myNumber = this.connectionIndex;
+    this.allConnections = this.dataExchangeProvider.getConnectionSearchResults();
+    if(this.connectionIndex){
+      this.connection = this.allConnections[this.connectionIndex];
+    } else {
+      this.connection = this.allConnections[1];
+    }
   }
 
   ionViewDidLoad() {

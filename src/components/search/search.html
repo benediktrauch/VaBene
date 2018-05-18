@@ -1,5 +1,5 @@
 <!-- Generated template for the SearchComponent component -->
-<ion-card>
+<ion-card class="searchCardContainer">
   <ion-list>
     <ion-row>
       <ion-col col-1>
@@ -223,6 +223,11 @@
       </ion-col>
     </ion-row>
 
-
   </ion-list>
+
+  <div class="loadingOverlay" *ngIf="searchingConnection">
+        <img src="./assets/imgs/logos/S-Bahn-Logo.png"
+                 width="100%"
+                 class="loadingIcon"/>
+  </div>
 </ion-card>

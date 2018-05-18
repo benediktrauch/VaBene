@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 
 /**
@@ -16,19 +16,12 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 export class ConnectionDetailPage {
 
   details: boolean = true;
+  connectionIndex: number;
+
   connection: Object;
 
-  myLocation = {
-    long: 13.377704,
-    lat: 52.516275
-  };
-
-  myMap = {
-    zoom: 5
-  };
-
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.connection = this.navParams.data;
+    this.connectionIndex = this.navParams.data;
   }
 
   ionViewDidLoad() {}

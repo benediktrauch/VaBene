@@ -77,4 +77,32 @@ search {
     justify-content: left;
     text-transform: none;
   }
+
+  .searchCardContainer {
+    position: relative;
+  }
+
+  .loadingOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(52, 52, 52, 0.51);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .loadingIcon {
+      width: 20%;
+      -webkit-animation: flipLogo 1s infinite;
+      animation: flipLogo 1s infinite; // infinite ease-in-out alternate-reverse;
+    }
+  }
+
+  @keyframes flipLogo {
+    from {transform: rotateY(0deg)}
+    to {transform: rotateY(360deg)}
+  }
 }

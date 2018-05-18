@@ -1,9 +1,3 @@
-<!--
-  Generated template for the SearchResultsPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
   <navigation></navigation>
 </ion-header>
@@ -11,9 +5,9 @@
 
 <ion-content>
   <div class="connectionOverviewPage">
-      <div class="connectionDetailPage" *ngFor="let connection of searchResults">
-        <a [navPush]="ConnectionDetailPage" [navParams]="connection">
-        <connection [details]="details" [connection]="connection"></connection>
+      <div class="connectionDetailPage" *ngFor="let item of searchResults; index as i;">
+        <a [navPush]="ConnectionDetailPage" [navParams]="i">
+        <connection [details]="details" [connectionIndex]=i></connection>
         </a>
       </div>
   </div>

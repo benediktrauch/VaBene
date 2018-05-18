@@ -15,6 +15,7 @@ import { ComponentsModule } from "../components/components.module";
 import { StationFinderProvider } from '../providers/station-finder/station-finder';
 import {ApolloModule, /*Apollo */} from "apollo-angular";
 import {HttpLinkModule, /*HttpLink */} from "apollo-angular-link-http";
+import { DataExchangeProvider } from '../providers/data-exchange/data-exchange';
 /*
 import { InMemoryCache } from 'apollo-cache-inmemory';
 */
@@ -42,7 +43,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
     ToastServiceProvider,
     LocationProvider,
     ConnectionFinderProvider,
-    StationFinderProvider
+    StationFinderProvider,
+    DataExchangeProvider
   ]
 })
 export class AppModule {
