@@ -4,20 +4,6 @@ search {
   .list {
     padding: 1rem;
   }
-  /*  .list-md .item-block .item-inner {
-      border-radius: 1rem;
-      border-color: #ffffff;
-    }
-
-    .range-md, .range-md.range-has-pin {
-      padding: 0;
-    }
-    .input, .input-md {
-      border: solid 0.5px;
-      border-color: $primary;
-      border-radius: 3rem;
-      padding-left: 1rem;
-    }*/
 
   .label-ios, .label-md {
     margin: 13px 0 13px 0;
@@ -28,7 +14,10 @@ search {
   }
 
   .item-md .radio-md[item-left], .item-md {
+  }
 
+  .range-md {
+    padding: 0;
   }
 
   .vehicleButton {
@@ -73,9 +62,11 @@ search {
     transform: rotate(90deg);
   }
 
-  .button-inner {
-    justify-content: left;
-    text-transform: none;
+  .stationButton {
+    .button-inner {
+      justify-content: left;
+      text-transform: none;
+    }
   }
 
   .searchCardContainer {

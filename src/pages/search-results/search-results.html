@@ -6,7 +6,7 @@
 <ion-content>
   <div class="connectionOverviewPage">
       <div class="connectionDetailPage" *ngFor="let item of searchResults; index as i;">
-        <a [navPush]="ConnectionDetailPage" [navParams]="i" (click)="setConnection(i)">
+        <a [navPush]="ConnectionDetailPage" [navParams]="i">
         <connection [details]="details" [connectionIndex]=i></connection>
         </a>
       </div>

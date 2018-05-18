@@ -117,7 +117,18 @@ export class ConnectionFinderProvider {
     console.log("VBB Connection");
     //this.apiUrl = this.apiUrl +this.origin + "&" + this.destination + "&" + this.mode + "&" + this.API_KEY;
 
-    this.apiUrl = `https://2.vbb.transport.rest/journeys?from=${connection.start.id}&to=${connection.end.id}&via=${connection.stopover.id}&passedStations=true&transfers=5&transferTime=0&accessibility=none&bike=false&tickets=false&suburban=true&subway=true&tram=true&bus=true&ferry=true&express=true&regional=true`;
+    if(connection.stopover.id){
+      this.apiUrl = `https://2.vbb.transport.rest/journeys?from=${connection.start.id}&to=${connection.end.id}&via=${connection.stopover.id}&when=${connection.when}&passedStations=true&transfers=5&transferTime=0&accessibility=none&bike=false&tickets=false&suburban=${connection.suburban}&subway=${connection.subway}&tram=${connection.tram}&bus=${connection.bus}&ferry=${connection.ferry}&express=${connection.express}&regional=${connection.regional}`;
+    } else {
+      this.apiUrl = `https://2.vbb.transport.rest/journeys?from=${connection.start.id}&to=${connection.end.id}&when=${connection.when}&passedStations=true&transfers=5&transferTime=0&accessibility=none&bike=false&tickets=false&suburban=${connection.suburban}&subway=${connection.subway}&tram=${connection.tram}&bus=${connection.bus}&ferry=${connection.ferry}&express=${connection.express}&regional=${connection.regional}`;
+    }
+
+    /*
+    from.latitude/to.latitude: Required. Latitude (e.g. 52.543333).
+    from.longitude/to.longitude: Required. Longitude (e.g. 13.351686).
+    from.name/to.name: Name of the locality (e.g. ATZE Musiktheater).
+    from.id/to.id: POI ID (e.g. 9980720).
+    */
 
     /*
     bike: Return only bike-friendly journeys. Default: false.
@@ -129,7 +140,7 @@ export class ConnectionFinderProvider {
       ferry: Include ferries? Default: true.
       express: Include IC/ICE/EC trains? Default: true.
       regional: Include RE/RB/ODEG trains? Default: true.
-*/
+      */
       //accessibility: Possible values: partial, complete. Default: none.
 
     return this.http.get(this.apiUrl);

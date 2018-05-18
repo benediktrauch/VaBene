@@ -21,6 +21,8 @@ export class ConnectionDetailPage {
   connection: Object;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    console.log("this.navParams.data");
+    console.log(this.navParams.data);
     this.connectionIndex = this.navParams.data;
   }
 

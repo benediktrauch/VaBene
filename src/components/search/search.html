@@ -21,7 +21,7 @@
 
     <ion-row *ngIf="startResults" justify-content-end>
       <ion-col col-11 *ngFor="let staion of stations">
-        <button ion-button block round icon-left (click)="selectedStartStation(staion)">
+        <button class="stationButton" ion-button block round icon-left (click)="selectedStartStation(staion)">
           <ion-icon name="locate"></ion-icon>
           {{staion.name}}
         </button>
@@ -57,7 +57,7 @@
 
     <ion-row *ngIf="stopoverResults" justify-content-end	>
       <ion-col col-11 *ngFor="let staion of stations">
-        <button ion-button block round icon-left (click)="selectedStopoverStation(staion)">
+        <button  class="stationButton" ion-button block round icon-left (click)="selectedStopoverStation(staion)">
           <ion-icon name="locate"></ion-icon>
           {{staion.name}}
         </button>
@@ -83,34 +83,34 @@
     </ion-row>
     <ion-row *ngIf="endResults" justify-content-end	>
       <ion-col col-11 *ngFor="let staion of stations">
-        <button ion-button block round icon-left (click)="selectedEndStation(staion)">
+        <button class="stationButton" ion-button block round icon-left (click)="selectedEndStation(staion)">
           <ion-icon name="locate"></ion-icon>
           {{staion.name}}
         </button>
       </ion-col>
     </ion-row>
 
-    <ion-row radio-group [(ngModel)]="connection.departureSelection">
-      <ion-col col-4>
+    <ion-row radio-group justify-content-between [(ngModel)]="connection.departureSelection">
+      <ion-col >
         <ion-item>
           <ion-radio value="departure" checked item-start></ion-radio>
           <ion-label stacked>Abfahrt um</ion-label>
         </ion-item>
       </ion-col>
 
-      <ion-col col-4>
+      <ion-col >
         <ion-item>
           <ion-radio value="departure-in" item-start></ion-radio>
           <ion-label stacked>Abfahrt in</ion-label>
         </ion-item>
       </ion-col>
-
+<!--
       <ion-col col-4>
         <ion-item>
           <ion-radio value="arrival" item-start></ion-radio>
           <ion-label stacked>Ankunft bis</ion-label>
         </ion-item>
-      </ion-col>
+      </ion-col>-->
     </ion-row>
 
     <ion-row *ngIf="connection.departureSelection != 'departure-in'"
@@ -140,7 +140,7 @@
             <ion-item>
               <ion-datetime class="datetime-md"
                             displayFormat="HH:mm"
-                            [(ngModel)]="connection.myTime"
+                            [(ngModel)]="myTime"
                             (ionChange)="logSelectedTime($event)"
                             item-start>
 
@@ -157,15 +157,16 @@
         <ion-item *ngIf="connection.departureSelection == 'departure-in'" col-12>
           <ion-range min="15" max="180" step="15"
                      [snaps]="true"
-                     [(ngModel)]="connection.minute_slider"
+                     [(ngModel)]="minute_slider"
                      (ionChange)="setDeparture($event)">
-            <ion-label range-right>{{ connection.minute_slider }} Minuten</ion-label>
+            <ion-label range-right>{{ minute_slider }} Minuten</ion-label>
           </ion-range>
         </ion-item>
       </ion-col>
     </ion-row>
 
-    <ion-row align-items-center nowrap class="filterSection">
+<!--
+    <ion-row align-items-center class="filterSection">
       <ion-col col-auto>
         <ion-label>
           <ion-icon name="ios-funnel"></ion-icon>
@@ -202,6 +203,53 @@
         </button>
       </ion-col>
     </ion-row>
+-->
+
+    <ion-row justify-content-between>
+      <ion-col col-auto>
+        <ion-label>
+          <ion-icon name="ios-funnel"></ion-icon>
+        </ion-label>
+      </ion-col>
+      <ion-col (click)="(vehicleSelection.express.active = !vehicleSelection.express.active)">
+        <button class="centeredText" ion-button
+                [color]="vehicleSelection.express.active ? 'express' : 'grey'"
+                round block [outline]="!vehicleSelection.express.active">
+          {{vehicleSelection.express.type}}
+        </button>
+      </ion-col>
+      <ion-col (click)="(vehicleSelection.regional.active = !vehicleSelection.regional.active)">
+        <button class="centeredText" ion-button [color]="vehicleSelection.regional.active ? 'regional' : 'grey'"
+                round block [outline]="!vehicleSelection.regional.active">
+          {{vehicleSelection.regional.type}}
+        </button>
+      </ion-col>
+      <ion-col (click)="(vehicleSelection.suburban.active = !vehicleSelection.suburban.active)">
+        <button ion-button [color]="vehicleSelection.suburban.active ? 'suburban' : 'grey'"
+                round block [outline]="!vehicleSelection.suburban.active">
+          {{vehicleSelection.suburban.type}}
+        </button>
+      </ion-col>
+      <ion-col (click)="(vehicleSelection.subway.active = !vehicleSelection.subway.active)">
+        <button ion-button [color]="vehicleSelection.subway.active ? 'subway' : 'grey'"
+                round block [outline]="!vehicleSelection.subway.active">
+          {{vehicleSelection.subway.type}}
+        </button>
+      </ion-col>
+      <ion-col (click)="(vehicleSelection.tram.active = !vehicleSelection.tram.active)">
+        <button ion-button [color]="vehicleSelection.tram.active ? 'tram' : 'grey'"
+                round block [outline]="!vehicleSelection.tram.active">
+          {{vehicleSelection.tram.type}}
+        </button>
+      </ion-col>
+      <ion-col (click)="(vehicleSelection.bus.active = !vehicleSelection.bus.active)">
+        <button ion-button [color]="vehicleSelection.bus.active ? 'bus' : 'grey'"
+                round block [outline]="!vehicleSelection.bus.active">
+          {{vehicleSelection.bus.type}}
+        </button>
+      </ion-col>
+    </ion-row>
+
     <ion-row justify-content-end	>
       <ion-col col-auto>
         <button ion-button round outline icon-end (click)="searchConnection()">

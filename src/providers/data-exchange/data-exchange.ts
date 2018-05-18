@@ -144,7 +144,8 @@ export class DataExchangeProvider {
             "departurePlatform": "12",
             "arrivalPlatform": "2",
             "cycle": {"min": 120, "max": 480},
-            "alternatives": [{
+            "alternatives": [
+              {
               "line": {
                 "type": "line",
                 "id": "s45",

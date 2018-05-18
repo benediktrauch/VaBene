@@ -39,20 +39,22 @@ export class ConnectionComponent implements OnInit{
 
   constructor(public nav: NavController,
               private dataExchangeProvider: DataExchangeProvider) {
-    //this.connection = this.dataExchangeProvider.getSelectedConnection();
   }
 
   ngOnInit(){
+    console.log(this.connectionIndex);
+
     this.myNumber = this.connectionIndex;
     this.allConnections = this.dataExchangeProvider.getConnectionSearchResults();
     if(this.connectionIndex){
       this.connection = this.allConnections[this.connectionIndex];
     } else {
-      this.connection = this.allConnections[1];
+      this.connection = this.allConnections[0];
     }
   }
 
   ionViewDidLoad() {
+
     this.maps.forEach((element, index, array)=> {
       element.triggerResize();
     });

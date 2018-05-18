@@ -5,6 +5,9 @@ import {NavController} from "ionic-angular";
 import {SearchResultsPage} from "../../pages/search-results/search-results";
 import {DataExchangeProvider} from "../../providers/data-exchange/data-exchange";
 
+import {ToastController} from 'ionic-angular';
+
+
 let now = new Date();
 
 // TODO: Aktuellen Standort als Start
@@ -50,8 +53,36 @@ interface connection {
     weight: number
   },
   departureSelection: string,
-  minute_slider: number,
+  when: string,
+  bike: boolean,
+  tickets: boolean,
+  suburban: boolean,
+  subway: boolean,
+  tram: boolean,
+  bus: boolean,
+  ferry: boolean,
+  express: boolean,
+  regional: boolean,
+  transfers: number,
+  transferTime: number,
+  accessibility: string,
+  results: number
 }
+
+//https://2.vbb.transport.rest/journeys?from=${connection.start.id}&to=${connection.end.id}&via=${connection.stopover.id}&when=${}
+// &passedStations=true
+// &transfers=5
+// &transferTime=0
+// &accessibility=none partial, complete. Default: none
+// &bike=false
+// &tickets=false
+// &suburban=true
+// &subway=true
+// &tram=true
+// &bus=true
+// &ferry=true
+// &express=true
+// &regional=true`
 
 
 @Component({
@@ -64,7 +95,7 @@ export class SearchComponent {
 
   stopoverBool: boolean = true;
 
-  vehicleSelection: any[];
+  vehicleSelection: any;
   vehicleFilter: {};
 
   startResults: boolean = false;
@@ -76,15 +107,64 @@ export class SearchComponent {
   stations: any;
 
   h24: Date = now;
+  toDay: Date = now;
+
+  myTime: any;
+  myDate: any;
 
   searchingConnection: boolean = false;
 
-
+  minute_slider: number;
 
   constructor(public StationFinderProvider: StationFinderProvider,
               public ConnectionFinderProvider: ConnectionFinderProvider,
               public nav: NavController,
-              private dataEchangeProvider: DataExchangeProvider) {
+              private dataEchangeProvider: DataExchangeProvider,
+              private toastCtrl: ToastController) {
+
+    this.vehicleFilter = {
+      title: 'Filter',
+      subTitle: 'Verkehrsmittel auswählen',
+      mode: 'md'
+    };
+
+    this.vehicleSelection = {
+      express: {
+        type: 'ICE',
+        name: 'ICE',
+        active: false
+      },
+      regional: {
+        type: "RE",
+        name: "Regionalexpress",
+        active: true
+      },
+      suburban: {
+        type: "S",
+        name: "S-Bahn",
+        active: true
+      },
+      subway: {
+        type: "U",
+        name: "U-Bahn",
+        active: true,
+      },
+      tram: {
+        type: "TRAM",
+        name: "Straßenbahn",
+        active: true
+      },
+      bus: {
+        type: "BUS",
+        name: "Bus",
+        active: true,
+      },
+      ferry: {
+        type: "FERRY",
+        name: "Fähre",
+        active: false,
+      }
+    };
 
     this.connection = {
       start: {
@@ -93,17 +173,7 @@ export class SearchComponent {
         },
       },
       stopover: {
-        id: '',
-        location: {
-          type: "location",
-          latitude: 0,
-          longitude: 0
-        },
-        name: '',
-        relevance: 0,
-        score: 0,
-        type: '',
-        weight: 0
+        id: null,
       },
       end: {
         location: {
@@ -111,35 +181,11 @@ export class SearchComponent {
         },
       },
       departureSelection: 'departure',
-      minute_slider: 45,
-    };
-    this.vehicleFilter = {
-      title: 'Filter',
-      subTitle: 'Verkehrsmittel auswählen',
-      mode: 'md'
-    };
 
-    this.vehicleSelection = [{
-      type: 'ICE',
-      name: 'ICE'
-    }, {
-      type: "RE",
-      name: "Regionalexpress"
-    }, {
-      type: "SB",
-      name: "S-Bahn"
-    }, {
-      type: "UB",
-      name: "U-Bahn"
-    }, {
-      type: "TRAM",
-      name: "Straßenbahn"
-    }, {
-      type: "BUS",
-      name: "Bus"
-    }];
+    };
+    this.minute_slider = 45;
 
-    this.connection.myTime = this.h24.toLocaleTimeString('de-DE');
+    this.myTime = this.h24.toLocaleTimeString('de-DE');
   }
 
   /***
@@ -155,7 +201,7 @@ export class SearchComponent {
     if (event._value.length > 2 && !this.startSelected) {
       this.StationFinderProvider.getVBBStation(event._value)
         .then((value) => {
-          this.stations = value
+          this.stations = value;
           this.startResults = true;
         });
     }
@@ -227,22 +273,58 @@ export class SearchComponent {
     console.log(event);
   }
 
+  toggleState(event) {
+    console.log(event);
+
+  }
+
   toggleStopover() {
     this.stopoverBool = !this.stopoverBool;
   }
 
   searchConnection() {
     this.searchingConnection = true;
+    this.connection.suburban = this.vehicleSelection.suburban.active;
+    this.connection.subway = this.vehicleSelection.subway.active;
+    this.connection.tram = this.vehicleSelection.tram.active;
+    this.connection.bus = this.vehicleSelection.bus.active;
+    this.connection.ferry = this.vehicleSelection.ferry.active;
+    this.connection.express = this.vehicleSelection.express.active;
+    this.connection.regional = this.vehicleSelection.regional.active;
 
-    console.log(this.connection);
+    if (this.myDate) {
+      this.connection.when = `${this.myDate}T${this.myTime}`;
+    } else {
+      this.connection.when = `${this.toDay.toISOString().substr(0, 10)}T${this.myTime}`;
+    }
 
-    if(this.connection.start.name && this.connection.end.name){
+    if (this.connection.start.name && this.connection.end.name) {
       this.ConnectionFinderProvider.getVBBConnection(this.connection)
         .subscribe((value) => {
+          console.log(value);
           this.searchingConnection = false;
           this.dataEchangeProvider.setConnectionSearchResults(value);
           this.nav.setRoot('SearchResultsPage');
+        }, err => {
+          this.searchingConnection = false;
+          this.presentToast(err);
+          console.log(err);
         });
     }
+  }
+
+
+  presentToast(err) {
+    let toast = this.toastCtrl.create({
+      message: err.error.msg,
+      duration: 3000,
+      position: 'top'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
   }
 }
