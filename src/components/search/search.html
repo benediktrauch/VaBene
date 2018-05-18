@@ -201,18 +201,6 @@
           <ion-img src="./assets/imgs/logos/Bus-Logo-BVG.svg" width="100%"></ion-img>
         </button>
       </ion-col>
-
-      <!--
-            <ion-col>
-              <ion-select [(ngModel)]="connection.filter" [selectOptions]="vehicleFilter" multiple="true"
-                          placeholder="Filter"
-                          col-12>
-                <ion-option *ngFor="let vehicle of vehicleSelection" [value]="vehicle" [selected]="true"> {{ vehicle.name
-                  }}
-                </ion-option>
-              </ion-select>
-            </ion-col>
-      -->
     </ion-row>
     <ion-row justify-content-end	>
       <ion-col col-auto>
@@ -226,8 +214,9 @@
   </ion-list>
 
   <div class="loadingOverlay" *ngIf="searchingConnection">
-        <img src="./assets/imgs/logos/S-Bahn-Logo.png"
-                 width="100%"
-                 class="loadingIcon"/>
+    <div class="loadingLogo"></div>
+<!--
+        <img src="./assets/imgs/logos/S-Bahn-Logo.png" width="100%" class="loadingIcon"/>
+-->
   </div>
 </ion-card>

@@ -39,6 +39,7 @@ export class ConnectionComponent implements OnInit{
 
   constructor(public nav: NavController,
               private dataExchangeProvider: DataExchangeProvider) {
+    //this.connection = this.dataExchangeProvider.getSelectedConnection();
   }
 
   ngOnInit(){

@@ -28,7 +28,10 @@ export class SearchResultsPage {
               private dataExchangeProvider: DataExchangeProvider) {
     this.ConnectionDetailPage = "ConnectionDetailPage";
     this.searchResults = this.dataExchangeProvider.getConnectionSearchResults();
+  }
 
+  setConnection(i) {
+    this.dataExchangeProvider.setSelectedConnection(i);
   }
 
   ionViewDidLoad() {

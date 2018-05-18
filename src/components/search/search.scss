@@ -99,10 +99,41 @@ search {
       -webkit-animation: flipLogo 1s infinite;
       animation: flipLogo 1s infinite; // infinite ease-in-out alternate-reverse;
     }
+
+    .loadingLogo {
+      background-image: url("../assets/imgs/logos/S-Bahn-Logo.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+      width: 20%;
+      height: 20%;
+      animation: mymove 2s infinite; // infinite ease-in-out alternate-reverse;
+    }
   }
 
   @keyframes flipLogo {
     from {transform: rotateY(0deg)}
     to {transform: rotateY(360deg)}
+  }
+
+  @keyframes mymove {
+    0%   {
+      transform: rotateY(0deg);
+      background-image: url("../assets/imgs/logos/S-Bahn-Logo.png");
+    }
+    25%  {
+      transform: rotateY(180deg);
+      background-image: url("../assets/imgs/logos/BUS-Logo.png");
+    }
+    50% {
+      transform: rotateY(360deg);
+      background-image: url("../assets/imgs/logos/Tram-Logo.png");
+    }
+    75%  {
+      transform: rotateY(540deg);
+      background-image: url("../assets/imgs/logos/U-Bahn-Logo.png");
+    }
+    100% {
+      transform: rotateY(720deg);
+    }
   }
 }

@@ -15,6 +15,14 @@ export class DataExchangeProvider {
   constructor() {
   }
 
+  setSelectedConnection(index: number){
+    this.selectedConnection = this.getConnectionSearchResults()[index];
+  }
+
+  getSelectedConnection(){
+    return this.selectedConnection;
+  }
+
   setConnectionSearchResults(connection){
     this.searchResults = connection;
   }
