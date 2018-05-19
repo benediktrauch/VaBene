@@ -127,6 +127,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   userLocation: any;
 
+  departures: any;
+  showDepartures: boolean = false;
+  showFilter: boolean = true;
+
   constructor(public StationFinderProvider: StationFinderProvider,
               public ConnectionFinderProvider: ConnectionFinderProvider,
               public nav: NavController,
@@ -214,12 +218,20 @@ export class SearchComponent implements OnInit, AfterViewInit {
     console.log("after init: this.locationSearch");
     console.log(this.locationSearch);
     if (this.locationSearch) {
+      this.toggleFilters();
       this.userLocation = this.locationProvider.getUserLocation();
       console.log(this.userLocation);
       this.stationFinderProvider.findVBBStationByLocation(this.userLocation)
         .subscribe((value) => {
           console.log(value);
           this.closestStation = value[0];
+          this.connection.start = value[0];
+          this.ConnectionFinderProvider
+            .getVBBDepartures(value[0], (Date.parse(`${this.toDay.toISOString().substr(0, 10)}T${this.myTime}`)) / 1000)
+            .subscribe(departures => {
+              this.departures = departures;
+              console.log(departures);
+            });
         });
     }
   }
@@ -229,6 +241,14 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     console.log("ionViewDidLoad: this.userLocation");
     console.log(this.userLocation);
+  }
+
+  toggleDepartures(){
+    this.showDepartures = !this.showDepartures;
+  }
+
+  toggleFilters() {
+    this.showFilter = !this.showFilter;
   }
 
   /***
@@ -339,7 +359,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   searchConnection() {
-    this.searchingConnection = true;
     this.connection.suburban = this.vehicleSelection.suburban.active;
     this.connection.subway = this.vehicleSelection.subway.active;
     this.connection.tram = this.vehicleSelection.tram.active;
@@ -361,7 +380,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.connection.when = (Date.parse(tempWhen) / 1000) + (this.minute_slider * 60);
     }
 
+    console.log(this.connection);
+
     if (this.connection.start.name && this.connection.end.name) {
+      this.searchingConnection = true;
       this.ConnectionFinderProvider.getVBBConnection(this.connection)
         .subscribe((value) => {
           console.log(value);

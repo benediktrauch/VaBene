@@ -156,6 +156,11 @@ export class ConnectionFinderProvider {
     });*/
   }
 
+  getVBBDepartures(station: any, departure: number) {
+    this.apiUrl = `https://2.vbb.transport.rest/stations/${station.id}/departures?when=${departure}`
+    return this.http.get(this.apiUrl);
+  }
+
   getConnection(origin?: string, stops?: string, destination?: string, time?: string) {
 
     console.log("Getting Connection");

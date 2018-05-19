@@ -1,15 +1,33 @@
 <!-- Generated template for the SearchComponent component -->
 <ion-card *ngIf="locationSearch && closestStation">
-  <ion-card-header>
-    <ion-row>
+  <ion-card-header class="departureCardHeader">
+    <ion-row justify-content-between align-items-center>
       <ion-col col-1>
-      <ion-icon name="locate"></ion-icon>
+        <ion-icon name="locate"></ion-icon>
       </ion-col>
       <ion-col>
         {{closestStation.name}} <i>({{closestStation.distance}}m)</i>
       </ion-col>
+      <ion-col col-auto>
+        <button ion-button small icon-only clear color="primary" (click)="toggleDepartures()">
+          <ion-icon name="{{showDepartures? 'ios-arrow-up' : 'ios-arrow-down' }}"></ion-icon>
+        </button>
+      </ion-col>
     </ion-row>
   </ion-card-header>
+  <ion-card-content *ngIf="departures && showDepartures" class="departureCardContent">
+    <ion-card *ngFor="let departure of departures" color='{{departure.line.product}}'>
+      <ion-row>
+        <ion-col col-4>
+          {{departure.line.name}}
+        </ion-col>
+        <ion-col col-8>
+          {{departure.direction}}
+        </ion-col>
+      </ion-row>
+    </ion-card>
+
+  </ion-card-content>
 </ion-card>
 <ion-card class="searchCardContainer">
   <ion-list>
@@ -29,9 +47,9 @@
           </ion-input>
         </ion-item>
       </ion-col>
-<!--
-      <ion-spinner name="crescent" class="loadingSpinner" *ngIf="startLoading"></ion-spinner>
--->
+      <!--
+            <ion-spinner name="crescent" class="loadingSpinner" *ngIf="startLoading"></ion-spinner>
+      -->
     </ion-row>
 
     <ion-row *ngIf="startResults" justify-content-end class="seachResults">
@@ -44,14 +62,15 @@
     </ion-row>
 
     <ion-row *ngIf="!locationSearch">
-      <ion-col col-1 >
+      <ion-col col-1>
         <ion-label>
           <ion-icon id="stopover" name="git-commit"></ion-icon>
         </ion-label>
       </ion-col>
 
       <ion-col col-2 push-9>
-        <button ion-button icon-only round clear [color]="stopoverBool ? 'secondary' : 'danger'" (click)="toggleStopover()">
+        <button ion-button icon-only round clear [color]="stopoverBool ? 'secondary' : 'danger'"
+                (click)="toggleStopover()">
           <ion-icon [name]="stopoverBool ? 'add':'remove'"></ion-icon>
         </button>
       </ion-col>
@@ -72,9 +91,9 @@
 
     </ion-row>
 
-    <ion-row *ngIf="stopoverResults" justify-content-end	 class="seachResults">
+    <ion-row *ngIf="stopoverResults" justify-content-end class="seachResults">
       <ion-col col-11 *ngFor="let staion of stations">
-        <button  class="stationButton" ion-button block round icon-left (click)="selectedStopoverStation(staion)">
+        <button class="stationButton" ion-button block round icon-left (click)="selectedStopoverStation(staion)">
           <ion-icon name="locate"></ion-icon>
           {{staion.name}}
         </button>
@@ -98,7 +117,7 @@
         </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="endResults" justify-content-end	class="seachResults">
+    <ion-row *ngIf="endResults" justify-content-end class="seachResults">
       <ion-col col-11 *ngFor="let staion of stations">
         <button class="stationButton" ion-button block round icon-left (click)="selectedEndStation(staion)">
           <ion-icon name="locate"></ion-icon>
@@ -108,26 +127,26 @@
     </ion-row>
 
     <ion-row radio-group justify-content-between [(ngModel)]="departureSelection">
-      <ion-col >
+      <ion-col>
         <ion-item>
           <ion-radio value="departure" checked item-start></ion-radio>
           <ion-label stacked>Abfahrt um</ion-label>
         </ion-item>
       </ion-col>
 
-      <ion-col >
+      <ion-col>
         <ion-item>
           <ion-radio value="departure-in" item-start></ion-radio>
           <ion-label stacked>Abfahrt in</ion-label>
         </ion-item>
       </ion-col>
-<!--
-      <ion-col col-4>
-        <ion-item>
-          <ion-radio value="arrival" item-start></ion-radio>
-          <ion-label stacked>Ankunft bis</ion-label>
-        </ion-item>
-      </ion-col>-->
+      <!--
+            <ion-col col-4>
+              <ion-item>
+                <ion-radio value="arrival" item-start></ion-radio>
+                <ion-label stacked>Ankunft bis</ion-label>
+              </ion-item>
+            </ion-col>-->
     </ion-row>
 
     <ion-row *ngIf="departureSelection != 'departure-in'"
@@ -182,52 +201,48 @@
       </ion-col>
     </ion-row>
 
-<!--
-    <ion-row align-items-center class="filterSection">
-      <ion-col col-auto>
-        <ion-label>
-          <ion-icon name="ios-funnel"></ion-icon>
-        </ion-label>
-      </ion-col>
-      <ion-col>
-        <button class="vehicleButton" ion-button icon-only clear round>
-          <ion-img src="./assets/imgs/logos/IC-Logo.svg" width="100%"></ion-img>
-        </button>
-      </ion-col>
-      <ion-col>
-        <button class="vehicleButton noSVG" ion-button round>
-          <i>RE</i>
-        </button>
-      </ion-col>
-      <ion-col>
-        <button class="vehicleButton" ion-button icon-only clear round>
-          <ion-img src="./assets/imgs/logos/S-Bahn-Logo.svg" width="100%"></ion-img>
-        </button>
-      </ion-col>
-      <ion-col>
-        <button class="vehicleButton" ion-button icon-only clear round>
-          <ion-img src="./assets/imgs/logos/Tram-Logo.svg" width="100%"></ion-img>
-        </button>
-      </ion-col>
-      <ion-col>
-        <button class="vehicleButton" ion-button icon-only clear round>
-          <ion-img src="./assets/imgs/logos/U-Bahn-Logo.svg" width="100%"></ion-img>
-        </button>
-      </ion-col>
-      <ion-col>
-        <button class="vehicleButton" ion-button icon-only clear round>
-          <ion-img src="./assets/imgs/logos/Bus-Logo-BVG.svg" width="100%"></ion-img>
-        </button>
-      </ion-col>
-    </ion-row>
--->
+    <!--
+        <ion-row align-items-center class="filterSection">
+          <ion-col col-auto>
+            <ion-label>
+              <ion-icon name="ios-funnel"></ion-icon>
+            </ion-label>
+          </ion-col>
+          <ion-col>
+            <button class="vehicleButton" ion-button icon-only clear round>
+              <ion-img src="./assets/imgs/logos/IC-Logo.svg" width="100%"></ion-img>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button class="vehicleButton noSVG" ion-button round>
+              <i>RE</i>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button class="vehicleButton" ion-button icon-only clear round>
+              <ion-img src="./assets/imgs/logos/S-Bahn-Logo.svg" width="100%"></ion-img>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button class="vehicleButton" ion-button icon-only clear round>
+              <ion-img src="./assets/imgs/logos/Tram-Logo.svg" width="100%"></ion-img>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button class="vehicleButton" ion-button icon-only clear round>
+              <ion-img src="./assets/imgs/logos/U-Bahn-Logo.svg" width="100%"></ion-img>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button class="vehicleButton" ion-button icon-only clear round>
+              <ion-img src="./assets/imgs/logos/Bus-Logo-BVG.svg" width="100%"></ion-img>
+            </button>
+          </ion-col>
+        </ion-row>
+    -->
 
-    <ion-row justify-content-between>
-      <ion-col col-auto>
-        <ion-label>
-          <ion-icon name="ios-funnel"></ion-icon>
-        </ion-label>
-      </ion-col>
+    <ion-row justify-content-between *ngIf="showFilter">
+
       <ion-col (click)="(vehicleSelection.express.active = !vehicleSelection.express.active)">
         <button class="centeredText" ion-button
                 [color]="vehicleSelection.express.active ? 'express' : 'grey'"
@@ -267,7 +282,13 @@
       </ion-col>
     </ion-row>
 
-    <ion-row justify-content-end	>
+    <ion-row justify-content-between align-items-center>
+      <ion-col col-auto (click)="toggleFilters()">
+        <button ion-button round outline icon-end>
+          Filter
+          <ion-icon name="ios-funnel"></ion-icon>
+        </button>
+      </ion-col>
       <ion-col col-auto>
         <button ion-button round outline icon-end (click)="searchConnection()">
           Suchen
@@ -280,8 +301,8 @@
 
   <div class="loadingOverlay" *ngIf="searchingConnection">
     <div class="loadingLogo"></div>
-<!--
-        <img src="./assets/imgs/logos/S-Bahn-Logo.png" width="100%" class="loadingIcon"/>
--->
+    <!--
+            <img src="./assets/imgs/logos/S-Bahn-Logo.png" width="100%" class="loadingIcon"/>
+    -->
   </div>
 </ion-card>
