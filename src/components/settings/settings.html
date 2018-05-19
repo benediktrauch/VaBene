@@ -1,6 +1,7 @@
 <!-- Generated template for the SettingsComponent component -->
 <div>
   <ion-item>
-    <ion-toggle></ion-toggle>
+    <ion-label>Test Mode</ion-label>
+    <ion-toggle [(ngModel)]="testMode" (ionChange)="toggleTestMode()"></ion-toggle>
   </ion-item>
 </div>

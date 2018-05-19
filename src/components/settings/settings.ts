@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {SettingsProvider} from "../../providers/settings/settings";
 
 /**
  * Generated class for the SettingsComponent component.
@@ -12,11 +13,13 @@ import { Component } from '@angular/core';
 })
 export class SettingsComponent {
 
-  text: string;
+  testMode: boolean;
 
-  constructor() {
-    console.log('Hello SettingsComponent Component');
-    this.text = 'Hello World';
+  constructor(private settingsProvider: SettingsProvider) {
+    this.testMode = this.settingsProvider.getTestMode();
   }
-
+  toggleTestMode() {
+    this.settingsProvider.setTestMode();
+    this.testMode = this.settingsProvider.getTestMode();
+  }
 }

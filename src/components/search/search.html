@@ -1,7 +1,19 @@
 <!-- Generated template for the SearchComponent component -->
+<ion-card *ngIf="locationSearch && closestStation">
+  <ion-card-header>
+    <ion-row>
+      <ion-col col-1>
+      <ion-icon name="locate"></ion-icon>
+      </ion-col>
+      <ion-col>
+        {{closestStation.name}} <i>({{closestStation.distance}}m)</i>
+      </ion-col>
+    </ion-row>
+  </ion-card-header>
+</ion-card>
 <ion-card class="searchCardContainer">
   <ion-list>
-    <ion-row>
+    <ion-row *ngIf="!locationSearch">
       <ion-col col-1>
         <ion-label>
           <ion-icon name="pin"></ion-icon>
@@ -31,7 +43,7 @@
       </ion-col>
     </ion-row>
 
-    <ion-row >
+    <ion-row *ngIf="!locationSearch">
       <ion-col col-1 >
         <ion-label>
           <ion-icon id="stopover" name="git-commit"></ion-icon>

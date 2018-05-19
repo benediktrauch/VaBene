@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {ConnectionFinderProvider} from "../../providers/connection-finder/connection-finder";
 import {StationFinderProvider} from "../../providers/station-finder/station-finder";
 import {NavController} from "ionic-angular";
@@ -6,6 +6,7 @@ import {SearchResultsPage} from "../../pages/search-results/search-results";
 import {DataExchangeProvider} from "../../providers/data-exchange/data-exchange";
 
 import {ToastController} from 'ionic-angular';
+import {LocationProvider} from "../../providers/location/location";
 
 
 let now = new Date();
@@ -89,7 +90,8 @@ interface connection {
   selector: 'search',
   templateUrl: 'search.html'
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit, AfterViewInit {
+  @Input() locationSearch;
 
   connection: any;
 
@@ -121,17 +123,23 @@ export class SearchComponent {
 
   departureSelection: string;
 
+  closestStation: any;
+
+  userLocation: any;
+
   constructor(public StationFinderProvider: StationFinderProvider,
               public ConnectionFinderProvider: ConnectionFinderProvider,
               public nav: NavController,
               private dataEchangeProvider: DataExchangeProvider,
-              private toastCtrl: ToastController) {
+              private toastCtrl: ToastController,
+              public stationFinderProvider: StationFinderProvider,
+              public locationProvider: LocationProvider) {
 
-/*    this.vehicleFilter = {
-      title: 'Filter',
-      subTitle: 'Verkehrsmittel auswählen',
-      mode: 'md'
-    };*/
+    /*    this.vehicleFilter = {
+          title: 'Filter',
+          subTitle: 'Verkehrsmittel auswählen',
+          mode: 'md'
+        };*/
 
     this.vehicleSelection = {
       express: {
@@ -190,6 +198,37 @@ export class SearchComponent {
     this.minute_slider = 45;
 
     this.myTime = this.h24.toLocaleTimeString('de-DE');
+
+  }
+
+  ngOnInit() {
+    console.log("on init: this.locationSearch");
+    console.log(this.locationSearch);
+    if (this.locationSearch) {
+      this.userLocation = this.locationProvider.findUserLocation();
+      console.log(this.userLocation);
+    }
+  }
+
+  ngAfterViewInit() {
+    console.log("after init: this.locationSearch");
+    console.log(this.locationSearch);
+    if (this.locationSearch) {
+      this.userLocation = this.locationProvider.getUserLocation();
+      console.log(this.userLocation);
+      this.stationFinderProvider.findVBBStationByLocation(this.userLocation)
+        .subscribe((value) => {
+          console.log(value);
+          this.closestStation = value[0];
+        });
+    }
+  }
+
+  ionViewDidLoad() {
+    this.userLocation = this.locationProvider.getUserLocation();
+
+    console.log("ionViewDidLoad: this.userLocation");
+    console.log(this.userLocation);
   }
 
   /***
@@ -310,16 +349,16 @@ export class SearchComponent {
     this.connection.regional = this.vehicleSelection.regional.active;
 
     let tempWhen: string;
-    if(this.departureSelection === 'departure') {
+    if (this.departureSelection === 'departure') {
       if (this.myDate) {
         tempWhen = `${this.myDate}T${this.myTime}`;
       } else {
         tempWhen = `${this.toDay.toISOString().substr(0, 10)}T${this.myTime}`;
       }
-      this.connection.when = (Date.parse(tempWhen)/1000);
+      this.connection.when = (Date.parse(tempWhen) / 1000);
     } else if (this.departureSelection === 'departure-in') {
       tempWhen = `${this.toDay.toISOString().substr(0, 10)}T${this.myTime}`;
-      this.connection.when = (Date.parse(tempWhen)/1000) + (this.minute_slider * 60);
+      this.connection.when = (Date.parse(tempWhen) / 1000) + (this.minute_slider * 60);
     }
 
     if (this.connection.start.name && this.connection.end.name) {

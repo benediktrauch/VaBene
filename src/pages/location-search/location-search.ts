@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {StationFinderProvider} from "../../providers/station-finder/station-finder";
+import {LocationProvider} from "../../providers/location/location";
+import {SettingsProvider} from "../../providers/settings/settings";
 
 /**
  * Generated class for the LocationSearchPage page.
@@ -21,27 +22,49 @@ export class LocationSearchPage {
     lat: 52.516275
   };
 
+  //Greifswalder Str. 169, 10409 Berlin, Deutschland
+  //Breitengrad : 52.540869 | Längengrad : 13.438197
+
   myMap = {
     zoom: 5
   };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public StationFinderProvider: StationFinderProvider) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public locationProvider: LocationProvider,
+              private settingsProvider: SettingsProvider) {
+    this.locationProvider.findUserLocation();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LocationSearchPage');
-    this.getPosition();
+    this.myLocation = this.locationProvider.getUserLocation();
+    this.myMap.zoom = 15;
+    //this.getPosition();
   };
 
+/*
   public getPosition() {
-    console.log("getPosition");
-    navigator.geolocation.getCurrentPosition((position) => {
-      console.log(position);
-      this.myLocation.long = position.coords.longitude;
-      this.myLocation.lat = position.coords.latitude;
+
+    if (this.settingsProvider.getTestMode()) {
+      this.myLocation.long = 13.438197;
+      this.myLocation.lat = 52.540869;
       this.myMap.zoom = 15;
-      //console.log("this.StationFinderProvider.test(this.myLocation)");
-      //this.StationFinderProvider.test(this.myLocation);
-    })
+      this.locationProvider.setUserLocation(this.myLocation);
+    } else {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log("getPosition");
+        console.log(position);
+        this.myLocation.long = position.coords.longitude;
+        this.myLocation.lat = position.coords.latitude;
+        this.myMap.zoom = 15;
+        this.locationProvider.setUserLocation(this.myLocation);
+      })
+    }
+  }
+*/
+
+  findStationNearby() {
+
   }
 }

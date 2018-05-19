@@ -16,6 +16,7 @@ import { StationFinderProvider } from '../providers/station-finder/station-finde
 import {ApolloModule, /*Apollo */} from "apollo-angular";
 import {HttpLinkModule, /*HttpLink */} from "apollo-angular-link-http";
 import { DataExchangeProvider } from '../providers/data-exchange/data-exchange';
+import { SettingsProvider } from '../providers/settings/settings';
 /*
 import { InMemoryCache } from 'apollo-cache-inmemory';
 */
@@ -44,7 +45,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
     LocationProvider,
     ConnectionFinderProvider,
     StationFinderProvider,
-    DataExchangeProvider
+    DataExchangeProvider,
+    SettingsProvider
   ]
 })
 export class AppModule {
