@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {DataExchangeProvider} from "../../providers/data-exchange/data-exchange";
 
@@ -14,7 +14,7 @@ import {DataExchangeProvider} from "../../providers/data-exchange/data-exchange"
   selector: 'page-search-results',
   templateUrl: 'search-results.html',
 })
-export class SearchResultsPage {
+export class SearchResultsPage implements OnInit {
 
   details: boolean = false;
   connectionIndex: number;
@@ -26,14 +26,28 @@ export class SearchResultsPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private dataExchangeProvider: DataExchangeProvider) {
+    console.log("constructor");
+    console.log(this.dataExchangeProvider.getConnectionSearchResults());
     this.ConnectionDetailPage = "ConnectionDetailPage";
     this.searchResults = this.dataExchangeProvider.getConnectionSearchResults();
   }
 
-  setConnection(i) {
+  ionViewWillEnter() {
+    console.log("WillEnter");
+    console.log(this.dataExchangeProvider.getConnectionSearchResults());
+  }
+
+  ngOnInit(){
+    console.log("on init");
+    this.searchResults = this.dataExchangeProvider.getConnectionSearchResults();
+  }
+
+
+    setConnection(i) {
     this.dataExchangeProvider.setSelectedConnection(i);
   }
 
   ionViewDidLoad() {
+    console.log("view did load");
   }
 }

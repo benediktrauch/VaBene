@@ -7,19 +7,22 @@
           <ion-icon name="pin"></ion-icon>
         </ion-label>
       </ion-col>
-      <ion-col>
+      <ion-col col-11>
         <ion-item>
           <ion-label color="primary" stacked>Start</ion-label>
-          <ion-input placeholder="Start"
+          <ion-input placeholder="Start" clearInput
                      [(ngModel)]="connection.start.name"
                      (ionChange)="searchStartInput($event)"
                      (ionFocus)="searchStartHighlight()">
           </ion-input>
         </ion-item>
       </ion-col>
+<!--
+      <ion-spinner name="crescent" class="loadingSpinner" *ngIf="startLoading"></ion-spinner>
+-->
     </ion-row>
 
-    <ion-row *ngIf="startResults" justify-content-end>
+    <ion-row *ngIf="startResults" justify-content-end class="seachResults">
       <ion-col col-11 *ngFor="let staion of stations">
         <button class="stationButton" ion-button block round icon-left (click)="selectedStartStation(staion)">
           <ion-icon name="locate"></ion-icon>
@@ -28,17 +31,23 @@
       </ion-col>
     </ion-row>
 
-    <ion-row align-items-start>
+    <ion-row >
       <ion-col col-1 >
         <ion-label>
           <ion-icon id="stopover" name="git-commit"></ion-icon>
         </ion-label>
       </ion-col>
 
-      <ion-col>
-        <ion-item >
+      <ion-col col-2 push-9>
+        <button ion-button icon-only round clear [color]="stopoverBool ? 'secondary' : 'danger'" (click)="toggleStopover()">
+          <ion-icon [name]="stopoverBool ? 'add':'remove'"></ion-icon>
+        </button>
+      </ion-col>
+
+      <ion-col col-9 pull-2>
+        <ion-item>
           <ion-label color="{{stopoverBool ? 'grey' : 'primary'}}" stacked>Zwischenhalt</ion-label>
-          <ion-input placeholder="Zwischenhalt"
+          <ion-input placeholder="Zwischenhalt" clearInput
                      *ngIf="!stopoverBool"
                      [(ngModel)]="connection.stopover.name"
                      (ionChange)="searchStopoverInput($event)"
@@ -48,14 +57,10 @@
         </ion-item>
       </ion-col>
 
-      <ion-col col-auto>
-        <button ion-button icon-only round clear [color]="stopoverBool ? 'secondary' : 'danger'" (click)="toggleStopover()">
-          <ion-icon [name]="stopoverBool ? 'add':'remove'"></ion-icon>
-        </button>
-      </ion-col>
+
     </ion-row>
 
-    <ion-row *ngIf="stopoverResults" justify-content-end	>
+    <ion-row *ngIf="stopoverResults" justify-content-end	 class="seachResults">
       <ion-col col-11 *ngFor="let staion of stations">
         <button  class="stationButton" ion-button block round icon-left (click)="selectedStopoverStation(staion)">
           <ion-icon name="locate"></ion-icon>
@@ -73,7 +78,7 @@
       <ion-col>
         <ion-item>
           <ion-label color="primary" stacked>Ziel</ion-label>
-          <ion-input placeholder="Ziel"
+          <ion-input placeholder="Ziel" clearInput
                      [(ngModel)]="connection.end.name"
                      (ionChange)="searchEndInput($event)"
                      (ionFocus)="searchEndHighlight()">
@@ -81,7 +86,7 @@
         </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="endResults" justify-content-end	>
+    <ion-row *ngIf="endResults" justify-content-end	class="seachResults">
       <ion-col col-11 *ngFor="let staion of stations">
         <button class="stationButton" ion-button block round icon-left (click)="selectedEndStation(staion)">
           <ion-icon name="locate"></ion-icon>
@@ -90,7 +95,7 @@
       </ion-col>
     </ion-row>
 
-    <ion-row radio-group justify-content-between [(ngModel)]="connection.departureSelection">
+    <ion-row radio-group justify-content-between [(ngModel)]="departureSelection">
       <ion-col >
         <ion-item>
           <ion-radio value="departure" checked item-start></ion-radio>
@@ -113,7 +118,7 @@
       </ion-col>-->
     </ion-row>
 
-    <ion-row *ngIf="connection.departureSelection != 'departure-in'"
+    <ion-row *ngIf="departureSelection != 'departure-in'"
              align-self-center class="dateTime">
       <ion-col align-self-center>
         <ion-row nowrap>
@@ -152,9 +157,9 @@
       </ion-col>
     </ion-row>
 
-    <ion-row *ngIf="connection.departureSelection == 'departure-in'" align-self-center>
+    <ion-row *ngIf="departureSelection == 'departure-in'" align-self-center>
       <ion-col>
-        <ion-item *ngIf="connection.departureSelection == 'departure-in'" col-12>
+        <ion-item *ngIf="departureSelection == 'departure-in'" col-12>
           <ion-range min="15" max="180" step="15"
                      [snaps]="true"
                      [(ngModel)]="minute_slider"

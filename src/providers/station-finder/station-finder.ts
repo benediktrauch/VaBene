@@ -22,6 +22,9 @@ export class StationFinderProvider {
     this.apiUrl = `https://2.vbb.transport.rest/stations?query=${searchString}&fuzzy=true`;
 
     if (searchString.length > 2) {
+
+      return this.http.get(this.apiUrl);
+      /*
       return new Promise(resolve => {
         this.http.get(this.apiUrl)
           .subscribe(data => {
@@ -29,7 +32,7 @@ export class StationFinderProvider {
           }, err => {
             console.log(err);
           })
-      });
+      });*/
     }
   }
 }

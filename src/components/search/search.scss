@@ -1,6 +1,7 @@
 $primary: #0b5d90;
 
 search {
+
   .list {
     padding: 1rem;
   }
@@ -9,14 +10,11 @@ search {
     margin: 13px 0 13px 0;
   }
 
-  .item-md {
+  .item-md, .item-ios {
     padding: 0;
   }
 
-  .item-md .radio-md[item-left], .item-md {
-  }
-
-  .range-md {
+  .range-md, .range-ios {
     padding: 0;
   }
 
@@ -24,7 +22,7 @@ search {
     height: 100%;
     margin: 0.2em 0.4em;
   }
-  .button-round-md {
+  .button-round-md, .button-round-ios {
     padding: 0.4rem 1rem;
   }
 
@@ -32,8 +30,19 @@ search {
     padding: 0.2rem 0.8rem 0.2rem 0.4rem;
   }
 
-  .item-md .radio-md[item-left], .item-md .radio-md[item-start] {
+  .item-md .radio-md[item-left], .item-md .radio-md[item-start],
+  .item-ios .radio-ios[item-left], .item-ios .radio-ios[item-start],
+  {
     margin: 11px 4px 10px 4px;
+  }
+
+  .loadingSpinner {
+    position: absolute;
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    top: 30px;
+    right: 16px;
   }
 
   .dateTime {
@@ -42,15 +51,16 @@ search {
       padding-bottom: 0;
       padding-left: 2.5px;
     }
-    .label-md {
+    .label-md, .label-ios {
       margin: 4px 8px 4px 4px;
     }
-    ion-datetime .datetime-md, .datetime {
+    ion-datetime .datetime-md, .datetime,
+    ion-datetime .datetime-ios {
       padding: 4px 8px 4px 4px;
     }
   }
 
-  .select-md {
+  .select-md, .selected-ios {
     padding: 13px 8px 13px 0px;
   }
 
@@ -61,11 +71,18 @@ search {
     -ms-transform: rotate(90deg);
     transform: rotate(90deg);
   }
-
-  .stationButton {
-    .button-inner {
-      justify-content: left;
-      text-transform: none;
+  .seachResults {
+    position: absolute;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.8);
+    //background: #fff;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    .stationButton {
+      .button-inner {
+        justify-content: left;
+        text-transform: none;
+      }
     }
   }
 

@@ -104,6 +104,9 @@ export class SearchComponent {
   startSelected: boolean = false;
   stopoverSelected: boolean = false;
   endSelected: boolean = false;
+  startLoading: boolean = false;
+  stopoverLoading: boolean = false;
+  endLoading: boolean = false;
   stations: any;
 
   h24: Date = now;
@@ -116,17 +119,19 @@ export class SearchComponent {
 
   minute_slider: number;
 
+  departureSelection: string;
+
   constructor(public StationFinderProvider: StationFinderProvider,
               public ConnectionFinderProvider: ConnectionFinderProvider,
               public nav: NavController,
               private dataEchangeProvider: DataExchangeProvider,
               private toastCtrl: ToastController) {
 
-    this.vehicleFilter = {
+/*    this.vehicleFilter = {
       title: 'Filter',
       subTitle: 'Verkehrsmittel auswählen',
       mode: 'md'
-    };
+    };*/
 
     this.vehicleSelection = {
       express: {
@@ -179,10 +184,9 @@ export class SearchComponent {
         location: {
           type: "location",
         },
-      },
-      departureSelection: 'departure',
-
+      }
     };
+    this.departureSelection = 'departure';
     this.minute_slider = 45;
 
     this.myTime = this.h24.toLocaleTimeString('de-DE');
@@ -197,18 +201,26 @@ export class SearchComponent {
   }
 
   searchStartInput(event) {
+    this.startLoading = true;
     console.log(event._value);
     if (event._value.length > 2 && !this.startSelected) {
       this.StationFinderProvider.getVBBStation(event._value)
-        .then((value) => {
+        .subscribe((value) => {
+          console.log(value);
           this.stations = value;
+          this.startLoading = false;
           this.startResults = true;
+        }, err => {
+          console.log(err);
         });
+    } else {
+      this.startResults = false;
     }
   }
 
   selectedStartStation(station: any) {
     this.startResults = false;
+    this.startLoading = false;
     this.startSelected = true;
     this.connection.start.name = station.name;
     this.connection.start = station;
@@ -226,10 +238,15 @@ export class SearchComponent {
     console.log(event._value);
     if (event._value.length > 2 && !this.stopoverSelected) {
       this.StationFinderProvider.getVBBStation(event._value)
-        .then((value) => {
+        .subscribe((value) => {
+          console.log(value);
           this.stations = value;
           this.stopoverResults = true;
+        }, err => {
+          console.log(err);
         });
+    } else {
+      this.stopoverResults = false;
     }
   }
 
@@ -251,10 +268,15 @@ export class SearchComponent {
   searchEndInput(event) {
     if (event._value.length > 2 && !this.endSelected) {
       this.StationFinderProvider.getVBBStation(event._value)
-        .then((value) => {
+        .subscribe((value) => {
+          console.log(value);
           this.stations = value;
           this.endResults = true;
+        }, err => {
+          console.log(err);
         });
+    } else {
+      this.endResults = false;
     }
   }
 
@@ -273,11 +295,6 @@ export class SearchComponent {
     console.log(event);
   }
 
-  toggleState(event) {
-    console.log(event);
-
-  }
-
   toggleStopover() {
     this.stopoverBool = !this.stopoverBool;
   }
@@ -292,10 +309,17 @@ export class SearchComponent {
     this.connection.express = this.vehicleSelection.express.active;
     this.connection.regional = this.vehicleSelection.regional.active;
 
-    if (this.myDate) {
-      this.connection.when = `${this.myDate}T${this.myTime}`;
-    } else {
-      this.connection.when = `${this.toDay.toISOString().substr(0, 10)}T${this.myTime}`;
+    let tempWhen: string;
+    if(this.departureSelection === 'departure') {
+      if (this.myDate) {
+        tempWhen = `${this.myDate}T${this.myTime}`;
+      } else {
+        tempWhen = `${this.toDay.toISOString().substr(0, 10)}T${this.myTime}`;
+      }
+      this.connection.when = (Date.parse(tempWhen)/1000);
+    } else if (this.departureSelection === 'departure-in') {
+      tempWhen = `${this.toDay.toISOString().substr(0, 10)}T${this.myTime}`;
+      this.connection.when = (Date.parse(tempWhen)/1000) + (this.minute_slider * 60);
     }
 
     if (this.connection.start.name && this.connection.end.name) {
@@ -312,7 +336,6 @@ export class SearchComponent {
         });
     }
   }
-
 
   presentToast(err) {
     let toast = this.toastCtrl.create({

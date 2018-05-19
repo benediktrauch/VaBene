@@ -39,13 +39,14 @@ export class ConnectionComponent implements OnInit{
 
   constructor(public nav: NavController,
               private dataExchangeProvider: DataExchangeProvider) {
+    this.allConnections = this.dataExchangeProvider.getConnectionSearchResults();
   }
 
   ngOnInit(){
-    console.log(this.connectionIndex);
-
     this.myNumber = this.connectionIndex;
+/*
     this.allConnections = this.dataExchangeProvider.getConnectionSearchResults();
+*/
     if(this.connectionIndex){
       this.connection = this.allConnections[this.connectionIndex];
     } else {
@@ -54,7 +55,6 @@ export class ConnectionComponent implements OnInit{
   }
 
   ionViewDidLoad() {
-
     this.maps.forEach((element, index, array)=> {
       element.triggerResize();
     });
