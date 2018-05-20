@@ -20,10 +20,16 @@ export class ConnectionDetailPage {
 
   connection: Object;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public nav: NavController,
+              public navParams: NavParams) {
     console.log("this.navParams.data");
     console.log(this.navParams.data);
-    this.connectionIndex = this.navParams.data;
+
+    if(typeof this.navParams.data !==  'number') {
+      this.nav.setRoot('ManualSearchPage');
+    } else {
+      this.connectionIndex = this.navParams.data;
+    }
   }
 
   ionViewDidLoad() {}

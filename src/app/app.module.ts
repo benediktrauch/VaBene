@@ -17,6 +17,7 @@ import {ApolloModule, /*Apollo */} from "apollo-angular";
 import {HttpLinkModule, /*HttpLink */} from "apollo-angular-link-http";
 import { DataExchangeProvider } from '../providers/data-exchange/data-exchange';
 import { SettingsProvider } from '../providers/settings/settings';
+import { DateTimeServiceProvider } from '../providers/date-time-service/date-time-service';
 /*
 import { InMemoryCache } from 'apollo-cache-inmemory';
 */
@@ -46,7 +47,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
     ConnectionFinderProvider,
     StationFinderProvider,
     DataExchangeProvider,
-    SettingsProvider
+    SettingsProvider,
+    DateTimeServiceProvider
   ]
 })
 export class AppModule {

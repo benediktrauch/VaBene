@@ -26,28 +26,23 @@ export class SearchResultsPage implements OnInit {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private dataExchangeProvider: DataExchangeProvider) {
-    console.log("constructor");
-    console.log(this.dataExchangeProvider.getConnectionSearchResults());
+    //console.log("constructor");
+    //console.log(this.dataExchangeProvider.getConnectionSearchResults());
     this.ConnectionDetailPage = "ConnectionDetailPage";
     this.searchResults = this.dataExchangeProvider.getConnectionSearchResults();
   }
 
   ionViewWillEnter() {
-    console.log("WillEnter");
-    console.log(this.dataExchangeProvider.getConnectionSearchResults());
+    //console.log("WillEnter");
+    //console.log(this.dataExchangeProvider.getConnectionSearchResults());
   }
 
   ngOnInit(){
-    console.log("on init");
+    //console.log("on init");
     this.searchResults = this.dataExchangeProvider.getConnectionSearchResults();
   }
 
-
-    setConnection(i) {
-    this.dataExchangeProvider.setSelectedConnection(i);
-  }
-
   ionViewDidLoad() {
-    console.log("view did load");
+    //console.log("view did load");
   }
 }

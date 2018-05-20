@@ -2,6 +2,7 @@ import {Component, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {AgmMap} from "@agm/core";
 import {NavController} from "ionic-angular";
 import {DataExchangeProvider} from "../../providers/data-exchange/data-exchange";
+import {DateTimeServiceProvider} from "../../providers/date-time-service/date-time-service";
 
 /**
  * Generated class for the ConnectionComponent component.
@@ -37,8 +38,11 @@ export class ConnectionComponent implements OnInit{
 
   myNumber: number;
 
+  passedStations: boolean = false;
+
   constructor(public nav: NavController,
-              private dataExchangeProvider: DataExchangeProvider) {
+              private dataExchangeProvider: DataExchangeProvider,
+              private dateTimeService: DateTimeServiceProvider) {
     this.allConnections = this.dataExchangeProvider.getConnectionSearchResults();
   }
 
@@ -47,6 +51,7 @@ export class ConnectionComponent implements OnInit{
 /*
     this.allConnections = this.dataExchangeProvider.getConnectionSearchResults();
 */
+    //console.log(this.connectionIndex);
     if(this.connectionIndex){
       this.connection = this.allConnections[this.connectionIndex];
     } else {
@@ -60,19 +65,25 @@ export class ConnectionComponent implements OnInit{
     });
   }
 
+
   getVBBTime(date: string) {
-    let timeStamp = new Date();
+    return this.dateTimeService.getVBBTime(date);
+    /*let timeStamp = new Date();
     timeStamp.setTime(Date.parse(date));
-    return timeStamp.toLocaleTimeString().substr(0, 5);
+    return timeStamp.toLocaleTimeString().substr(0, 5);*/
   }
 
   getVBBDate(date: string) {
+    return this.dateTimeService.getVBBDate(date);
+/*
     let timeStamp = new Date();
     timeStamp.setTime(Date.parse(date));
-    return timeStamp.toLocaleDateString() + ', ' + timeStamp.toLocaleTimeString().substr(0, 5);
+    return timeStamp.toLocaleDateString() + ', ' + timeStamp.toLocaleTimeString().substr(0, 5);*/
   }
 
   getVBBTravelTime(depart: string, arrival: string) {
+    return this.dateTimeService.getVBBTravelTime(depart, arrival);
+/*
     let depTime = new Date();
     depTime.setTime(Date.parse(depart));
     let arrTime = new Date();
@@ -80,11 +91,15 @@ export class ConnectionComponent implements OnInit{
 
     let returnTime = (new Date((arrTime.valueOf() - depTime.valueOf()) - 60 * 60 * 1000)).toLocaleTimeString();
 //.substr(0, (returnTime.length - 3));
-    return returnTime.substr(0, (returnTime.length - 3)) + " h";
+    return returnTime.substr(0, (returnTime.length - 3)) + " h";*/
   }
 
   toggleDetails() {
     this.expandedDetails = !this.expandedDetails;
+  }
+
+  togglePassedStations() {
+    this.passedStations = !this.passedStations;
   }
 
   toggleStationDetails(stepId: string, stationId: string) {

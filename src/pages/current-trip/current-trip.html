@@ -11,23 +11,64 @@
 
 <ion-content>
 
-<!--
-  <camera></camera>
--->
+  <!--
+    <camera></camera>
+  -->
   <div class="upperPart">
-    oben
+    <div class="myMap">
+      <agm-map [latitude]="myLocation.lat" [longitude]="myLocation.long" [zoom]="myMap.zoom">
+        <agm-marker [latitude]="myLocation.lat" [longitude]="myLocation.long">
+        </agm-marker>
+      </agm-map>
+    </div>
   </div>
 
-  <div class="bottomPart">
-    <div>
-      eins
-    </div>
-    <div>
-      zwei
-    </div>
-    <div>
-      drei
-    </div>
+  <!--
+    <div class="bottomPart" *ngFor="let step of connection.legs; let lst = last; let i = index">
+  -->
+  <div class="bottomPart" *ngIf="currentLeg">
+
+    <ion-row class="currentStop">
+      <ion-col col-12>
+        <ion-row>
+          <ion-col col-auto="">
+            {{getVVBTime(stepList[0].departure)}} Uhr
+          </ion-col>
+          <ion-col>
+            {{stepList[0].station.name}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row class="nextStops">
+      <ion-col col-12 *ngFor="let step of stepList; first as frst; last as lst;">
+        <ion-row *ngIf="!frst && !lst">
+          <ion-col col-auto>
+            {{getVVBTime(step.departure)}} Uhr
+          </ion-col>
+          <ion-col>
+            {{step.station.name}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row class="arrivalStop">
+      <ion-col col-12>
+        <ion-row>
+          <ion-col col-auto>
+            {{getVVBTime(currentLeg.arrival)}} Uhr
+          </ion-col>
+          <ion-col>
+            {{currentLeg.destination.name}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row class="departureStop">
+      <ion-col col-12>
+        Abfahrt nach umstieg
+      </ion-col>
+    </ion-row>
 
   </div>
 

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {ModalController, NavController} from "ionic-angular";
 
 /**
  * Generated class for the NavigationComponent component.
@@ -13,6 +14,9 @@ import { Component } from '@angular/core';
 export class NavigationComponent {
 
 
-  constructor() {  }
+  constructor(public nav: NavController) {  }
 
+  openSearh() {
+    this.nav.setRoot('ManualSearchPage');
+  }
 }

@@ -7,6 +7,7 @@ import {DataExchangeProvider} from "../../providers/data-exchange/data-exchange"
 
 import {ToastController} from 'ionic-angular';
 import {LocationProvider} from "../../providers/location/location";
+import {DateTimeServiceProvider} from "../../providers/date-time-service/date-time-service";
 
 
 let now = new Date();
@@ -137,7 +138,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
               private dataEchangeProvider: DataExchangeProvider,
               private toastCtrl: ToastController,
               public stationFinderProvider: StationFinderProvider,
-              public locationProvider: LocationProvider) {
+              public locationProvider: LocationProvider,
+              private dateTimeService: DateTimeServiceProvider) {
 
     /*    this.vehicleFilter = {
           title: 'Filter',
@@ -206,17 +208,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log("on init: this.locationSearch");
-    console.log(this.locationSearch);
     if (this.locationSearch) {
       this.userLocation = this.locationProvider.findUserLocation();
-      console.log(this.userLocation);
     }
   }
 
   ngAfterViewInit() {
-    console.log("after init: this.locationSearch");
-    console.log(this.locationSearch);
     if (this.locationSearch) {
       this.toggleFilters();
       this.userLocation = this.locationProvider.getUserLocation();
@@ -227,7 +224,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
           this.closestStation = value[0];
           this.connection.start = value[0];
           this.ConnectionFinderProvider
-            .getVBBDepartures(value[0], (Date.parse(`${this.toDay.toISOString().substr(0, 10)}T${this.myTime}`)) / 1000)
+            .getVVBDepartures(value[0], (Date.parse(`${this.toDay.toISOString().substr(0, 10)}T${this.myTime}`)) / 1000)
             .subscribe(departures => {
               this.departures = departures;
               console.log(departures);
@@ -238,7 +235,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   ionViewDidLoad() {
     this.userLocation = this.locationProvider.getUserLocation();
-
     console.log("ionViewDidLoad: this.userLocation");
     console.log(this.userLocation);
   }
@@ -249,6 +245,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   toggleFilters() {
     this.showFilter = !this.showFilter;
+  }
+
+  getVBBTime(date: string) {
+    return this.dateTimeService.getVBBTime(date);
   }
 
   /***
@@ -368,6 +368,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.connection.regional = this.vehicleSelection.regional.active;
 
     let tempWhen: string;
+
     if (this.departureSelection === 'departure') {
       if (this.myDate) {
         tempWhen = `${this.myDate}T${this.myTime}`;
@@ -384,7 +385,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     if (this.connection.start.name && this.connection.end.name) {
       this.searchingConnection = true;
-      this.ConnectionFinderProvider.getVBBConnection(this.connection)
+      this.ConnectionFinderProvider.getVVBConnection(this.connection)
         .subscribe((value) => {
           console.log(value);
           this.searchingConnection = false;
@@ -396,6 +397,11 @@ export class SearchComponent implements OnInit, AfterViewInit {
           console.log(err);
         });
     }
+  }
+
+  searchByIDandLine(legs: string, lineName: string){
+    this.ConnectionFinderProvider.getVVBJourneyByID(legs, lineName)
+      .subscribe(value => console.log(value));
   }
 
   presentToast(err) {

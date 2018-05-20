@@ -17,11 +17,14 @@
   </ion-card-header>
   <ion-card-content *ngIf="departures && showDepartures" class="departureCardContent">
     <ion-card *ngFor="let departure of departures" color='{{departure.line.product}}'>
-      <ion-row>
-        <ion-col col-4>
+      <ion-row (click)="searchByIDandLine(departure.journeyId, departure.line.name)">
+        <ion-col col-3>
           {{departure.line.name}}
         </ion-col>
-        <ion-col col-8>
+        <ion-col col-3>
+          {{getVBBTime(departure.when)}} <i *ngIf="departure.delay > 0">(+{{ (departure.delay)/60 }})</i>
+        </ion-col>
+        <ion-col col-6>
           {{departure.direction}}
         </ion-col>
       </ion-row>

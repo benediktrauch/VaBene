@@ -113,7 +113,7 @@ export class ConnectionFinderProvider {
       });
   }
 
-  getVBBConnection(connection: any) {
+  getVVBConnection(connection: any) {
     console.log("VBB Connection");
     //this.apiUrl = this.apiUrl +this.origin + "&" + this.destination + "&" + this.mode + "&" + this.API_KEY;
 
@@ -122,6 +122,8 @@ export class ConnectionFinderProvider {
     } else {
       this.apiUrl = `https://2.vbb.transport.rest/journeys?from=${connection.start.id}&to=${connection.end.id}&when=${connection.when}&passedStations=true&transfers=5&transferTime=0&accessibility=none&bike=false&tickets=false&suburban=${connection.suburban}&subway=${connection.subway}&tram=${connection.tram}&bus=${connection.bus}&ferry=${connection.ferry}&express=${connection.express}&regional=${connection.regional}`;
     }
+
+    console.log(this.apiUrl);
 
     /*
     from.latitude/to.latitude: Required. Latitude (e.g. 52.543333).
@@ -156,8 +158,13 @@ export class ConnectionFinderProvider {
     });*/
   }
 
-  getVBBDepartures(station: any, departure: number) {
-    this.apiUrl = `https://2.vbb.transport.rest/stations/${station.id}/departures?when=${departure}`
+  getVVBJourneyByID(legs: string, lineName: string){
+    this.apiUrl = `https://2.vbb.transport.rest/journeys/legs/${legs}?lineName=${lineName}`;
+    return this.http.get(this.apiUrl);
+  }
+
+  getVVBDepartures(station: any, departure: number) {
+    this.apiUrl = `https://2.vbb.transport.rest/stations/${station.id}/departures?when=${departure}`;
     return this.http.get(this.apiUrl);
   }
 
