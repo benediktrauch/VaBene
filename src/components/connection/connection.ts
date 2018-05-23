@@ -51,7 +51,7 @@ export class ConnectionComponent implements OnInit{
 /*
     this.allConnections = this.dataExchangeProvider.getConnectionSearchResults();
 */
-    //console.log(this.connectionIndex);
+    console.log(this.connectionIndex);
     if(this.connectionIndex){
       this.connection = this.allConnections[this.connectionIndex];
     } else {
@@ -115,6 +115,6 @@ export class ConnectionComponent implements OnInit{
   }
 
   startLiveTracking() {
-    this.nav.push('CurrentTripPage');
+    this.nav.push('CurrentTripPage', {navParams: this.connectionIndex, connectionIndex: this.connectionIndex});
   }
 }

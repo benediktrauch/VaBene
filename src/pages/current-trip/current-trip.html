@@ -12,7 +12,7 @@
 <ion-content>
 
   <!--
-    <camera></camera>
+      <canvas #canvas playsinline autoplay (window:resize)="onResize($event)"></canvas>
   -->
   <div class="upperPart">
     <div class="myMap">
@@ -28,47 +28,81 @@
   -->
   <div class="bottomPart" *ngIf="currentLeg">
 
-    <ion-row class="currentStop">
-      <ion-col col-12>
-        <ion-row>
-          <ion-col col-auto="">
-            {{getVVBTime(stepList[0].departure)}} Uhr
+    <ion-card>
+      <ion-row class="currentStop">
+
+        <ion-col col-12 >
+          <ion-row>
+            <ion-col>
+              <ion-note>Nächster Halt:</ion-note>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="stepList.length > 1">
+            <ion-col col-auto="">
+              {{getVVBTime(stepList[0].departure)}} Uhr
+            </ion-col>
+            <ion-col>
+              {{stepList[0].station.name}}
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="stepList.length < 1">
+            <ion-col col-auto="">
+              {{getVVBTime(currentLeg.arrival)}} Uhr
+            </ion-col>
+            <ion-col>
+              {{currentLeg.destination.name}}
+            </ion-col>
+          </ion-row>
+        </ion-col>
+
+      </ion-row>
+      <ion-row class="nextStops" *ngIf="stepList.length > 2">
+        <ion-col col-12 *ngFor="let step of stepList; first as frst; last as lst;">
+          <ion-row *ngIf="!frst && !lst">
+            <ion-col col-auto>
+              {{getVVBTime(step.departure)}} Uhr
+            </ion-col>
+            <ion-col>
+              {{step.station.name}}
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+        <ion-row class="arrivalStop">
+          <ion-col col-12>
+            <ion-row>
+              <ion-col>
+                <ion-note>Ankunft:</ion-note>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-auto>
+                {{getVVBTime(currentLeg.arrival)}} Uhr
+              </ion-col>
+              <ion-col>
+                {{currentLeg.destination.name}}
+              </ion-col>
+            </ion-row>
           </ion-col>
-          <ion-col>
-            {{stepList[0].station.name}}
+          <ion-col col-12 *ngIf="connection.legs.length > 1">
+            <ion-row>
+              <ion-col>
+                <ion-note>Abfahrt:</ion-note>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-auto>
+                {{getVVBTime(currentLeg.arrival)}} Uhr
+              </ion-col>
+              <ion-col>
+                {{currentLeg.destination.name}}
+              </ion-col>
+            </ion-row>
           </ion-col>
         </ion-row>
-      </ion-col>
-    </ion-row>
-    <ion-row class="nextStops">
-      <ion-col col-12 *ngFor="let step of stepList; first as frst; last as lst;">
-        <ion-row *ngIf="!frst && !lst">
-          <ion-col col-auto>
-            {{getVVBTime(step.departure)}} Uhr
-          </ion-col>
-          <ion-col>
-            {{step.station.name}}
-          </ion-col>
-        </ion-row>
-      </ion-col>
-    </ion-row>
-    <ion-row class="arrivalStop">
-      <ion-col col-12>
-        <ion-row>
-          <ion-col col-auto>
-            {{getVVBTime(currentLeg.arrival)}} Uhr
-          </ion-col>
-          <ion-col>
-            {{currentLeg.destination.name}}
-          </ion-col>
-        </ion-row>
-      </ion-col>
-    </ion-row>
-    <ion-row class="departureStop">
-      <ion-col col-12>
-        Abfahrt nach umstieg
-      </ion-col>
-    </ion-row>
+
+
+    </ion-card>
 
   </div>
 
