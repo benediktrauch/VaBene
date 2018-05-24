@@ -58,7 +58,7 @@
             </ion-col>
           </ion-row>
         </ion-col>
-        <ion-col col-2 align-self-end>
+        <ion-col col-2 align-self-end *ngIf="stepList.length > 2">
           <button ion-button round icon-only clear color="primary">
             <ion-icon name="{{passedStations? 'ios-arrow-down' : 'ios-arrow-up' }}"></ion-icon>
           </button>
@@ -78,8 +78,11 @@
           </ion-row>
         </ion-col>
       </ion-row>
+
       <ion-row class="arrivalStop">
-        <ion-col col-12>
+
+        <ion-col col-12 class="arrivalRow">
+
           <ion-row>
             <ion-col col-3>
               <ion-note>Ankunft:</ion-note>
@@ -99,8 +102,10 @@
               {{currentLeg.destination.name}}
             </ion-col>
           </ion-row>
+
         </ion-col>
-        <ion-col col-12 *ngIf="connection.legs.length > 1">
+
+        <ion-col col-12 *ngIf="connection.legs.length > 1 && nextLeg" class="arrivalRow">
           <ion-row>
             <ion-col col-3>
               <ion-note>Abfahrt:</ion-note>
@@ -122,7 +127,6 @@
           </ion-row>
         </ion-col>
       </ion-row>
-
 
     </ion-card>
 

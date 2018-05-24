@@ -77,7 +77,7 @@ export class CurrentTripPage implements OnInit {
   currentTime: number;
 
   passedStations: boolean = true;
-  showMap: boolean = true;
+  showMap: boolean = false;
 
   constructor(public nav: NavController,
               private dataExchangeProvider: DataExchangeProvider,
@@ -164,6 +164,11 @@ export class CurrentTripPage implements OnInit {
               }
             } else {
               this.currentLeg = this.connection.legs[legIterator+1];
+/*              if(this.connection.legs[legIterator+2]){
+                this.nextLeg = this.connection.legs[legIterator+2];
+              } else {
+                this.nextLeg = null;
+              }*/
             }
           }
         }
@@ -226,10 +231,10 @@ export class CurrentTripPage implements OnInit {
   startTimer() {
     setInterval(() => {         //replaced function() by ()=>
       this.liveTracking();
-      this.currentTime += 30000;
+      this.currentTime += 10000;
       /*let currentDate = Date.now();
       console.log(currentDate); // just testing if it is working*/
-    }, 30000);
+    }, 10000);
   }
 
   togglePassedStations() {
