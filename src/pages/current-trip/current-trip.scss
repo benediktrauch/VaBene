@@ -4,7 +4,22 @@ page-current-trip {
   }
   height: 100%;
   .upperPart {
+    text-align: center ;
   }
+
+  #swapButton {
+    position: fixed;
+    z-index: 1;
+  }
+
+  .canvasContainer {
+    height: 45%;
+    canvas {
+      width: 100%;
+      max-height: 100%;
+    }
+  }
+
 
   .bottomPart {
     position: absolute;

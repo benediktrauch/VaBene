@@ -36,6 +36,7 @@ export class DateTimeServiceProvider {
   }
 
   getTimeStampFromString(time: string){
+    //console.log(Date.parse(time));
     return Date.parse(time);
   }
 

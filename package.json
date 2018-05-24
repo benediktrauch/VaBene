@@ -38,9 +38,11 @@
     "graphql-tag": "^2.9.2",
     "ionic-angular": "^3.9.2",
     "ionicons": "^3.0.0",
+    "jsartoolkit5": "0.0.4",
     "npm": "^6.0.0",
     "rxjs": "^5.5.10",
     "sw-toolbox": "^3.6.0",
+    "three": "^0.82.1",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
