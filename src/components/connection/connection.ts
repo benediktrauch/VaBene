@@ -40,10 +40,31 @@ export class ConnectionComponent implements OnInit{
 
   passedStations: boolean = false;
 
+  fastestConnection: number;
+  fastestBool: boolean = false;
+
   constructor(public nav: NavController,
               private dataExchangeProvider: DataExchangeProvider,
               private dateTimeService: DateTimeServiceProvider) {
     this.allConnections = this.dataExchangeProvider.getConnectionSearchResults();
+
+    for(let i = 0; i < this.allConnections.length; i ++){
+      let depTime = new Date();
+      depTime.setTime(Date.parse(this.allConnections[i].departure));
+      let arrTime = new Date();
+      arrTime.setTime(Date.parse(this.allConnections[i].arrival));
+      let travTime = (arrTime.valueOf() - depTime.valueOf());
+
+      console.log(travTime);
+
+      if(!this.fastestConnection) {
+        this.fastestConnection = travTime;
+      } else if(travTime < this.fastestConnection){
+        this.fastestConnection = travTime;
+      }
+    }
+
+    console.log(this.fastestConnection);
   }
 
   ngOnInit(){
@@ -57,6 +78,15 @@ export class ConnectionComponent implements OnInit{
     } else {
       this.connection = this.allConnections[0];
     }
+
+    let currentDep = new Date();
+    currentDep.setTime(Date.parse(this.allConnections[this.myNumber].departure));
+    let currentArr = new Date();
+    currentArr.setTime(Date.parse(this.allConnections[this.myNumber].arrival));
+    if((currentArr.valueOf() - currentDep.valueOf()) <= this.fastestConnection){
+      this.fastestBool = true;
+    }
+
   }
 
   ionViewDidLoad() {

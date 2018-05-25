@@ -125,7 +125,7 @@
             </ion-col>
             <ion-col col-1 align-self-end (click)="toggleStationDetails(step.id, step.origin.id)">
               <ion-icon *ngIf="visibleElement === (step.id+step.origin.id)" name="close"></ion-icon>
-              <ion-icon *ngIf="visibleElement !== (step.id+step.origin.id)" name="information-circle"></ion-icon>
+              <ion-icon *ngIf="visibleElement !== (step.id+step.origin.id)" name="map"></ion-icon>
             </ion-col>
           </ion-row>
         </i>
@@ -194,7 +194,7 @@
             </ion-col>
             <ion-col col-1 align-self-end (click)="toggleStationDetails(step.id, step.destination.id)">
               <ion-icon *ngIf="visibleElement === (step.id+step.destination.id)" name="close"></ion-icon>
-              <ion-icon *ngIf="visibleElement !== (step.id+step.destination.id)" name="information-circle"></ion-icon>
+              <ion-icon *ngIf="visibleElement !== (step.id+step.destination.id)" name="map"></ion-icon>
             </ion-col>
           </ion-row>
         </i>
@@ -239,13 +239,21 @@
   </div>
 
   <ion-card>
-    <button ion-button block (click)="startLiveTracking()">
+    <button ion-button block icon-left (click)="startLiveTracking()">
+      <ion-icon name="navigate"></ion-icon>
       Starte Live Updates
     </button>
   </ion-card>
 </div>
 
 <div class="connectionOverview" *ngIf="!details">
+  <div class="fastestBadge" *ngIf="fastestBool">
+<!--    <ion-icon name="star"></ion-icon>
+    <ion-icon name="flame"></ion-icon>
+    <ion-icon name="heart"></ion-icon>
+    <ion-icon name="ribbon"></ion-icon>-->
+    <ion-icon name="ios-flash"></ion-icon>
+  </div>
   <ion-card class="infoCard" color="">
     <ion-card-content>
       <ion-row>
@@ -300,6 +308,9 @@
     <ion-card *ngIf="step.id" color='{{step.line.product}}'>
       <ion-card-header>
         <ion-card-title>
+          <ion-icon name="bus" *ngIf="step.line.product == 'bus'"></ion-icon>
+          <ion-icon name="train" *ngIf="step.line.product == 'express' || step.line.product == 'regional' || step.line.product == 'suburban'"></ion-icon>
+          <ion-icon name="subway" *ngIf="step.line.product == 'subway' || step.line.product == 'tram'"></ion-icon>
           {{ step.line.name}}
         </ion-card-title>
       </ion-card-header>
