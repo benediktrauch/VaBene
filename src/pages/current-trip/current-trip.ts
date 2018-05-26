@@ -79,6 +79,9 @@ export class CurrentTripPage implements OnInit {
   passedStations: boolean = true;
   showMap: boolean = false;
 
+  myInterval: any;
+  myARController: any;
+
   constructor(public nav: NavController,
               private dataExchangeProvider: DataExchangeProvider,
               private dateTimeService: DateTimeServiceProvider,
@@ -116,9 +119,21 @@ export class CurrentTripPage implements OnInit {
     } else {
       this.connection = this.allConnections[0];
     }
-    //console.log(this.connection);
+    // First initialization of trip
+    this.currentLeg = this.connection.legs[0];
+
+    this.stepList = this.currentLeg.passed;
+
+    this.nextLeg = this.connection.legs[1];
+
     this.liveTracking();
     this.startTimer();
+  }
+
+  ionViewWillLeave() {
+    clearInterval(this.myInterval);
+    console.log("stopped tracking");
+    this.myARController = null;
   }
 
   add1Minute() {
@@ -129,7 +144,8 @@ export class CurrentTripPage implements OnInit {
     //console.log(this.currentTime < this.dateTimeService.getTimeStampFromString(this.connection.arrival));
     let date = new Date(this.currentTime);
     console.log(date.toLocaleTimeString());
-    // JETZT zwischen Abfahrt und Ankunft
+
+    // JETZT //zwischen Abfahrt und// vor Ankunft
     if (/*this.currentTime > this.dateTimeService.getTimeStampFromString(this.connection.departure) &&*/
       this.currentTime < this.dateTimeService.getTimeStampFromString(this.connection.arrival)) {
 
@@ -138,9 +154,6 @@ export class CurrentTripPage implements OnInit {
 
         // Aktuellen Schritt suchen
         for (let legIterator = 0; legIterator < this.connection.legs.length; legIterator++) {
-
-          console.log(this.currentTime > this.dateTimeService.getTimeStampFromString(this.connection.legs[legIterator].departure));
-          console.log(this.currentTime < this.dateTimeService.getTimeStampFromString(this.connection.legs[legIterator].arrival));
 
           if (this.currentTime > this.dateTimeService.getTimeStampFromString(this.connection.legs[legIterator].departure)) {
             if (this.currentTime < this.dateTimeService.getTimeStampFromString(this.connection.legs[legIterator].arrival)) {
@@ -231,7 +244,7 @@ export class CurrentTripPage implements OnInit {
   }
 
   startTimer() {
-    setInterval(() => {         //replaced function() by ()=>
+    this.myInterval = setInterval(() => {         //replaced function() by ()=>
       this.liveTracking();
       this.currentTime += 10000;
       /*let currentDate = Date.now();
@@ -261,7 +274,7 @@ export class CurrentTripPage implements OnInit {
       console.log(this.content);
       console.log(this.canvasRef);
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        ARController.getUserMediaThreeScene({
+        this.myARController = ARController.getUserMediaThreeScene({
           maxARVideoSize: 640,
           facingMode: 'environment', //'user' for front camera 'environment' for back
           cameraParam: 'assets/data/camera_para.dat',

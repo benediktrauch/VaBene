@@ -200,6 +200,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
         },
       }
     };
+
     this.departureSelection = 'departure';
     this.minute_slider = 45;
 

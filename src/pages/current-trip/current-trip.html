@@ -11,10 +11,6 @@
 
 <ion-content>
   <div class="upperPart">
-    <button ion-button round icon-only id="swapButton" (click)="toggleMapAndCamera()">
-      <ion-icon name="swap"></ion-icon>
-    </button>
-
     <div class="myMap" [hidden]="!showMap">
       <agm-map [latitude]="myLocation.lat" [longitude]="myLocation.long" [zoom]="myMap.zoom">
         <agm-marker [latitude]="myLocation.lat" [longitude]="myLocation.long">
@@ -32,8 +28,11 @@
     <div class="bottomPart" *ngFor="let step of connection.legs; let lst = last; let i = index">
   -->
   <div class="bottomPart" *ngIf="currentLeg">
-    <button ion-button (click)="add1Minute()"> +1 Minute</button>
-    <ion-card color='{{currentLeg.line.product}}'>
+    <button ion-button block clear icon-only id="swapButton" (click)="toggleMapAndCamera()">
+      <ion-icon name="swap"></ion-icon>
+    </button>
+    <!--<button ion-button (click)="add1Minute()"> +1 Minute</button>-->
+    <ion-card color='{{currentLeg.line.product}}' [hidden]="!showMap">
       <ion-row>
         <ion-col col-12>
           <ion-row>
@@ -51,7 +50,7 @@
       </ion-row>
     </ion-card>
 
-    <ion-card>
+    <ion-card [hidden]="!showMap">
       <ion-row class="currentStop" justify-content-between (click)="togglePassedStations()" *ngIf="stepList.length > 1">
 
         <ion-col col-auto>
@@ -133,11 +132,8 @@
                 </div>
               </ion-item>
             </ion-col>
-
           </ion-row>
-
         </ion-col>
-
       </ion-row>
 
     </ion-card>
@@ -165,7 +161,6 @@
                 </div>
               </ion-item>
             </ion-col>
-
 
             <ion-col col-auto>
               <ion-item class="arrivalDetail">
@@ -198,9 +193,7 @@
           </ion-row>
         </ion-col>
       </ion-row>
-
     </ion-card>
-
   </div>
 
 </ion-content>
