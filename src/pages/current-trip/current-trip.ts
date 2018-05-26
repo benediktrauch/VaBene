@@ -175,8 +175,10 @@ export class CurrentTripPage implements OnInit {
 
         if (this.stepList) {
           console.log(this.stepList);
-          this.myLocation.lat = this.stepList[0].station.location.latitude;
-          this.myLocation.long = this.stepList[0].station.location.longitude;
+          if(this.stepList[0].station){
+            this.myLocation.lat = this.stepList[0].station.location.latitude;
+            this.myLocation.long = this.stepList[0].station.location.longitude;
+          }
 
           // Letzten Halt entfernen
           while (this.currentTime > this.dateTimeService.getTimeStampFromString(this.stepList[0].departure)) {

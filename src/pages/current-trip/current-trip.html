@@ -33,37 +33,59 @@
   -->
   <div class="bottomPart" *ngIf="currentLeg">
     <button ion-button (click)="add1Minute()"> +1 Minute</button>
-    <ion-card>
-      <ion-row class="currentStop" (click)="togglePassedStations()" justify-content-between *ngIf="stepList.length > 1">
-        <ion-col col-auto>
+    <ion-card color='{{currentLeg.line.product}}'>
+      <ion-row>
+        <ion-col col-12>
           <ion-row>
-            <ion-col>
-              <ion-note>Nächster Halt:</ion-note>
+            <ion-col col-4>
+              {{ currentLeg.line.name }}
             </ion-col>
-          </ion-row>
-          <ion-row *ngIf="stepList.length > 1">
-            <ion-col col-auto="">
-              {{getVVBTime(stepList[0].departure)}} Uhr
+            <ion-col col-1>
+              <ion-icon name="arrow-round-forward"></ion-icon>
             </ion-col>
-            <ion-col>
-              {{stepList[0].station.name}}
-            </ion-col>
-          </ion-row>
-          <ion-row *ngIf="stepList.length < 1">
-            <ion-col col-auto="">
-              {{getVVBTime(currentLeg.arrival)}} Uhr
-            </ion-col>
-            <ion-col>
-              {{currentLeg.destination.name}}
+            <ion-col col-7>
+              {{ currentLeg.direction }}
             </ion-col>
           </ion-row>
         </ion-col>
+      </ion-row>
+    </ion-card>
+
+    <ion-card>
+      <ion-row class="currentStop" justify-content-between (click)="togglePassedStations()" *ngIf="stepList.length > 1">
+
+        <ion-col col-auto>
+          <ion-row>
+            <ion-col col-auto>
+              <ion-item class="arrivalDetail">
+                <ion-note class="arrivalDetailNote">Nächster Halt</ion-note>
+                <div class="arrivalDetailText" *ngIf="stepList.length > 1">
+                  {{getVVBTime(stepList[0].departure)}} Uhr
+                </div>
+                <div class="arrivalDetailText" *ngIf="stepList.length < 1">
+                  {{getVVBTime(currentLeg.arrival)}} Uhr
+                </div>
+              </ion-item>
+            </ion-col>
+            <ion-col col-auto>
+              <ion-item class="arrivalDetail">
+                <ion-note class="arrivalDetailNote">Bahnhof</ion-note>
+                <div class="arrivalDetailText" *ngIf="stepList.length > 1">
+                  {{stepList[0].station.name}}
+                </div>
+                <div class="arrivalDetailText" *ngIf="stepList.length < 1">
+                  {{currentLeg.destination.name}}
+                </div>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+
         <ion-col col-2 align-self-end *ngIf="stepList.length > 2">
           <button ion-button round icon-only clear color="primary">
             <ion-icon name="{{passedStations? 'ios-arrow-down' : 'ios-arrow-up' }}"></ion-icon>
           </button>
         </ion-col>
-
       </ion-row>
 
       <ion-row class="nextStops" *ngIf="stepList.length > 2 && passedStations">
@@ -84,45 +106,94 @@
         <ion-col col-12 class="arrivalRow">
 
           <ion-row>
-            <ion-col col-3>
-              <ion-note>Ankunft:</ion-note>
+
+            <ion-col col-auto>
+              <ion-item class="arrivalDetail">
+                <ion-note class="arrivalDetailNote">Ankunft</ion-note>
+                <div class="arrivalDetailText">
+                  {{getVVBTime(currentLeg.arrival)}} Uhr
+                </div>
+              </ion-item>
             </ion-col>
-            <ion-col col-2>
-              <ion-note>Gleis</ion-note>
+
+            <ion-col col-auto>
+              <ion-item class="arrivalDetail">
+                <ion-note class="arrivalDetailNote">Gleis</ion-note>
+                <div class="arrivalDetailText">
+                  {{currentLeg.arrivalPlatform? currentLeg.arrivalPlatform : "?" }}
+                </div>
+              </ion-item>
             </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col col-3>
-              {{getVVBTime(currentLeg.arrival)}} Uhr
+
+            <ion-col col-auto>
+              <ion-item class="arrivalDetail">
+                <ion-note class="arrivalDetailNote">Bahnhof</ion-note>
+                <div class="arrivalDetailText">
+                  {{currentLeg.destination.name}}
+                </div>
+              </ion-item>
             </ion-col>
-            <ion-col col-1>
-              {{currentLeg.arrivalPlatform? currentLeg.arrivalPlatform : "?" }}
-            </ion-col>
-            <ion-col>
-              {{currentLeg.destination.name}}
-            </ion-col>
+
           </ion-row>
 
         </ion-col>
 
-        <ion-col col-12 *ngIf="connection.legs.length > 1 && nextLeg" class="arrivalRow">
+      </ion-row>
+
+    </ion-card>
+
+    <ion-card>
+      <ion-row class="departureStop">
+        <ion-col col-12 class="arrivalRow">
+
           <ion-row>
-            <ion-col col-3>
-              <ion-note>Abfahrt:</ion-note>
+
+            <ion-col col-auto>
+              <ion-item class="arrivalDetail">
+                <ion-note class="arrivalDetailNote">Abfahrt</ion-note>
+                <div class="arrivalDetailText">
+                  {{getVVBTime(nextLeg.departure)}} Uhr
+                </div>
+              </ion-item>
             </ion-col>
-            <ion-col col-2>
-              <ion-note>Gleis</ion-note>
+
+            <ion-col col-auto>
+              <ion-item class="arrivalDetail">
+                <ion-note class="arrivalDetailNote">Gleis</ion-note>
+                <div class="arrivalDetailText">
+                  {{nextLeg.departurePlatform? nextLeg.departurePlatform : "?" }}
+                </div>
+              </ion-item>
             </ion-col>
+
+
+            <ion-col col-auto>
+              <ion-item class="arrivalDetail">
+                <ion-note class="arrivalDetailNote">Bahnhof</ion-note>
+                <div class="arrivalDetailText">
+                  {{nextLeg.origin.name}}
+                </div>
+              </ion-item>
+            </ion-col>
+
           </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+
+    <ion-card color='{{nextLeg.line.product}}' *ngIf="connection.legs.length > 1 && nextLeg">
+
+      <ion-row>
+        <ion-col>
           <ion-row>
-            <ion-col col-3>
-              {{getVVBTime(nextLeg.departure)}} Uhr
+            <ion-col col-4>
+              {{ nextLeg.line.name }}
             </ion-col>
             <ion-col col-1>
-              {{nextLeg.departurePlatform? nextLeg.departurePlatform : "?" }}
+              <ion-icon name="arrow-round-forward"></ion-icon>
             </ion-col>
-            <ion-col>
-              {{nextLeg.origin.name}}
+            <ion-col col-7>
+              {{ nextLeg.direction }}
             </ion-col>
           </ion-row>
         </ion-col>

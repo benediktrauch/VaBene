@@ -55,7 +55,7 @@ export class ConnectionComponent implements OnInit{
       arrTime.setTime(Date.parse(this.allConnections[i].arrival));
       let travTime = (arrTime.valueOf() - depTime.valueOf());
 
-      console.log(travTime);
+      //console.log(travTime);
 
       if(!this.fastestConnection) {
         this.fastestConnection = travTime;
@@ -64,7 +64,7 @@ export class ConnectionComponent implements OnInit{
       }
     }
 
-    console.log(this.fastestConnection);
+    //console.log(this.fastestConnection);
   }
 
   ngOnInit(){
