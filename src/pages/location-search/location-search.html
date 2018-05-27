@@ -10,6 +10,15 @@
 
 
 <ion-content>
+
+  <button ion-button block clear icon-only id="swapButton" (click)="toggleMapAndCamera()">
+    <ion-icon name="swap"></ion-icon>
+  </button>
+
+  <div class="canvasContainer" [hidden]="showMap">
+    <canvas #canvas playsinline autoplay (window:resize)="onResize($event)"></canvas>
+  </div>
+
   <div class="myMap">
     <agm-map [latitude]="myLocation.lat-0.005" [longitude]="myLocation.long" [zoom]="myMap.zoom">
       <agm-marker [latitude]="myLocation.lat" [longitude]="myLocation.long">

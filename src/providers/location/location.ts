@@ -1,6 +1,7 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {SettingsProvider} from "../settings/settings";
+import {Loading, LoadingController} from "ionic-angular";
 
 /*
   Generated class for the LocationProvider provider.
@@ -21,7 +22,18 @@ export class LocationProvider {
 
   userLocation;
 
-  constructor(private settingsProvider: SettingsProvider) {
+  loading: Loading;
+  isWatching: boolean = false;
+  coords: any;
+  watchProcess: any;
+  watchOptions: any = {
+    enableHighAccuracy: false,
+    timeout: 10000,
+    maximumAge: 0
+  };
+
+  constructor(private settingsProvider: SettingsProvider,
+              private loadingCtrl: LoadingController) {
     this.userLocation = {
       long: 13.377704,
       lat: 52.516275
@@ -55,4 +67,31 @@ export class LocationProvider {
     }
   }
 
+  stopWatching() {
+    this.isWatching = false;
+  }
+
+  startWatching(): void {
+
+    if (!this.isWatching) {
+      if (navigator && navigator.geolocation) {
+        this.watchProcess = navigator.geolocation.watchPosition((position) => {
+
+          this.userLocation.long = position.coords.longitude;
+          this.userLocation.lat = position.coords.latitude;
+          console.log(this.userLocation);
+
+          this.setUserLocation(this.userLocation);
+
+          this.loading.dismiss();
+        }, (err) => (
+          console.error(err)
+        ), this.watchOptions);
+
+        this.isWatching = true;
+      } else {
+        this.loading.dismiss();
+      }
+    }
+  }
 }

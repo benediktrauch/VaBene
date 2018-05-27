@@ -17,6 +17,7 @@ import {
   PlaneGeometry,
   FlatShading
 } from 'three';
+import {LocationProvider} from "../../providers/location/location";
 
 
 /**
@@ -32,7 +33,6 @@ import {
   templateUrl: 'current-trip.html',
 })
 export class CurrentTripPage implements OnInit {
-
 
   private get canvas(): HTMLCanvasElement {
     return this.canvasRef.nativeElement;
@@ -86,7 +86,8 @@ export class CurrentTripPage implements OnInit {
               private dataExchangeProvider: DataExchangeProvider,
               private dateTimeService: DateTimeServiceProvider,
               public navParams: NavParams,
-              private settingsProvider: SettingsProvider) {
+              private settingsProvider: SettingsProvider,
+              private  locationProvider: LocationProvider) {
 
     if (typeof this.navParams.data.connectionIndex !== 'number') {
       this.connectionIndex = 0;
@@ -132,8 +133,17 @@ export class CurrentTripPage implements OnInit {
 
   ionViewWillLeave() {
     clearInterval(this.myInterval);
+    this.locationProvider.stopWatching();
     console.log("stopped tracking");
     this.myARController = null;
+    this.stopCamera();
+  }
+
+  stopCamera() {
+    if (this.myARController  !== undefined) {
+      this.myARController.srcObject.getTracks()[0].stop();
+      this.myARController.remove();
+    }
   }
 
   add1Minute() {
@@ -143,6 +153,8 @@ export class CurrentTripPage implements OnInit {
   liveTracking() {
     //console.log(this.currentTime < this.dateTimeService.getTimeStampFromString(this.connection.arrival));
     let date = new Date(this.currentTime);
+    this.myLocation = this.locationProvider.getUserLocation();
+
     console.log(date.toLocaleTimeString());
 
     // JETZT //zwischen Abfahrt und// vor Ankunft
@@ -189,8 +201,10 @@ export class CurrentTripPage implements OnInit {
         if (this.stepList) {
           console.log(this.stepList);
           if(this.stepList[0].station){
-            this.myLocation.lat = this.stepList[0].station.location.latitude;
-            this.myLocation.long = this.stepList[0].station.location.longitude;
+
+            console.log(this.myLocation.lat - this.stepList[0].station.location.latitude);
+            console.log(this.myLocation.long - this.stepList[0].station.location.longitude);
+
           }
 
           // Letzten Halt entfernen
@@ -244,6 +258,7 @@ export class CurrentTripPage implements OnInit {
   }
 
   startTimer() {
+    this.locationProvider.startWatching();
     this.myInterval = setInterval(() => {         //replaced function() by ()=>
       this.liveTracking();
       this.currentTime += 10000;
@@ -261,7 +276,6 @@ export class CurrentTripPage implements OnInit {
     this.showMap = !this.showMap;
   }
 
-
   ionViewWillEnter() {
     this.loadCam();
   }
@@ -269,8 +283,8 @@ export class CurrentTripPage implements OnInit {
   loadCam() {
     if (!this.showMap) {
       console.log("ionViewWillEnter");
-      this.height = 480;
-      this.width = 640;
+      this.height = this.content.contentWidth * 7 / 6;
+      this.width = this.content.contentWidth;
       console.log(this.content);
       console.log(this.canvasRef);
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
