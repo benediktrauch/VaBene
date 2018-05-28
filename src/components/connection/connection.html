@@ -19,7 +19,7 @@
               <ion-icon name="pin"></ion-icon>
             </ion-col>
             <ion-col col-11>
-              {{ getVBBDate(connection.departure) }}
+              {{ (connection.departure? getVBBDate(connection.departure) : getVBBDate(connection.formerScheduledDeparture)) }}
             </ion-col>
           </ion-row>
         </ion-col>
@@ -32,7 +32,7 @@
       <hr/>
       <ion-row>
         <ion-col col-12>
-          <h3> Reisezeit: {{ getVBBTravelTime(connection.departure, connection.arrival) }}</h3>
+          <h3> Reisezeit: {{ (connection.departure? getVBBTravelTime(connection.departure, connection.arrival)  : getVBBTravelTime(connection.formerScheduledDeparture, connection.formerScheduledArrival)) }}</h3>
         </ion-col>
       </ion-row>
       <hr/>
@@ -43,7 +43,7 @@
               <ion-icon name="flag"></ion-icon>
             </ion-col>
             <ion-col col-11>
-              {{ getVBBDate(connection.arrival) }}
+              {{ (connection.arrival? getVBBDate(connection.arrival) : getVBBDate(connection.formerScheduledArrival)) }}
             </ion-col>
           </ion-row>
         </ion-col>
@@ -133,7 +133,7 @@
         <h2>
           <ion-row (click)="toggleStationDetails(step.id, step.origin.id)">
             <ion-col col-3>
-              {{ getVBBTime(step.departure) }}
+              {{ (step.departure? getVBBDate(step.departure) : getVBBDate(step.formerScheduledDeparture)) }}
             </ion-col>
             <ion-col col-2>
               {{ step.departurePlatform? step.departurePlatform : "?" }}
@@ -158,7 +158,7 @@
             Fahrtzeit:
           </ion-col>
           <ion-col col-8>
-            {{getVBBTravelTime(step.departure, step.arrival)}}
+            {{ (step.departure? getVBBTravelTime(step.departure, step.arrival)  : getVBBTravelTime(step.formerScheduledDeparture, step.formerScheduledArrival)) }}
           </ion-col>
         </ion-row>
 
@@ -166,7 +166,7 @@
           <div *ngFor="let station of step.passed; last as lst; first as frst;">
             <ion-row *ngIf="!lst && !frst">
               <ion-col col-3>
-                {{ getVBBTime(station.departure) }}
+                {{ (step.departure? getVBBDate(step.departure) : getVBBDate(step.formerScheduledDeparture)) }}
               </ion-col>
               <ion-col col-2>
               </ion-col>
@@ -202,7 +202,7 @@
         <h2>
           <ion-row (click)="toggleStationDetails(step.id, step.destination.id)">
             <ion-col col-3>
-              {{ getVBBTime(step.arrival) }}
+              {{ (step.arrival? getVBBDate(step.arrival) : getVBBDate(step.formerScheduledArrival)) }}
             </ion-col>
             <ion-col col-2>
               {{ step.arrivalPlatform? step.arrivalPlatform : "?" }}
@@ -239,10 +239,15 @@
   </div>
 
   <ion-card>
-    <button ion-button block icon-left (click)="startLiveTracking()">
+    <ion-card-header>
+      Hier kannst du deine Reise in Echtzeit verfolgen
+    </ion-card-header>
+    <ion-card-content>
+    <button ion-button block icon-left (click)="startLiveTracking()" color="highlight">
       <ion-icon name="navigate"></ion-icon>
       Starte Live Updates
     </button>
+    </ion-card-content>
   </ion-card>
 </div>
 
@@ -263,7 +268,7 @@
               <ion-icon name="pin"></ion-icon>
             </ion-col>
             <ion-col col-10>
-              {{ getVBBDate(connection.departure) }}
+              {{ (connection.departure? getVBBDate(connection.departure) : getVBBDate(connection.formerScheduledDeparture)) }}
             </ion-col>
           </ion-row>
         </ion-col>
@@ -274,7 +279,7 @@
         </ion-col>
       </ion-row>
       <hr/>
-      <h3> Reisezeit: {{ getVBBTravelTime(connection.departure, connection.arrival) }}</h3>
+      <h3> Reisezeit:{{ (connection.departure? getVBBTravelTime(connection.departure, connection.arrival)  : getVBBTravelTime(connection.formerScheduledDeparture, connection.formerScheduledArrival)) }}</h3>
       <hr/>
       <ion-row>
         <ion-col col-12>
@@ -283,7 +288,7 @@
               <ion-icon name="flag"></ion-icon>
             </ion-col>
             <ion-col col-10>
-              {{ getVBBDate(connection.arrival) }}
+              {{ (connection.arrival? getVBBDate(connection.arrival) : getVBBDate(connection.formerScheduledArrival)) }}
             </ion-col>
           </ion-row>
         </ion-col>

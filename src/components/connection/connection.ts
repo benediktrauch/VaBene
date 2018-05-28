@@ -80,9 +80,19 @@ export class ConnectionComponent implements OnInit{
     }
 
     let currentDep = new Date();
-    currentDep.setTime(Date.parse(this.allConnections[this.myNumber].departure));
+    if(this.allConnections[this.myNumber].departure) {
+      currentDep.setTime(Date.parse(this.allConnections[this.myNumber].departure));
+    } else {
+      currentDep.setTime(Date.parse(this.allConnections[this.myNumber].formerScheduledDeparture));
+    }
+
     let currentArr = new Date();
-    currentArr.setTime(Date.parse(this.allConnections[this.myNumber].arrival));
+    if(this.allConnections[this.myNumber].arrival) {
+      currentArr.setTime(Date.parse(this.allConnections[this.myNumber].arrival));
+    } else {
+      currentDep.setTime(Date.parse(this.allConnections[this.myNumber].formerScheduledArrival));
+    }
+
     if((currentArr.valueOf() - currentDep.valueOf()) <= this.fastestConnection){
       this.fastestBool = true;
     }

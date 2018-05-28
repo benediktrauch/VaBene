@@ -1,7 +1,65 @@
 <!-- Generated template for the SettingsComponent component -->
 <div>
-  <ion-item>
-    <ion-label>Test Mode</ion-label>
-    <ion-toggle [(ngModel)]="testMode" (ionChange)="toggleTestMode()"></ion-toggle>
-  </ion-item>
+  <ion-row justify-content-between>
+    <ion-col col-auto>
+      <ion-label>
+        <h4>
+          <ion-icon name="hammer"></ion-icon>
+          &nbsp; Test Mode
+        </h4>
+      </ion-label>
+    </ion-col>
+    <ion-col col-auto>
+      <ion-toggle [(ngModel)]="testMode" (ionChange)="toggleTestMode()"></ion-toggle>
+    </ion-col>
+  </ion-row>
+
+  <hr>
+
+  <ion-row justify-content-between>
+    <ion-col col-12>
+      <ion-label>
+        <h4>
+          <ion-icon name="body"></ion-icon>
+          &nbsp; Zungänglichkeit
+        </h4>
+      </ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-segment [(ngModel)]="accessibility" color="primary" (ionChange)="segmentChanged($event)">
+        <ion-segment-button value="none">
+          Keine
+        </ion-segment-button>
+        <ion-segment-button value="partial">
+          Teilweise
+        </ion-segment-button>
+        <ion-segment-button value="complete">
+          Vollständig
+        </ion-segment-button>
+      </ion-segment>
+    </ion-col>
+  </ion-row>
+
+  <hr>
+
+  <ion-row justify-content-between>
+    <ion-col col-12>
+      <ion-label>
+        <h4>
+          <ion-icon name="time"></ion-icon>
+          &nbsp; Umsteigezeit
+        </h4>
+      </ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-item col-12>
+        <ion-range min="0" max="30" step="1"
+                   [snaps]="true"
+                   [(ngModel)]="transferTime"
+                   (ionChange)="setTransferTime($event)">
+          <ion-label range-right>{{ transferTime }} Minuten</ion-label>
+        </ion-range>
+      </ion-item>
+    </ion-col>
+  </ion-row>
 </div>

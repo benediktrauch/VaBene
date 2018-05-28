@@ -83,7 +83,6 @@ export class LocationProvider {
 
           this.setUserLocation(this.userLocation);
 
-          this.loading.dismiss();
         }, (err) => (
           console.error(err)
         ), this.watchOptions);

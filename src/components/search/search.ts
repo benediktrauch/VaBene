@@ -8,6 +8,7 @@ import {DataExchangeProvider} from "../../providers/data-exchange/data-exchange"
 import {ToastController} from 'ionic-angular';
 import {LocationProvider} from "../../providers/location/location";
 import {DateTimeServiceProvider} from "../../providers/date-time-service/date-time-service";
+import {SettingsProvider} from "../../providers/settings/settings";
 
 
 let now = new Date();
@@ -139,7 +140,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
               private toastCtrl: ToastController,
               public stationFinderProvider: StationFinderProvider,
               public locationProvider: LocationProvider,
-              private dateTimeService: DateTimeServiceProvider) {
+              private dateTimeService: DateTimeServiceProvider,
+              private settingsProvider: SettingsProvider) {
 
     /*    this.vehicleFilter = {
           title: 'Filter',
@@ -198,7 +200,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
         location: {
           type: "location",
         },
-      }
+      },
+      transferTime: 0,
+      accessibility: 'none',
     };
 
     this.departureSelection = 'departure';
@@ -367,6 +371,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.connection.ferry = this.vehicleSelection.ferry.active;
     this.connection.express = this.vehicleSelection.express.active;
     this.connection.regional = this.vehicleSelection.regional.active;
+
+    this.connection.transferTime = this.settingsProvider.getTransferTime();
+    console.log(this.connection.transferTime, this.settingsProvider.getTransferTime());
+
+    this.connection.accessibility = this.settingsProvider.getAccessibility();
+    console.log(this.connection.accessibility, this.settingsProvider.getAccessibility());
 
     let tempWhen: string;
 

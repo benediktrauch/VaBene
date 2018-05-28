@@ -8,6 +8,9 @@ import {
   DoubleSide,
   WebGLRenderer,
   Mesh,
+  TextGeometry,
+  Font,
+  FontLoader,
   MeshNormalMaterial,
   BoxGeometry,
   IcosahedronGeometry,
@@ -95,11 +98,12 @@ export class LocationSearchPage {
 
   }
 
-  ionViewDidLeave() {
+  ionViewWillLeave() {
     this.stopCamera();
   }
+
   stopCamera() {
-    if (this.myARController  !== undefined) {
+    if (this.myARController !== undefined) {
       this.myARController.srcObject.getTracks()[0].stop();
       this.myARController.remove();
     }
@@ -171,20 +175,28 @@ export class LocationSearchPage {
   }
 
   private createPlane(): Mesh {
-    let plane = new Mesh(
-      new PlaneGeometry(4, 1, 1),
-      new MeshBasicMaterial({color: 0x81D8D0, side: DoubleSide})
-    );
+    let loader = new FontLoader();
+    let text;
+    loader.load( '../assets/data/helvetiker_regular.typeface.json', function ( font ) {
+      text = new TextGeometry('Hello three.js!', {
+        font: font,
+        size: 80,
+        height: 5,
+        curveSegments: 12,
+        bevelEnabled: true,
+        bevelThickness: 10,
+        bevelSize: 8,
+        bevelSegments: 5
+      });
+    });
 
-    plane.material.shading = FlatShading;
-    plane.position.z = 0.5;
-    return plane;
+    return text;
   }
 
   private createCube(): Mesh {
     let cube = new Mesh(
       new BoxGeometry(1, 1, 1),
-      new MeshNormalMaterial()
+      new MeshNormalMaterial({ color: 0x00ff00 })
     );
     cube.material.shading = FlatShading;
     cube.position.z = 0.5;

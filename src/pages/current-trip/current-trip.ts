@@ -10,6 +10,7 @@ import {
   DoubleSide,
   WebGLRenderer,
   Mesh,
+  HemisphereLight,
   MeshNormalMaterial,
   BoxGeometry,
   IcosahedronGeometry,
@@ -81,6 +82,11 @@ export class CurrentTripPage implements OnInit {
 
   myInterval: any;
   myARController: any;
+
+  rightCube: any;
+  rightPlatform: number = 0;
+  wrongCube: any;
+
 
   constructor(public nav: NavController,
               private dataExchangeProvider: DataExchangeProvider,
@@ -185,6 +191,7 @@ export class CurrentTripPage implements OnInit {
               if (this.connection.legs.length) {
                 if (legIterator < this.connection.legs.length) {
                   this.nextLeg = this.connection.legs[legIterator + 1];
+                  this.rightPlatform = this.nextLeg.departurePlatform;
                 }
               }
             } else {
@@ -197,6 +204,8 @@ export class CurrentTripPage implements OnInit {
             }
           }
         }
+
+        this.rightPlatform = this.nextLeg.departurePlatform;
 
         if (this.stepList) {
           console.log(this.stepList);
@@ -283,7 +292,7 @@ export class CurrentTripPage implements OnInit {
   loadCam() {
     if (!this.showMap) {
       console.log("ionViewWillEnter");
-      this.height = this.content.contentWidth * 7 / 6;
+      this.height = this.content.contentWidth  * (6 / 5);
       this.width = this.content.contentWidth;
       console.log(this.content);
       console.log(this.canvasRef);
@@ -311,12 +320,13 @@ export class CurrentTripPage implements OnInit {
               renderer.setSize(this.width, this.height);
             }
 
-            const cube = this.createCube();
-            const icosahedron = this.createIcosahedron();
-            const plane = this.createPlane();
-            this.trackMarker(arScene, arController, 5, plane);
-            this.trackMarker(arScene, arController, 10, cube);
-            this.trackMarker(arScene, arController, 20, icosahedron);
+            for (let i = 0; i < 63; i++){
+              if (i == this.rightPlatform.valueOf()) {
+                this.trackMarker(arScene, arController, this.rightPlatform.valueOf(), this.createRightPlane());
+              } else {
+                this.trackMarker(arScene, arController, i.valueOf(), this.createWrongPlane());
+              }
+            }
 
             let tick = () => {
               arScene.process();
@@ -336,10 +346,32 @@ export class CurrentTripPage implements OnInit {
     arScene.scene.add(marker);
   }
 
-  private createPlane(): Mesh {
+  private createRightPlane(): Mesh {
+    let plane = new Mesh(
+      new PlaneGeometry(1, 1, 1),
+      new MeshBasicMaterial({color: 0x00ff00, side: DoubleSide})
+    );
+
+    plane.material.shading = FlatShading;
+    plane.position.z = 0.5;
+    return plane;
+  }
+
+  private createWrongPlane(): Mesh {
+    let plane = new Mesh(
+      new PlaneGeometry(1, 1, 1),
+      new MeshBasicMaterial({color: 0xff0000, side: DoubleSide})
+    );
+
+    plane.material.shading = FlatShading;
+    plane.position.z = 0.5;
+    return plane;
+  }
+
+  private createText(text: string): Mesh {
     let plane = new Mesh(
       new PlaneGeometry(4, 1, 1),
-      new MeshBasicMaterial({color: 0x81D8D0, side: DoubleSide})
+      new MeshBasicMaterial({color: 0x00ff00, side: DoubleSide})
     );
 
     plane.material.shading = FlatShading;
@@ -348,11 +380,13 @@ export class CurrentTripPage implements OnInit {
   }
 
   private createCube(): Mesh {
+
     let cube = new Mesh(
       new BoxGeometry(1, 1, 1),
-      new MeshNormalMaterial()
+      new MeshNormalMaterial( { color: 0xffff00 } )
     );
     cube.material.shading = FlatShading;
+
     cube.position.z = 0.5;
     return cube;
   }

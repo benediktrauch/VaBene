@@ -11,6 +11,8 @@ import { Injectable } from '@angular/core';
 export class SettingsProvider {
 
   testMode: boolean = true;
+  transferTime: number = 0;
+  accessibility: string = 'none';
 
   constructor() {
   }
@@ -21,6 +23,21 @@ export class SettingsProvider {
 
   setTestMode() {
     this.testMode = !this.testMode;
+  }
+
+  getTransferTime() {
+    return this.transferTime;
+  }
+
+  setTransferTime(time: number) {
+    this.transferTime = time;
+  }
+  getAccessibility() {
+    return this.accessibility;
+  }
+
+  setAccessibility(accessibility: string) {
+    this.accessibility = accessibility;
   }
 
 

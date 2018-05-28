@@ -118,9 +118,9 @@ export class ConnectionFinderProvider {
     //this.apiUrl = this.apiUrl +this.origin + "&" + this.destination + "&" + this.mode + "&" + this.API_KEY;
 
     if(connection.stopover.id){
-      this.apiUrl = `https://2.vbb.transport.rest/journeys?from=${connection.start.id}&to=${connection.end.id}&via=${connection.stopover.id}&when=${connection.when}&passedStations=true&transfers=5&transferTime=0&accessibility=none&bike=false&tickets=false&suburban=${connection.suburban}&subway=${connection.subway}&tram=${connection.tram}&bus=${connection.bus}&ferry=${connection.ferry}&express=${connection.express}&regional=${connection.regional}`;
+      this.apiUrl = `https://2.vbb.transport.rest/journeys?from=${connection.start.id}&to=${connection.end.id}&via=${connection.stopover.id}&when=${connection.when}&passedStations=true&transfers=5&transferTime=${connection.transferTime}&accessibility=${connection.accessibility}&bike=false&tickets=false&suburban=${connection.suburban}&subway=${connection.subway}&tram=${connection.tram}&bus=${connection.bus}&ferry=${connection.ferry}&express=${connection.express}&regional=${connection.regional}`;
     } else {
-      this.apiUrl = `https://2.vbb.transport.rest/journeys?from=${connection.start.id}&to=${connection.end.id}&when=${connection.when}&passedStations=true&transfers=5&transferTime=0&accessibility=none&bike=false&tickets=false&suburban=${connection.suburban}&subway=${connection.subway}&tram=${connection.tram}&bus=${connection.bus}&ferry=${connection.ferry}&express=${connection.express}&regional=${connection.regional}`;
+      this.apiUrl = `https://2.vbb.transport.rest/journeys?from=${connection.start.id}&to=${connection.end.id}&when=${connection.when}&passedStations=true&transfers=5&transferTime=${connection.transferTime}&accessibility=${connection.accessibility}&bike=false&tickets=false&suburban=${connection.suburban}&subway=${connection.subway}&tram=${connection.tram}&bus=${connection.bus}&ferry=${connection.ferry}&express=${connection.express}&regional=${connection.regional}`;
     }
 
     console.log(this.apiUrl);
