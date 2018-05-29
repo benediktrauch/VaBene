@@ -363,7 +363,14 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.stopoverBool = !this.stopoverBool;
   }
 
-  searchConnection() {
+  searchConnection(){
+    /*this.ConnectionFinderProvider.getVRRConnection()
+      .subscribe((value) => {
+        console.log(value);
+      }, err => {
+        console.log(err);
+      });*/
+
     this.connection.suburban = this.vehicleSelection.suburban.active;
     this.connection.subway = this.vehicleSelection.subway.active;
     this.connection.tram = this.vehicleSelection.tram.active;

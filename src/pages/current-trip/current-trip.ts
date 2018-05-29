@@ -10,7 +10,6 @@ import {
   DoubleSide,
   WebGLRenderer,
   Mesh,
-  HemisphereLight,
   MeshNormalMaterial,
   BoxGeometry,
   IcosahedronGeometry,
@@ -210,10 +209,8 @@ export class CurrentTripPage implements OnInit {
         if (this.stepList) {
           console.log(this.stepList);
           if(this.stepList[0].station){
-
             console.log(this.myLocation.lat - this.stepList[0].station.location.latitude);
             console.log(this.myLocation.long - this.stepList[0].station.location.longitude);
-
           }
 
           // Letzten Halt entfernen
@@ -248,7 +245,6 @@ export class CurrentTripPage implements OnInit {
                 }
               }
             }
-
       */
 
       //this.dateTimeService.getTimeStampFromString();
@@ -368,7 +364,7 @@ export class CurrentTripPage implements OnInit {
     return plane;
   }
 
-  private createText(text: string): Mesh {
+/*  private createText(text: string): Mesh {
     let plane = new Mesh(
       new PlaneGeometry(4, 1, 1),
       new MeshBasicMaterial({color: 0x00ff00, side: DoubleSide})
@@ -377,9 +373,9 @@ export class CurrentTripPage implements OnInit {
     plane.material.shading = FlatShading;
     plane.position.z = 0.5;
     return plane;
-  }
+  }*/
 
-  private createCube(): Mesh {
+/*  private createCube(): Mesh {
 
     let cube = new Mesh(
       new BoxGeometry(1, 1, 1),
@@ -399,7 +395,7 @@ export class CurrentTripPage implements OnInit {
     icosahedron.material.shading = FlatShading;
     icosahedron.position.z = 0.7;
     return icosahedron;
-  }
+  }*/
 
   onResize(e) {
     console.log('resized! ', e);

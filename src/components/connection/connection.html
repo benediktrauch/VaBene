@@ -133,7 +133,7 @@
         <h2>
           <ion-row (click)="toggleStationDetails(step.id, step.origin.id)">
             <ion-col col-3>
-              {{ (step.departure? getVBBDate(step.departure) : getVBBDate(step.formerScheduledDeparture)) }}
+              {{ (step.departure? getVBBTime(step.departure) : getVBBTime(step.formerScheduledDeparture)) }}
             </ion-col>
             <ion-col col-2>
               {{ step.departurePlatform? step.departurePlatform : "?" }}
@@ -166,7 +166,7 @@
           <div *ngFor="let station of step.passed; last as lst; first as frst;">
             <ion-row *ngIf="!lst && !frst">
               <ion-col col-3>
-                {{ (step.departure? getVBBDate(step.departure) : getVBBDate(step.formerScheduledDeparture)) }}
+                {{ (step.departure? getVBBTime(step.departure) : getVBBTime(step.formerScheduledDeparture)) }}
               </ion-col>
               <ion-col col-2>
               </ion-col>
@@ -202,7 +202,7 @@
         <h2>
           <ion-row (click)="toggleStationDetails(step.id, step.destination.id)">
             <ion-col col-3>
-              {{ (step.arrival? getVBBDate(step.arrival) : getVBBDate(step.formerScheduledArrival)) }}
+              {{ (step.arrival? getVBBTime(step.arrival) : getVBBTime(step.formerScheduledArrival)) }}
             </ion-col>
             <ion-col col-2>
               {{ step.arrivalPlatform? step.arrivalPlatform : "?" }}

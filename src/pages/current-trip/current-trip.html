@@ -33,7 +33,7 @@
   <div class="bottomPart" *ngIf="currentLeg">
 
     <!--<button ion-button (click)="add1Minute()"> +1 Minute</button>-->
-    <ion-card color='{{currentLeg.line.product}}' [hidden]="!showMap">
+    <ion-card color='{{currentLeg.line.product}}' [hidden]="!showMap" *ngIf="currentLeg.mode != 'walking'">
       <ion-row>
         <ion-col col-12>
           <ion-row>
@@ -60,10 +60,10 @@
               <ion-item class="arrivalDetail">
                 <ion-note class="arrivalDetailNote">Nächster Halt</ion-note>
                 <div class="arrivalDetailText" *ngIf="stepList.length > 1">
-                  {{getVVBTime(stepList[0].departure)}} Uhr
+                  {{ (stepList[0].departure? getVVBTime(stepList[0].departure) : getVVBTime(stepList[0].formerScheduledDeparture)) }} Uhr
                 </div>
                 <div class="arrivalDetailText" *ngIf="stepList.length < 1">
-                  {{getVVBTime(currentLeg.arrival)}} Uhr
+                  {{ (currentLeg.arrival? getVVBTime(currentLeg.arrival) : getVVBTime(currentLeg.formerScheduledArrival)) }} Uhr
                 </div>
               </ion-item>
             </ion-col>
@@ -92,7 +92,7 @@
         <ion-col col-12 *ngFor="let step of stepList; first as frst; last as lst;">
           <ion-row *ngIf="!frst && !lst">
             <ion-col col-auto>
-              {{getVVBTime(step.departure)}} Uhr
+              {{ (step.departure? getVVBTime(step.departure) : getVVBTime(step.formerScheduledDeparture)) }} Uhr
             </ion-col>
             <ion-col>
               {{step.station.name}}
@@ -111,7 +111,7 @@
               <ion-item class="arrivalDetail">
                 <ion-note class="arrivalDetailNote">Ankunft</ion-note>
                 <div class="arrivalDetailText">
-                  {{getVVBTime(currentLeg.arrival)}} Uhr
+                  {{ (currentLeg.arrival? getVVBTime(currentLeg.arrival) : getVVBTime(currentLeg.formerScheduledArrival)) }} Uhr
                 </div>
               </ion-item>
             </ion-col>
@@ -149,7 +149,7 @@
               <ion-item class="arrivalDetail">
                 <ion-note class="arrivalDetailNote">Abfahrt</ion-note>
                 <div class="arrivalDetailText">
-                  {{getVVBTime(nextLeg.departure)}} Uhr
+                  {{ (nextLeg.departure? getVVBTime(nextLeg.departure) : getVVBTime(nextLeg.formerScheduledDeparture)) }} Uhr
                 </div>
               </ion-item>
             </ion-col>
@@ -177,8 +177,7 @@
       </ion-row>
     </ion-card>
 
-    <ion-card color='{{nextLeg.line.product? nextLeg.line.product : primary}}' *ngIf="connection.legs.length > 1 && nextLeg">
-
+    <ion-card color='{{nextLeg.line.product? nextLeg.line.product : primary}}' *ngIf="connection.legs.length > 1 && nextLeg && nextLeg.mode != 'walking'">
       <ion-row>
         <ion-col>
           <ion-row>
@@ -195,6 +194,7 @@
         </ion-col>
       </ion-row>
     </ion-card>
+
   </div>
 
 </ion-content>
