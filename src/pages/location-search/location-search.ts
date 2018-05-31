@@ -18,6 +18,9 @@ import {
   PlaneGeometry,
   FlatShading
 } from 'three';
+import {DynamicTextureProvider} from "../../providers/dynamic-texture/dynamic-texture";
+import {DataExchangeProvider} from "../../providers/data-exchange/data-exchange";
+import {DateTimeServiceProvider} from '../../providers/date-time-service/date-time-service';
 
 /**
  * Generated class for the LocationSearchPage page.
@@ -62,7 +65,10 @@ export class LocationSearchPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public locationProvider: LocationProvider,
-              private settingsProvider: SettingsProvider) {
+              private settingsProvider: SettingsProvider,
+              private dynamicTextureProvider: DynamicTextureProvider,
+              private dataExchangeProvider: DataExchangeProvider,
+              private dateTimeServiceProvider: DateTimeServiceProvider) {
     this.locationProvider.findUserLocation();
   }
 
@@ -73,26 +79,26 @@ export class LocationSearchPage {
     //this.getPosition();
   };
 
-/*
-  public getPosition() {
+  /*
+    public getPosition() {
 
-    if (this.settingsProvider.getTestMode()) {
-      this.myLocation.long = 13.438197;
-      this.myLocation.lat = 52.540869;
-      this.myMap.zoom = 15;
-      this.locationProvider.setUserLocation(this.myLocation);
-    } else {
-      navigator.geolocation.getCurrentPosition((position) => {
-        console.log("getPosition");
-        console.log(position);
-        this.myLocation.long = position.coords.longitude;
-        this.myLocation.lat = position.coords.latitude;
+      if (this.settingsProvider.getTestMode()) {
+        this.myLocation.long = 13.438197;
+        this.myLocation.lat = 52.540869;
         this.myMap.zoom = 15;
         this.locationProvider.setUserLocation(this.myLocation);
-      })
+      } else {
+        navigator.geolocation.getCurrentPosition((position) => {
+          console.log("getPosition");
+          console.log(position);
+          this.myLocation.long = position.coords.longitude;
+          this.myLocation.lat = position.coords.latitude;
+          this.myMap.zoom = 15;
+          this.locationProvider.setUserLocation(this.myLocation);
+        })
+      }
     }
-  }
-*/
+  */
 
   findStationNearby() {
 
@@ -121,7 +127,7 @@ export class LocationSearchPage {
   loadCam() {
     if (!this.showMap) {
       console.log("ionViewWillEnter");
-      this.height = this.content.contentWidth  * (6 / 5);
+      this.height = this.content.contentWidth * (6 / 5);
       this.width = this.content.contentWidth;
       console.log(this.content);
       console.log(this.canvasRef);
@@ -142,19 +148,21 @@ export class LocationSearchPage {
             this.renderer = renderer;
 
             if (arController.orientation === 'portrait') {
-              renderer.setSize(this.height, this.width);
+              renderer.setSize(this.width * (6 / 5), this.width);
               renderer.domElement.style.transformOrigin = '0 0';
               renderer.domElement.style.transform = 'rotate(-90deg) translateX(-100%)';
             } else {
               renderer.setSize(this.width, this.height);
             }
 
-            const cube = this.createCube();
-            const icosahedron = this.createIcosahedron();
-            const plane = this.createPlane();
-            this.trackMarker(arScene, arController, 5, plane);
-            this.trackMarker(arScene, arController, 10, cube);
-            this.trackMarker(arScene, arController, 20, icosahedron);
+            const text = this.makeTextBlock();
+            //const cube = this.createCube();
+            //const icosahedron = this.createIcosahedron();
+            //const plane = this.createPlane();
+
+            //this.trackMarker(arScene, arController, 5, plane);
+            //this.trackMarker(arScene, arController, 10, cube);
+            this.trackMarker(arScene, arController, 0, text);
 
             let tick = () => {
               arScene.process();
@@ -168,35 +176,96 @@ export class LocationSearchPage {
     }
   }
 
+  private makeText(): Mesh {
+
+    let temp = this.dataExchangeProvider.getDepartures();
+    console.log(temp[0]);
+    let text = new DynamicTextureProvider();
+    text.drawText(temp[0].direction, 10, 10, 'red');
+
+    console.log("text");
+
+    let material = new MeshBasicMaterial({
+      map: text.texture
+    });
+    //new MeshNormalMaterial({ color: 0x00ff00 })
+
+    let plane = new Mesh(
+      new PlaneGeometry(10, 8, 4),
+      material
+    );
+
+    plane.material.shading = FlatShading;
+    plane.position.z = 0.5;
+    return plane;
+  }
+
+  private makeTextBlock(): Mesh {
+
+    let temp = this.dataExchangeProvider.getDepartures();
+
+    let currentDepartures: string = 'Abfahrten:;';
+
+    for(let depart of temp){
+      currentDepartures += (`${depart.when? this.dateTimeServiceProvider.getVBBTime(depart.when) : this.dateTimeServiceProvider.getVBBTime(depart.xformerScheduledWhen)} Uhr, ${depart.line.name} nach ${depart.direction};`);
+      //currentDepartures += (`${depart.direction}; `);
+    }
+
+    console.log(currentDepartures);
+
+    let text = new DynamicTextureProvider();
+
+    text.drawTextCooked({
+      text: currentDepartures,
+      align: 'left',
+      font: (0.03*512)+'px Arial'
+    });
+
+    console.log("text");
+
+    let material = new MeshBasicMaterial({
+      map: text.texture
+    });
+
+    let plane = new Mesh(
+      new PlaneGeometry(10, 8, 4),
+      material
+    );
+
+    plane.material.shading = FlatShading;
+    plane.position.z = 0.5;
+    return plane;
+  }
+
   private trackMarker(arScene: ARThreeScene, arController, markerId: number, object: Mesh) {
     let marker = arController.createThreeBarcodeMarker(markerId, 1);
     marker.add(object);
     arScene.scene.add(marker);
   }
 
-  private createPlane(): Mesh {
-    let loader = new FontLoader();
-    let text;
-    loader.load( '../assets/data/helvetiker_regular.typeface.json', function ( font ) {
-      text = new TextGeometry('Hello three.js!', {
-        font: font,
-        size: 80,
-        height: 5,
-        curveSegments: 12,
-        bevelEnabled: true,
-        bevelThickness: 10,
-        bevelSize: 8,
-        bevelSegments: 5
+  /*  private createPlane(): Mesh {
+      let loader = new FontLoader();
+      let text;
+      loader.load( '../assets/data/helvetiker_regular.typeface.json', function ( font ) {
+        text = new TextGeometry('Hello three.js!', {
+          font: font,
+          size: 80,
+          height: 5,
+          curveSegments: 12,
+          bevelEnabled: true,
+          bevelThickness: 10,
+          bevelSize: 8,
+          bevelSegments: 5
+        });
       });
-    });
-
-    return text;
-  }
+      return text;
+    }
+    */
 
   private createCube(): Mesh {
     let cube = new Mesh(
       new BoxGeometry(1, 1, 1),
-      new MeshNormalMaterial({ color: 0x00ff00 })
+      new MeshNormalMaterial({color: 0x00ff00})
     );
     cube.material.shading = FlatShading;
     cube.position.z = 0.5;

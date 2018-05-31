@@ -309,7 +309,7 @@ export class CurrentTripPage implements OnInit {
             this.renderer = renderer;
 
             if (arController.orientation === 'portrait') {
-              renderer.setSize(this.height, this.width);
+              renderer.setSize(this.width * (6 / 5), this.width );
               renderer.domElement.style.transformOrigin = '0 0';
               renderer.domElement.style.transform = 'rotate(-90deg) translateX(-100%)';
             } else {

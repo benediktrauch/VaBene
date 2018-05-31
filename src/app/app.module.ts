@@ -18,6 +18,7 @@ import {HttpLinkModule, /*HttpLink */} from "apollo-angular-link-http";
 import { DataExchangeProvider } from '../providers/data-exchange/data-exchange';
 import { SettingsProvider } from '../providers/settings/settings';
 import { DateTimeServiceProvider } from '../providers/date-time-service/date-time-service';
+import { DynamicTextureProvider } from '../providers/dynamic-texture/dynamic-texture';
 /*
 import { InMemoryCache } from 'apollo-cache-inmemory';
 */
@@ -48,7 +49,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
     StationFinderProvider,
     DataExchangeProvider,
     SettingsProvider,
-    DateTimeServiceProvider
+    DateTimeServiceProvider,
+    DynamicTextureProvider
   ]
 })
 export class AppModule {

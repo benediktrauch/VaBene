@@ -11,8 +11,18 @@ export class DataExchangeProvider {
 
   searchResults: any;
   selectedConnection: any;
+  departures: any;
 
   constructor() {
+  }
+
+  getDepartures(){
+    console.log(this.departures);
+    return this.departures;
+  }
+
+  setDepartures(departures: any){
+    this.departures = departures;
   }
 
   setSelectedConnection(index: number) {

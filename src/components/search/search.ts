@@ -231,6 +231,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
           this.ConnectionFinderProvider
             .getVVBDepartures(value[0], (Date.parse(`${this.toDay.toISOString().substr(0, 10)}T${this.myTime}`)) / 1000)
             .subscribe(departures => {
+              this.dataEchangeProvider.setDepartures(departures);
               this.departures = departures;
               console.log(departures);
             });

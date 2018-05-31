@@ -11,9 +11,13 @@
 
 <ion-content>
 
-  <button ion-button block clear icon-only id="swapButton" (click)="toggleMapAndCamera()">
-    <ion-icon name="swap"></ion-icon>
-  </button>
+  <ion-row id="swapButton"  justify-content-around>
+    <ion-col col-auto>
+      <button ion-button color="primary" icon-only (click)="toggleMapAndCamera()">
+        <ion-icon name="swap"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
 
   <div class="canvasContainer" [hidden]="showMap">
     <canvas #canvas playsinline autoplay (window:resize)="onResize($event)"></canvas>

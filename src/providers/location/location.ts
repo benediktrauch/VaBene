@@ -20,7 +20,7 @@ interface userLocation {
 @Injectable()
 export class LocationProvider {
 
-  userLocation;
+  userLocation: any;
 
   loading: Loading;
   isWatching: boolean = false;

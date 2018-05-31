@@ -10,9 +10,14 @@
 
 
 <ion-content>
-  <button ion-button block clear icon-only id="swapButton" (click)="toggleMapAndCamera()">
-    <ion-icon name="swap"></ion-icon>
-  </button>
+  <ion-row id="swapButton"  justify-content-around>
+    <ion-col col-auto>
+      <button ion-button color="primary" icon-only (click)="toggleMapAndCamera()">
+        <ion-icon name="swap"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
+
   <div class="upperPart">
     <div class="myMap" [hidden]="!showMap">
       <agm-map [latitude]="myLocation.lat" [longitude]="myLocation.long" [zoom]="myMap.zoom">

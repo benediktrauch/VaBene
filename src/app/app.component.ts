@@ -26,11 +26,11 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Manual Search', component: 'ManualSearchPage' },
-      { title: 'Location based Search', component: 'LocationSearchPage' },
-      { title: 'Trip', component: 'CurrentTripPage' },
-      { title: 'Results', component: 'SearchResultsPage' },
-      { title: 'Settings', component: 'SettingsPage' },
+      { title: 'Manuelle Suche', component: 'ManualSearchPage' },
+      { title: 'Standort & AR Suche', component: 'LocationSearchPage' },
+      { title: 'Suchergbnisse', component: 'SearchResultsPage' },
+      { title: 'Aktuelle Reise', component: 'CurrentTripPage' },
+      { title: 'Einstellungen', component: 'SettingsPage' },
     ];
   }
 
