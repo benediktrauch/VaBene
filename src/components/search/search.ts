@@ -10,10 +10,7 @@ import {LocationProvider} from "../../providers/location/location";
 import {DateTimeServiceProvider} from "../../providers/date-time-service/date-time-service";
 import {SettingsProvider} from "../../providers/settings/settings";
 
-
 let now = new Date();
-
-// TODO: Aktuellen Standort als Start
 
 interface connection {
   start: {
@@ -72,22 +69,6 @@ interface connection {
   results: number
 }
 
-//https://2.vbb.transport.rest/journeys?from=${connection.start.id}&to=${connection.end.id}&via=${connection.stopover.id}&when=${}
-// &passedStations=true
-// &transfers=5
-// &transferTime=0
-// &accessibility=none partial, complete. Default: none
-// &bike=false
-// &tickets=false
-// &suburban=true
-// &subway=true
-// &tram=true
-// &bus=true
-// &ferry=true
-// &express=true
-// &regional=true`
-
-
 @Component({
   selector: 'search',
   templateUrl: 'search.html'
@@ -142,12 +123,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
               public locationProvider: LocationProvider,
               private dateTimeService: DateTimeServiceProvider,
               private settingsProvider: SettingsProvider) {
-
-    /*    this.vehicleFilter = {
-          title: 'Filter',
-          subTitle: 'Verkehrsmittel auswählen',
-          mode: 'md'
-        };*/
 
     this.vehicleSelection = {
       express: {
@@ -222,10 +197,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
     if (this.locationSearch) {
       this.toggleFilters();
       this.userLocation = this.locationProvider.getUserLocation();
-      console.log(this.userLocation);
+      //console.log(this.userLocation);
       this.stationFinderProvider.findVBBStationByLocation(this.userLocation)
         .subscribe((value) => {
-          console.log(value);
+          //console.log(value);
           this.closestStation = value[0];
           this.connection.start = value[0];
           this.ConnectionFinderProvider
@@ -233,7 +208,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
             .subscribe(departures => {
               this.dataEchangeProvider.setDepartures(departures);
               this.departures = departures;
-              console.log(departures);
+              //console.log(departures);
             });
         });
     }
@@ -241,8 +216,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   ionViewDidLoad() {
     this.userLocation = this.locationProvider.getUserLocation();
-    console.log("ionViewDidLoad: this.userLocation");
-    console.log(this.userLocation);
   }
 
   toggleDepartures(){
@@ -267,11 +240,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   searchStartInput(event) {
     this.startLoading = true;
-    console.log(event._value);
     if (event._value.length > 2 && !this.startSelected) {
       this.StationFinderProvider.getVBBStation(event._value)
         .subscribe((value) => {
-          console.log(value);
           this.stations = value;
           this.startLoading = false;
           this.startResults = true;
@@ -300,11 +271,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   searchStopoverInput(event) {
-    console.log(event._value);
     if (event._value.length > 2 && !this.stopoverSelected) {
       this.StationFinderProvider.getVBBStation(event._value)
         .subscribe((value) => {
-          console.log(value);
           this.stations = value;
           this.stopoverResults = true;
         }, err => {
@@ -334,7 +303,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     if (event._value.length > 2 && !this.endSelected) {
       this.StationFinderProvider.getVBBStation(event._value)
         .subscribe((value) => {
-          console.log(value);
+          //console.log(value);
           this.stations = value;
           this.endResults = true;
         }, err => {
@@ -365,12 +334,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   searchConnection(){
-    /*this.ConnectionFinderProvider.getVRRConnection()
-      .subscribe((value) => {
-        console.log(value);
-      }, err => {
-        console.log(err);
-      });*/
 
     this.connection.suburban = this.vehicleSelection.suburban.active;
     this.connection.subway = this.vehicleSelection.subway.active;
@@ -381,10 +344,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.connection.regional = this.vehicleSelection.regional.active;
 
     this.connection.transferTime = this.settingsProvider.getTransferTime();
-    console.log(this.connection.transferTime, this.settingsProvider.getTransferTime());
-
     this.connection.accessibility = this.settingsProvider.getAccessibility();
-    console.log(this.connection.accessibility, this.settingsProvider.getAccessibility());
 
     let tempWhen: string;
 
@@ -400,20 +360,16 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.connection.when = (Date.parse(tempWhen) / 1000) + (this.minute_slider * 60);
     }
 
-    console.log(this.connection);
-
     if (this.connection.start.name && this.connection.end.name) {
       this.searchingConnection = true;
       this.ConnectionFinderProvider.getVVBConnection(this.connection)
         .subscribe((value) => {
-          console.log(value);
           this.searchingConnection = false;
           this.dataEchangeProvider.setConnectionSearchResults(value);
           this.nav.setRoot('SearchResultsPage');
         }, err => {
           this.searchingConnection = false;
           this.presentToast(err);
-          console.log(err);
         });
     }
   }

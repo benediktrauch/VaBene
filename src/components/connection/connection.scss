@@ -37,6 +37,27 @@ connection {
       }
     }*/
   }
+
+  .connectionDetail {
+    .infoCard {
+      position: relative;
+      .fastestBadge {
+        padding: 5px 8px 8px 8px;
+        background-color: #ff7b00;
+        position: absolute;
+        right: 20px;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+
+        .icon {
+          color: white;
+        }
+      }
+    }
+  }
   .connectionOverview {
     position:relative;
     .fastestBadge {

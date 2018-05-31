@@ -23,7 +23,7 @@ export class ManualSearchPage {
   vehicleSelection: any[];
   vehicleFilter: {};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public StationFinderProvider: StationFinderProvider) {
+  constructor(public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
@@ -43,13 +43,5 @@ export class ManualSearchPage {
       type: "RE",
       name: "Regionalexpress"
     }]
-  }
-
-  setDeparture(event) {
-    this.minute_slider = event.value;
-  }
-
-  logSelectedTime(event) {
-    console.log(event);
   }
 }

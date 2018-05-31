@@ -96,7 +96,6 @@ export class CurrentTripPage implements OnInit {
 
     if (typeof this.navParams.data.connectionIndex !== 'number') {
       this.connectionIndex = 0;
-      //this.nav.setRoot('ManualSearchPage');
     } else {
       this.connectionIndex = this.navParams.data.connectionIndex;
     }
@@ -104,7 +103,6 @@ export class CurrentTripPage implements OnInit {
   }
 
   ngOnInit() {
-    //console.log(this.connectionIndex);
     if (this.connectionIndex) {
       this.connection = this.allConnections[this.connectionIndex];
     } else {
@@ -112,7 +110,6 @@ export class CurrentTripPage implements OnInit {
     }
 
     if (this.settingsProvider.getTestMode()) {
-      //this.currentTime = 1527098460000;
       this.currentTime = 1527098461000;
     } else {
       this.currentTime = Date.now();
@@ -151,12 +148,7 @@ export class CurrentTripPage implements OnInit {
     }
   }
 
-  add1Minute() {
-    this.currentTime += 60000;
-  }
-
   liveTracking() {
-    //console.log(this.currentTime < this.dateTimeService.getTimeStampFromString(this.connection.arrival));
     let date = new Date(this.currentTime);
     this.myLocation = this.locationProvider.getUserLocation();
 
@@ -178,14 +170,10 @@ export class CurrentTripPage implements OnInit {
               this.legCounter = legIterator;
               this.currentLeg = this.connection.legs[legIterator];
 
-              console.log(this.currentLeg);
-
               // Zwischenhalte auflisten
               if (this.currentLeg.passed.length > 0) {
                 this.stepList = this.currentLeg.passed;
               }
-
-              console.log(this.connection.legs[legIterator + 1]);
 
               if (this.connection.legs.length) {
                 if (legIterator < this.connection.legs.length) {
@@ -195,11 +183,6 @@ export class CurrentTripPage implements OnInit {
               }
             } else {
               this.currentLeg = this.connection.legs[legIterator+1];
-/*              if(this.connection.legs[legIterator+2]){
-                this.nextLeg = this.connection.legs[legIterator+2];
-              } else {
-                this.nextLeg = null;
-              }*/
             }
           }
         }
@@ -223,31 +206,6 @@ export class CurrentTripPage implements OnInit {
         }
       }
 
-      //console.log(this.currentLeg);
-      /*
-
-            if (Date.now() > this.dateTimeService.getTimeStampFromString(this.connection.legs[this.legCounter].departure)) {
-              console.log(this.connection.legs[this.legCounter]);
-              if (Date.now() > this.dateTimeService.getTimeStampFromString(this.connection.legs[this.legCounter].arrival)) {
-                this.legCounter++;
-                this.stopCounter = 0;
-                this.stepList = [];
-                //this.stepList.splice(0,this.stepList.length);
-              } else if(this.connection.legs[this.legCounter].mode !== 'walking') {
-                console.log(this.connection.legs[this.legCounter]);
-                this.currentStop = this.connection.legs[this.legCounter].passed[this.stopCounter];
-                for(let i = this.stopCounter; i < this.connection.legs[this.legCounter].passed.length; i++){
-                  this.stepList.push(this.connection.legs[this.legCounter].passed[i]);
-                }
-                console.log(this.stepList);
-                if (Date.now() > this.dateTimeService.getTimeStampFromString(this.connection.legs[this.legCounter].passed[this.stopCounter])) {
-                  this.stopCounter++;
-                }
-              }
-            }
-      */
-
-      //this.dateTimeService.getTimeStampFromString();
     } else if (this.currentTime < this.dateTimeService.getTimeStampFromString(this.connection.departure)) {
       console.log("Bald geht's los");
     } else if (this.currentTime > this.dateTimeService.getTimeStampFromString(this.connection.arrival)) {
@@ -267,8 +225,6 @@ export class CurrentTripPage implements OnInit {
     this.myInterval = setInterval(() => {         //replaced function() by ()=>
       this.liveTracking();
       this.currentTime += 10000;
-      /*let currentDate = Date.now();
-      console.log(currentDate); // just testing if it is working*/
     }, 10000);
   }
 
@@ -287,7 +243,6 @@ export class CurrentTripPage implements OnInit {
 
   loadCam() {
     if (!this.showMap) {
-      console.log("ionViewWillEnter");
       this.height = this.content.contentWidth  * (6 / 5);
       this.width = this.content.contentWidth;
       console.log(this.content);
@@ -363,39 +318,6 @@ export class CurrentTripPage implements OnInit {
     plane.position.z = 0.5;
     return plane;
   }
-
-/*  private createText(text: string): Mesh {
-    let plane = new Mesh(
-      new PlaneGeometry(4, 1, 1),
-      new MeshBasicMaterial({color: 0x00ff00, side: DoubleSide})
-    );
-
-    plane.material.shading = FlatShading;
-    plane.position.z = 0.5;
-    return plane;
-  }*/
-
-/*  private createCube(): Mesh {
-
-    let cube = new Mesh(
-      new BoxGeometry(1, 1, 1),
-      new MeshNormalMaterial( { color: 0xffff00 } )
-    );
-    cube.material.shading = FlatShading;
-
-    cube.position.z = 0.5;
-    return cube;
-  }
-
-  private createIcosahedron(): Mesh {
-    let icosahedron = new Mesh(
-      new IcosahedronGeometry(0.7, 1),
-      new MeshNormalMaterial()
-    );
-    icosahedron.material.shading = FlatShading;
-    icosahedron.position.z = 0.7;
-    return icosahedron;
-  }*/
 
   onResize(e) {
     console.log('resized! ', e);

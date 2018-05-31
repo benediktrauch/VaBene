@@ -1,10 +1,13 @@
-<!-- Generated template for the ConnectionComponent component -->
 <div class="connectionDetail" *ngIf="details">
-  <ion-card color="primary">
+  <ion-card color="primary" class="infoCard">
+    <div class="fastestBadge" *ngIf="fastestBool">
+      <i *ngIf="!expandedDetails">Schnellste Verbindung &nbsp;</i>
+      <ion-icon name="ios-flash"></ion-icon>
+    </div>
     <ion-card-content *ngIf="!expandedDetails">
       <ion-row>
         <ion-col col-10>
-          <ion-card-title>Deine Reise</ion-card-title>
+          <ion-card-title>{{deineReise}}</ion-card-title>
         </ion-col>
         <ion-col col-2 align-self-end>
           <button ion-button round icon-only clear color="light" (click)="toggleDetails()">
@@ -19,7 +22,8 @@
               <ion-icon name="pin"></ion-icon>
             </ion-col>
             <ion-col col-11>
-              {{ (connection.departure? getVBBDate(connection.departure) : getVBBDate(connection.formerScheduledDeparture)) }}
+              {{ (connection.departure? getVBBDate(connection.departure) :
+              getVBBDate(connection.formerScheduledDeparture)) }}
             </ion-col>
           </ion-row>
         </ion-col>
@@ -32,7 +36,8 @@
       <hr/>
       <ion-row>
         <ion-col col-12>
-          <h3> Reisezeit: {{ (connection.departure? getVBBTravelTime(connection.departure, connection.arrival)  : getVBBTravelTime(connection.formerScheduledDeparture, connection.formerScheduledArrival)) }}</h3>
+          <h3> Reisezeit: {{ (connection.departure? getVBBTravelTime(connection.departure, connection.arrival) :
+            getVBBTravelTime(connection.formerScheduledDeparture, connection.formerScheduledArrival)) }}</h3>
         </ion-col>
       </ion-row>
       <hr/>
@@ -85,11 +90,23 @@
   </ion-card>
 
   <div *ngFor="let step of connection.legs; let lst = last; let i = index">
-    <ion-card color="light" *ngIf="step.travel_mode === 'walking'">
-      <img src=""/>
+    <ion-card color="light" *ngIf="step.mode === 'walking'">
       <ion-card-content>
         <h2>
-          <ion-icon name="walk"></ion-icon>
+          <ion-row>
+            <ion-col col-auto>
+              <ion-icon name="walk"></ion-icon>
+            </ion-col>
+            <ion-col>
+              {{ step.origin.name }}
+            </ion-col>
+            <ion-col col-auto>
+              <ion-icon name="arrow-round-forward"></ion-icon>
+            </ion-col>
+            <ion-col>
+              {{ step.destination.name }}
+            </ion-col>
+          </ion-row>
         </h2>
       </ion-card-content>
     </ion-card>
@@ -158,7 +175,8 @@
             Fahrtzeit:
           </ion-col>
           <ion-col col-8>
-            {{ (step.departure? getVBBTravelTime(step.departure, step.arrival)  : getVBBTravelTime(step.formerScheduledDeparture, step.formerScheduledArrival)) }}
+            {{ (step.departure? getVBBTravelTime(step.departure, step.arrival) :
+            getVBBTravelTime(step.formerScheduledDeparture, step.formerScheduledArrival)) }}
           </ion-col>
         </ion-row>
 
@@ -166,7 +184,7 @@
           <div *ngFor="let station of step.passed; last as lst; first as frst;">
             <ion-row *ngIf="!lst && !frst">
               <ion-col col-3>
-                {{ (step.departure? getVBBTime(step.departure) : getVBBTime(step.formerScheduledDeparture)) }}
+                {{ (station.departure? getVBBTime(station.departure) : getVBBTime(station.formerScheduledDeparture)) }}
               </ion-col>
               <ion-col col-2>
               </ion-col>
@@ -175,10 +193,7 @@
               </ion-col>
             </ion-row>
           </div>
-
-
         </div>
-
         <hr/>
 
         <i>
@@ -238,25 +253,35 @@
     </ion-card>
   </div>
 
-  <ion-card>
-    <ion-card-header>
-      Hier kannst du deine Reise in Echtzeit verfolgen
-    </ion-card-header>
-    <ion-card-content>
-    <button ion-button block icon-left (click)="startLiveTracking()" color="highlight">
+  <ion-row justify-content-between>
+    <ion-col col-auto>
+      <button ion-button icon-start outline (click)="changeConnection(-1)" color="secondary" [disabled]="connectionIndex < 1">
+        <ion-icon class="medium-ion-icon centeredText" name="arrow-round-back"></ion-icon>
+        Früher
+      </button>
+    </ion-col>
+    <ion-col col-auto>
+      <button ion-button block icon-left (click)="startLiveTracking()" color="highlight">
       <ion-icon name="navigate"></ion-icon>
       Starte Live Updates
     </button>
-    </ion-card-content>
-  </ion-card>
+    </ion-col>
+    <ion-col col-auto>
+      <button ion-button icon-end outline (click)="changeConnection(+1)" color="secondary" [disabled]="connectionIndex > 3">
+        Später
+        <ion-icon class="medium-ion-icon centeredText" name="arrow-round-forward"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
+
 </div>
 
 <div class="connectionOverview" *ngIf="!details">
   <div class="fastestBadge" *ngIf="fastestBool">
-<!--    <ion-icon name="star"></ion-icon>
-    <ion-icon name="flame"></ion-icon>
-    <ion-icon name="heart"></ion-icon>
-    <ion-icon name="ribbon"></ion-icon>-->
+    <!--    <ion-icon name="star"></ion-icon>
+        <ion-icon name="flame"></ion-icon>
+        <ion-icon name="heart"></ion-icon>
+        <ion-icon name="ribbon"></ion-icon>-->
     <ion-icon name="ios-flash"></ion-icon>
   </div>
   <ion-card class="infoCard" color="">
@@ -268,7 +293,8 @@
               <ion-icon name="pin"></ion-icon>
             </ion-col>
             <ion-col col-10>
-              {{ (connection.departure? getVBBDate(connection.departure) : getVBBDate(connection.formerScheduledDeparture)) }}
+              {{ (connection.departure? getVBBDate(connection.departure) :
+              getVBBDate(connection.formerScheduledDeparture)) }}
             </ion-col>
           </ion-row>
         </ion-col>
@@ -279,7 +305,8 @@
         </ion-col>
       </ion-row>
       <hr/>
-      <h3> Reisezeit:{{ (connection.departure? getVBBTravelTime(connection.departure, connection.arrival)  : getVBBTravelTime(connection.formerScheduledDeparture, connection.formerScheduledArrival)) }}</h3>
+      <h3> Reisezeit:{{ (connection.departure? getVBBTravelTime(connection.departure, connection.arrival) :
+        getVBBTravelTime(connection.formerScheduledDeparture, connection.formerScheduledArrival)) }}</h3>
       <hr/>
       <ion-row>
         <ion-col col-12>
@@ -304,9 +331,20 @@
     <ion-card color="light" *ngIf="step.mode === 'walking'">
       <ion-card-content>
         <h2>
-          <ion-icon name="walk"></ion-icon>
-          <ion-icon name="arrow-round-forward"></ion-icon>
-          {{ step.destination.name }}
+          <ion-row justify-content-between>
+            <ion-col col-auto>
+              <ion-icon name="arrow-round-down"></ion-icon>
+            </ion-col>
+            <ion-col col-auto>
+              <ion-icon name="walk"></ion-icon>
+            </ion-col>
+            <ion-col col-auto>
+              {{getVBBTravelTime(step.departure, step.arrival)}}
+            </ion-col>
+            <ion-col col-auto>
+              <ion-icon name="arrow-round-down"></ion-icon>
+            </ion-col>
+          </ion-row>
         </h2>
       </ion-card-content>
     </ion-card>
@@ -314,7 +352,8 @@
       <ion-card-header>
         <ion-card-title>
           <ion-icon name="bus" *ngIf="step.line.product == 'bus'"></ion-icon>
-          <ion-icon name="train" *ngIf="step.line.product == 'express' || step.line.product == 'regional' || step.line.product == 'suburban'"></ion-icon>
+          <ion-icon name="train"
+                    *ngIf="step.line.product == 'express' || step.line.product == 'regional' || step.line.product == 'suburban'"></ion-icon>
           <ion-icon name="subway" *ngIf="step.line.product == 'subway' || step.line.product == 'tram'"></ion-icon>
           {{ step.line.name}}
         </ion-card-title>

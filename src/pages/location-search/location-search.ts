@@ -55,9 +55,6 @@ export class LocationSearchPage {
     lat: 52.516275
   };
 
-  //Greifswalder Str. 169, 10409 Berlin, Deutschland
-  //Breitengrad : 52.540869 | Längengrad : 13.438197
-
   myMap = {
     zoom: 5
   };
@@ -76,33 +73,7 @@ export class LocationSearchPage {
     console.log('ionViewDidLoad LocationSearchPage');
     this.myLocation = this.locationProvider.getUserLocation();
     this.myMap.zoom = 15;
-    //this.getPosition();
   };
-
-  /*
-    public getPosition() {
-
-      if (this.settingsProvider.getTestMode()) {
-        this.myLocation.long = 13.438197;
-        this.myLocation.lat = 52.540869;
-        this.myMap.zoom = 15;
-        this.locationProvider.setUserLocation(this.myLocation);
-      } else {
-        navigator.geolocation.getCurrentPosition((position) => {
-          console.log("getPosition");
-          console.log(position);
-          this.myLocation.long = position.coords.longitude;
-          this.myLocation.lat = position.coords.latitude;
-          this.myMap.zoom = 15;
-          this.locationProvider.setUserLocation(this.myLocation);
-        })
-      }
-    }
-  */
-
-  findStationNearby() {
-
-  }
 
   ionViewWillLeave() {
     this.stopCamera();
@@ -126,7 +97,6 @@ export class LocationSearchPage {
 
   loadCam() {
     if (!this.showMap) {
-      console.log("ionViewWillEnter");
       this.height = this.content.contentWidth * (6 / 5);
       this.width = this.content.contentWidth;
       console.log(this.content);
@@ -156,12 +126,6 @@ export class LocationSearchPage {
             }
 
             const text = this.makeTextBlock();
-            //const cube = this.createCube();
-            //const icosahedron = this.createIcosahedron();
-            //const plane = this.createPlane();
-
-            //this.trackMarker(arScene, arController, 5, plane);
-            //this.trackMarker(arScene, arController, 10, cube);
             this.trackMarker(arScene, arController, 0, text);
 
             let tick = () => {
@@ -208,7 +172,6 @@ export class LocationSearchPage {
 
     for(let depart of temp){
       currentDepartures += (`${depart.when? this.dateTimeServiceProvider.getVBBTime(depart.when) : this.dateTimeServiceProvider.getVBBTime(depart.xformerScheduledWhen)} Uhr, ${depart.line.name} nach ${depart.direction};`);
-      //currentDepartures += (`${depart.direction}; `);
     }
 
     console.log(currentDepartures);
@@ -241,45 +204,6 @@ export class LocationSearchPage {
     let marker = arController.createThreeBarcodeMarker(markerId, 1);
     marker.add(object);
     arScene.scene.add(marker);
-  }
-
-  /*  private createPlane(): Mesh {
-      let loader = new FontLoader();
-      let text;
-      loader.load( '../assets/data/helvetiker_regular.typeface.json', function ( font ) {
-        text = new TextGeometry('Hello three.js!', {
-          font: font,
-          size: 80,
-          height: 5,
-          curveSegments: 12,
-          bevelEnabled: true,
-          bevelThickness: 10,
-          bevelSize: 8,
-          bevelSegments: 5
-        });
-      });
-      return text;
-    }
-    */
-
-  private createCube(): Mesh {
-    let cube = new Mesh(
-      new BoxGeometry(1, 1, 1),
-      new MeshNormalMaterial({color: 0x00ff00})
-    );
-    cube.material.shading = FlatShading;
-    cube.position.z = 0.5;
-    return cube;
-  }
-
-  private createIcosahedron(): Mesh {
-    let icosahedron = new Mesh(
-      new IcosahedronGeometry(0.7, 1),
-      new MeshNormalMaterial()
-    );
-    icosahedron.material.shading = FlatShading;
-    icosahedron.position.z = 0.7;
-    return icosahedron;
   }
 
   onResize(e) {

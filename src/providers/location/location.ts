@@ -1,14 +1,7 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {SettingsProvider} from "../settings/settings";
-import {Loading, LoadingController} from "ionic-angular";
+import {Loading} from "ionic-angular";
 
-/*
-  Generated class for the LocationProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 interface userLocation {
   userLocation: {
     long: number,
@@ -32,8 +25,7 @@ export class LocationProvider {
     maximumAge: 0
   };
 
-  constructor(private settingsProvider: SettingsProvider,
-              private loadingCtrl: LoadingController) {
+  constructor(private settingsProvider: SettingsProvider) {
     this.userLocation = {
       long: 13.377704,
       lat: 52.516275
@@ -57,8 +49,6 @@ export class LocationProvider {
       return this.userLocation;
     } else {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log("getPosition");
-        console.log(position);
         this.userLocation.long = position.coords.longitude;
         this.userLocation.lat = position.coords.latitude;
         this.setUserLocation(this.userLocation);
@@ -79,7 +69,6 @@ export class LocationProvider {
 
           this.userLocation.long = position.coords.longitude;
           this.userLocation.lat = position.coords.latitude;
-          console.log(this.userLocation);
 
           this.setUserLocation(this.userLocation);
 

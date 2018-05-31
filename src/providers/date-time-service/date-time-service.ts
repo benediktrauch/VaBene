@@ -1,12 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-/*
-  Generated class for the DateTimeServiceProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class DateTimeServiceProvider {
 
@@ -36,7 +29,6 @@ export class DateTimeServiceProvider {
   }
 
   getTimeStampFromString(time: string){
-    //console.log(Date.parse(time));
     return Date.parse(time);
   }
 

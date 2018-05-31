@@ -22,11 +22,9 @@ export class MapComponent {
   };
 
   constructor() {
-    console.log('Hello MapComponent Component');
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LocationSearchPage');
     this.getPosition();
   };
 

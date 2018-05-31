@@ -17,8 +17,6 @@ export class StationFinderProvider {
   apiUrl: string;
   authHeader: any;
 
-  //currentLocation: string;
-
   constructor(public http: HttpClient,
               public locationProvider: LocationProvider) {
 
@@ -28,12 +26,6 @@ export class StationFinderProvider {
   };
 
   findVBBStationByLocation(userLocation) {
-    /*
-    results: How many stations shall be shown? Default: 8.
-    distance: Maximum distance in meters. Default: null.
-    stations: Show stations around. Default: true.
-    poi: Show points of interest around. Default: false.
-      */
 
     if(!userLocation){
       userLocation = this.locationProvider.getUserLocation();
@@ -49,15 +41,6 @@ export class StationFinderProvider {
     if (searchString.length > 2) {
 
       return this.http.get(this.apiUrl);
-      /*
-      return new Promise(resolve => {
-        this.http.get(this.apiUrl)
-          .subscribe(data => {
-            resolve(data);
-          }, err => {
-            console.log(err);
-          })
-      });*/
     }
   }
 }
