@@ -9,7 +9,9 @@
       </ion-label>
     </ion-col>
     <ion-col col-auto>
-      <ion-toggle [(ngModel)]="testMode" (ionChange)="toggleTestMode()"></ion-toggle>
+      <ion-item>
+        <ion-toggle [(ngModel)]="testMode" (ionChange)="toggleTestMode()"></ion-toggle>
+      </ion-item>
     </ion-col>
   </ion-row>
 

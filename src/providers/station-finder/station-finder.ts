@@ -1,13 +1,6 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable, Input} from '@angular/core';
 import {LocationProvider} from "../location/location";
-
-interface userLocation {
-  myLocation: {
-    long: number,
-    lat: number
-  }
-}
 
 @Injectable()
 export class StationFinderProvider {
@@ -15,7 +8,6 @@ export class StationFinderProvider {
   @Input() currentLocation: any;
 
   apiUrl: string;
-  authHeader: any;
 
   constructor(public http: HttpClient,
               public locationProvider: LocationProvider) {

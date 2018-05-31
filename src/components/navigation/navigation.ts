@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {ModalController, NavController} from "ionic-angular";
+import {NavController} from "ionic-angular";
 import {LocationSearchPage} from "../../pages/location-search/location-search";
 
 /**

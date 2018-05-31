@@ -2,14 +2,6 @@ import {Injectable} from '@angular/core';
 import {SettingsProvider} from "../settings/settings";
 import {Loading} from "ionic-angular";
 
-interface userLocation {
-  userLocation: {
-    long: number,
-    lat: number
-  }
-}
-
-
 @Injectable()
 export class LocationProvider {
 

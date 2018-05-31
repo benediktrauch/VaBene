@@ -1,19 +1,12 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Content, IonicPage, NavParams} from 'ionic-angular';
 import {LocationProvider} from "../../providers/location/location";
 import {SettingsProvider} from "../../providers/settings/settings";
 
 import {ARController, ARThreeScene, artoolkit} from 'jsartoolkit5';
 import {
-  DoubleSide,
   WebGLRenderer,
   Mesh,
-  TextGeometry,
-  Font,
-  FontLoader,
-  MeshNormalMaterial,
-  BoxGeometry,
-  IcosahedronGeometry,
   MeshBasicMaterial,
   PlaneGeometry,
   FlatShading
@@ -59,8 +52,7 @@ export class LocationSearchPage {
     zoom: 5
   };
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
+  constructor(public navParams: NavParams,
               public locationProvider: LocationProvider,
               private settingsProvider: SettingsProvider,
               private dynamicTextureProvider: DynamicTextureProvider,
@@ -139,31 +131,6 @@ export class LocationSearchPage {
       }
     }
   }
-
-  private makeText(): Mesh {
-
-    let temp = this.dataExchangeProvider.getDepartures();
-    console.log(temp[0]);
-    let text = new DynamicTextureProvider();
-    text.drawText(temp[0].direction, 10, 10, 'red');
-
-    console.log("text");
-
-    let material = new MeshBasicMaterial({
-      map: text.texture
-    });
-    //new MeshNormalMaterial({ color: 0x00ff00 })
-
-    let plane = new Mesh(
-      new PlaneGeometry(10, 8, 4),
-      material
-    );
-
-    plane.material.shading = FlatShading;
-    plane.position.z = 0.5;
-    return plane;
-  }
-
   private makeTextBlock(): Mesh {
 
     let temp = this.dataExchangeProvider.getDepartures();
@@ -210,8 +177,6 @@ export class LocationSearchPage {
     console.log('resized! ', e);
     this.width = this.content.contentWidth;
     this.height = this.content.contentHeight;
-    console.log("height", this.content.contentHeight);
-    console.log("width", this.content.contentWidth);
     this.renderer.setSize(this.width, this.height);
   }
 }

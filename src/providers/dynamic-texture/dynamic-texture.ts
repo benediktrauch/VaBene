@@ -209,5 +209,4 @@ export class DynamicTextureProvider {
     // for chained API
     return this;
   }
-
 }

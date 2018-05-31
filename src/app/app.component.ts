@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { HttpClient } from "@angular/common/http";
 import { AgmMap } from '@agm/core';
 
 
@@ -20,8 +19,7 @@ export class MyApp {
   constructor(
     public platform: Platform,
     public statusBar: StatusBar,
-    public splashScreen: SplashScreen,
-    private httpClient: HttpClient) {
+    public splashScreen: SplashScreen) {
     this.initializeApp();
 
     this.pages = [

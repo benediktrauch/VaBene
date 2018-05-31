@@ -10,9 +10,6 @@ import {
   DoubleSide,
   WebGLRenderer,
   Mesh,
-  MeshNormalMaterial,
-  BoxGeometry,
-  IcosahedronGeometry,
   MeshBasicMaterial,
   PlaneGeometry,
   FlatShading

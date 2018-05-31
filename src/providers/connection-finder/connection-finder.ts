@@ -1,37 +1,18 @@
-import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import * as googleMapsClient from '@google/maps';
 
 @Injectable()
 export class ConnectionFinderProvider {
 
-  gmClient = googleMapsClient.createClient({
-    key: 'AIzaSyAPsYY2uFqrzfmHrJAvjrSFqhDoOBRruiU',
-    Promise: Promise
-  });
-
   apiUrl: string;
-  authHeader: any;
   origin: string;
-  stops: string;
   destination: string;
   mode: string = "mode=transit";
-  alternatives: string = "alternatives=true";
-  arrival_time: string; //&arrival_time=1343641500
-  departure_time: string; //&departure_time=1343641500
-  transit_routing_preference: string = "transit_routing_preference=fewer_transfers";
-  transit_mode: string = "transit_mode=train|tram|subway|bus|";
-  API_KEY: string = "key=AIzaSyAPsYY2uFqrzfmHrJAvjrSFqhDoOBRruiU";
 
   constructor(public http: HttpClient) {
-    console.log('Hello ConnectionFinderProvider Provider');
-
     this.apiUrl = 'https://maps.googleapis.com/maps/api/directions/json?';
     this.origin = "origin=51.5276949%2C6.9267585";
     this.destination = "destination=50.1109220%2C8.6821270";
-    //latitude: 51.5276949, longitude: 6.9267585
-
-
   }
 
   getVVBConnection(connection: any) {
