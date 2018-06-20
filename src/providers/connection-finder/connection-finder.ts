@@ -19,9 +19,11 @@ export class ConnectionFinderProvider {
     console.log("VBB Connection");
 
     if(connection.stopover.id){
-      this.apiUrl = `https://2.vbb.transport.rest/journeys?from=${connection.start.id}&to=${connection.end.id}&via=${connection.stopover.id}&when=${connection.when}&passedStations=true&transfers=5&transferTime=${connection.transferTime}&accessibility=${connection.accessibility}&bike=false&tickets=false&suburban=${connection.suburban}&subway=${connection.subway}&tram=${connection.tram}&bus=${connection.bus}&ferry=${connection.ferry}&express=${connection.express}&regional=${connection.regional}`;
+      this.apiUrl = `https://1.db.transport.rest/journeys?from=${connection.start.id}&to=${connection.end.id}&via=${connection.stopover.id}&when=${connection.when}&passedStations=true&transfers=5&transferTime=${connection.transferTime}&accessibility=${connection.accessibility}&bike=false&tickets=false&suburban=${connection.suburban}&subway=${connection.subway}&tram=${connection.tram}&bus=${connection.bus}&ferry=${connection.ferry}&express=${connection.express}&national=${connection.nationalExp}&nationalExp=${connection.nationalExp}&regional=${connection.regional}`;
+      //this.apiUrl = `https://2.vbb.transport.rest/journeys?from=${connection.start.id}&to=${connection.end.id}&via=${connection.stopover.id}&when=${connection.when}&passedStations=true&transfers=5&transferTime=${connection.transferTime}&accessibility=${connection.accessibility}&bike=false&tickets=false&suburban=${connection.suburban}&subway=${connection.subway}&tram=${connection.tram}&bus=${connection.bus}&ferry=${connection.ferry}&express=${connection.express}&regional=${connection.regional}`;
     } else {
-      this.apiUrl = `https://2.vbb.transport.rest/journeys?from=${connection.start.id}&to=${connection.end.id}&when=${connection.when}&passedStations=true&transfers=5&transferTime=${connection.transferTime}&accessibility=${connection.accessibility}&bike=false&tickets=false&suburban=${connection.suburban}&subway=${connection.subway}&tram=${connection.tram}&bus=${connection.bus}&ferry=${connection.ferry}&express=${connection.express}&regional=${connection.regional}`;
+      this.apiUrl = `https://1.db.transport.rest/journeys?from=${connection.start.id}&to=${connection.end.id}&when=${connection.when}&passedStations=true&transfers=5&transferTime=${connection.transferTime}&accessibility=${connection.accessibility}&bike=false&tickets=false&suburban=${connection.suburban}&subway=${connection.subway}&tram=${connection.tram}&bus=${connection.bus}&ferry=${connection.ferry}&express=${connection.express}&nationalExp=${connection.nationalExp}&national=${connection.nationalExp}&regional=${connection.regional}`;
+      //this.apiUrl = `https://2.vbb.transport.rest/journeys?from=${connection.start.id}&to=${connection.end.id}&when=${connection.when}&passedStations=true&transfers=5&transferTime=${connection.transferTime}&accessibility=${connection.accessibility}&bike=false&tickets=false&suburban=${connection.suburban}&subway=${connection.subway}&tram=${connection.tram}&bus=${connection.bus}&ferry=${connection.ferry}&express=${connection.express}&regional=${connection.regional}`;
     }
 
     console.log(this.apiUrl);
@@ -31,12 +33,12 @@ export class ConnectionFinderProvider {
   }
 
   getVVBJourneyByID(legs: string, lineName: string){
-    this.apiUrl = `https://2.vbb.transport.rest/journeys/legs/${legs}?lineName=${lineName}`;
+    this.apiUrl = `https://1.db.transport.rest/journeys/legs/${legs}?lineName=${lineName}`;
     return this.http.get(this.apiUrl);
   }
 
   getVVBDepartures(station: any, departure: number) {
-    this.apiUrl = `https://2.vbb.transport.rest/stations/${station.id}/departures?when=${departure}`;
+    this.apiUrl = `https://1.db.transport.rest/stations/${station.id}/departures?when=${departure}`;
     return this.http.get(this.apiUrl);
   }
 

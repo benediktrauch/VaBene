@@ -130,6 +130,11 @@ export class SearchComponent implements OnInit, AfterViewInit {
         name: 'ICE',
         active: false
       },
+      nationalExp: {
+        type: 'ICE',
+        name: 'ICE',
+        active: false
+      },
       regional: {
         type: "RE",
         name: "Regionalexpress",
@@ -341,6 +346,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.connection.bus = this.vehicleSelection.bus.active;
     this.connection.ferry = this.vehicleSelection.ferry.active;
     this.connection.express = this.vehicleSelection.express.active;
+    this.connection.nationalExp = this.vehicleSelection.express.active;
     this.connection.regional = this.vehicleSelection.regional.active;
 
     this.connection.transferTime = this.settingsProvider.getTransferTime();

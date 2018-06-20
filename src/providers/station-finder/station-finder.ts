@@ -23,12 +23,12 @@ export class StationFinderProvider {
       userLocation = this.locationProvider.getUserLocation();
     }
 
-    this.apiUrl = `https://2.vbb.transport.rest/stations/nearby?latitude=${userLocation.lat}&longitude=${userLocation.long}&distance=100&results=3`;
+    this.apiUrl = `https://1.db.transport.rest/stations/nearby?latitude=${userLocation.lat}&longitude=${userLocation.long}&distance=100&results=3`;
     return this.http.get(this.apiUrl);
   }
 
   getVBBStation(searchString: string) {
-    this.apiUrl = `https://2.vbb.transport.rest/stations?query=${searchString}&fuzzy=true`;
+    this.apiUrl = `https://1.db.transport.rest/stations?query=${searchString}&fuzzy=true`;
 
     if (searchString.length > 2) {
 

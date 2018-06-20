@@ -24,6 +24,12 @@ page-search-results {
         border-bottom: #f00 solid 5px;
       }
     }
+    .card-md-nationalExp .card-header-md, .card-md-ICE .card-title-md, .card-md-nationalExp .card-content-md, .card-md-nationalExp h1, .card-md-nationalExp h2, .card-md-nationalExp h3, .card-md-nationalExp h4, .card-md-nationalExp h5, .card-md-nationalExp h6, .card-md-nationalExp p {
+      .ion-card-title, .card-title-md, .card-title-ios {
+        text-align: center;
+        border-bottom: #f00 solid 5px;
+      }
+    }
     .card-md-regional .card-header-md, .card-md-ICE .card-title-md, .card-md-regional .card-content-md, .card-md-regional h1, .card-md-regional h2, .card-md-regional h3, .card-md-regional h4, .card-md-regional h5, .card-md-regional h6, .card-md-regional p {
       .ion-card-title, .card-title-md, .card-title-ios {
         text-align: center;
